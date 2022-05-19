@@ -1,0 +1,49 @@
+<mat-drawer-container class="container" autosize>
+    
+    <mat-drawer #drawer class="sidenav" mode="side">
+        <div style="background-color: #fff;display: flex;justify-content: center;border-radius: 8px;margin: 5px 0px;">
+            <img src="../../../assets/images/great-panther-logo.png" width="150px" alt="">
+        </div>
+        <mat-accordion>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                    Administración
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <ul>
+                    <li><button mat-button routerLink="/administracion/usuarios">Usuarios</button></li>
+                    <li><button mat-button routerLink="/administracion/roles">Roles</button></li>
+                    <li><button mat-button>Configuración</button></li>
+                </ul>
+            </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                    Solpe
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <ul>
+                    <li><button mat-button routerLink="/crear-solpe">Crear Solpe</button></li>
+                    <li><button mat-button>Modificar Solpe</button></li>
+                    <li><button mat-button>Visualizar Solpe</button></li>
+                    <li><button mat-button>Liberar Solpe</button></li>
+                </ul>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-drawer>
+  
+    <div class="sidenav-content">
+      <button mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </div>
+    <main>
+        <mat-card>
+            <router-outlet></router-outlet>
+        </mat-card>
+        
+    </main>
+  </mat-drawer-container>

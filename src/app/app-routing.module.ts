@@ -1,0 +1,29 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+import { AutorizacionGuard } from './guards/autorizacion.guard';
+import { AccesoComponent } from './pages/acceso/acceso.component';
+import { RolesComponent } from './pages/administrador/roles/roles.component';
+import { UsuariosComponent } from './pages/administrador/usuarios/usuarios.component';
+import { CrearSolpeComponent } from './pages/crear-solpe/crear-solpe.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+
+const routes: Routes = [
+  // { path:'', component:AccesoComponent },
+  { path:'acceso', component:AccesoComponent },
+  { path:'inicio', component:DashboardComponent , canActivate:[AutorizacionGuard] },
+  { path:'crear-solpe', component:CrearSolpeComponent, canActivate:[AutorizacionGuard] },
+  {
+    path:'administracion', children:[
+      { path:'usuarios', component:UsuariosComponent,canActivate:[AutorizacionGuard] },
+      { path:'roles', component:RolesComponent,canActivate:[AutorizacionGuard] }
+    ]
+    
+  }
+
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }

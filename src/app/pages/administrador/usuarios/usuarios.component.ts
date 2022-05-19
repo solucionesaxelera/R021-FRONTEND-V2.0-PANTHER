@@ -1,0 +1,186 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTableDataSource } from '@angular/material/table';
+import { JwtHelperService } from '@auth0/angular-jwt';
+import { bodyUsuarioO, crearUsuarioI, modificarEstadoUsuarioI, modificarRolUsuarioI, modificarUsuarioI, usuariosO } from 'src/app/models/administrador/usuarios';
+import { RolesService } from 'src/app/services/administrador/roles/roles.service';
+import { UsuariosService } from 'src/app/services/administrador/usuarios/usuarios.service';
+
+@Component({
+  selector: 'app-usuarios',
+  templateUrl: './usuarios.component.html',
+  styleUrls: ['./usuarios.component.scss']
+})
+
+export class UsuariosComponent implements OnInit {
+
+  public helper = new JwtHelperService();
+  idUsuarioSesion = this.helper.decodeToken(localStorage.getItem('data_current')?.toString());
+  
+  @ViewChild(MatPaginator) paginator: any;
+  @ViewChild('dialogCrearUsuario') dialogTemplateCrearUsuario: any;
+  @ViewChild('dialogModificarUsuario') dialogTemplateModificarUsuario: any;
+  @ViewChild('dialogModificarRolUsuario') dialogTemplateModificarRolUsuario: any;
+  @ViewChild('dialogEliminarUsuario') dialogTemplateEliminarUsuario: any;
+
+  config?: MatDialogConfig;
+  idUsuarioSeleccionado:number = 0;
+
+  listaRoles:any=[];
+  
+  displayedColumnsUsuarios: string[] = [
+    'nombres', 
+    'ape_pat', 
+    'ape_mat', 
+    'correo',
+    'usuario',
+    'estado',
+    'accion',
+    'rol'
+  ];
+  public ELEMENT_DATA_USUARIOS: bodyUsuarioO[] =[];
+  dataSourceUsuarios = new MatTableDataSource<bodyUsuarioO>(this.ELEMENT_DATA_USUARIOS);
+
+  crearUsuarioForm = new FormGroup({
+    nombres: new FormControl('',[Validators.required]),
+    ape_pat: new FormControl('',[Validators.required]),
+    ape_mat: new FormControl('',[Validators.required]),
+    correo: new FormControl('',[Validators.required]),
+    telefono: new FormControl('',[Validators.required]),
+    usuario: new FormControl('',[Validators.required]),
+    clave: new FormControl('',[Validators.required]),
+    id_rol: new FormControl('',[Validators.required]),
+  });
+
+  modificarUsuarioForm = new FormGroup({
+    nombres: new FormControl('',[Validators.required]),
+    ape_pat: new FormControl('',[Validators.required]),
+    ape_mat: new FormControl('',[Validators.required]),
+    correo: new FormControl('',[Validators.required]),
+    telefono: new FormControl('',[Validators.required])
+  });
+  
+  modificarRolUsuarioForm = new FormGroup({
+    id_rol: new FormControl('',[Validators.required])
+  });
+
+  constructor(
+    private _usuariosS: UsuariosService,
+    private _rolesS: RolesService,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
+  ) { }
+
+  ngOnInit(): void {
+    this.listarUsuarios();
+    this.listarRoles();
+  }
+
+  openDialogCrearUsuario() {
+    return this.dialog.open(this.dialogTemplateCrearUsuario, this.config);
+  }
+
+  openDialogModificarUsuario(id:number) {
+    this.idUsuarioSeleccionado = id;
+    this._usuariosS.getUsuarioById(id).subscribe(data=>{
+      this.modificarUsuarioForm.controls['nombres'].setValue(data.body[0].nombres);
+      this.modificarUsuarioForm.controls['ape_pat'].setValue(data.body[0].ape_pat);
+      this.modificarUsuarioForm.controls['ape_mat'].setValue(data.body[0].ape_mat);
+      this.modificarUsuarioForm.controls['correo'].setValue(data.body[0].correo);
+      this.modificarUsuarioForm.controls['telefono'].setValue(data.body[0].telefono);
+      return this.dialog.open(this.dialogTemplateModificarUsuario, this.config);
+    });
+  }
+
+  openDialogModificarRolUsuario(id:number) {
+    this.idUsuarioSeleccionado = id;
+    this._usuariosS.getUsuarioById(id).subscribe(data=>{
+      this.modificarRolUsuarioForm.controls['id_rol'].setValue(data.body[0].id_rol);
+      return this.dialog.open(this.dialogTemplateModificarRolUsuario, this.config);
+    });
+  }
+
+  openDialogEliminarUsuario(id:number) {
+    this.idUsuarioSeleccionado = id;
+    return this.dialog.open(this.dialogTemplateEliminarUsuario, this.config);
+  }
+
+  listarUsuarios(){
+    this._usuariosS.getUsuarios().subscribe(data=>{
+      this.dataSourceUsuarios.paginator = this.paginator;
+      this.dataSourceUsuarios.data = data.body;
+    })
+  }
+
+  listarRoles() {
+    this._rolesS.getRoles().subscribe(data=>{
+      this.listaRoles = data.body;
+    });
+  }
+
+  crearUsuario(req:crearUsuarioI) {
+    this._usuariosS.postCrearUsuario(req).subscribe(data=>{
+      
+      if(data.status == 1){
+        this.listarUsuarios();
+        this.crearUsuarioForm.reset();
+        this.dialog.closeAll();
+      }
+      
+      this._snackBar.open(data.message, 'cerrar',{
+        duration:5*1000,
+        panelClass:['background-snackbar']
+      });
+    })
+  }
+
+  modificarUsuario(req:modificarUsuarioI) {
+    this._usuariosS.putModificarUsuario(this.idUsuarioSeleccionado,req).subscribe(data=>{
+      this.listarUsuarios();
+      this.modificarUsuarioForm.reset();
+      this.dialog.closeAll();
+      this._snackBar.open(data.message, 'cerrar',{
+        duration:5*1000,
+        panelClass:['background-snackbar']
+      });
+    })
+  }
+
+  modificarRolUsuario(req:modificarRolUsuarioI) {
+    this._usuariosS.putModificarRolUsuario(this.idUsuarioSeleccionado,req).subscribe(data=>{
+      this.modificarRolUsuarioForm.reset();
+      this.dialog.closeAll();
+      this._snackBar.open(data.message, 'cerrar',{
+        duration:5*1000,
+        panelClass:['background-snackbar']
+      });
+    })
+  }
+
+  modificarEstadoUsuario(id:number,e:MatSlideToggleChange) {
+    let request = {
+      estado: e.checked == true ? 1 : 0
+    }
+    this._usuariosS.putModificarEstadoUsuario(id,request).subscribe(data=>{
+      this._snackBar.open(data.message, 'cerrar',{
+        duration:5*1000,
+        panelClass:['background-snackbar']
+      });
+    })
+  }
+
+  eliminarUsuario() {
+    this._usuariosS.deleteEliminarUsuario(this.idUsuarioSeleccionado).subscribe(data=>{
+      this.listarUsuarios();
+      this.dialog.closeAll();
+      this._snackBar.open(data.message, 'cerrar',{
+        duration:5*1000,
+        panelClass:['background-snackbar']
+      });
+    })
+  }
+}

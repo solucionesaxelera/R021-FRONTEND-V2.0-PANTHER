@@ -1,0 +1,14 @@
+
+<div *ngIf="routes.url === '/acceso'">
+    <div class="background-login" >
+        <img src="../assets/images/fondo-login-spa.jpg" alt="">
+    </div>
+    <app-acceso></app-acceso>
+</div>
+
+
+
+
+<div *ngIf="routes.url !== '/acceso' or routes.url !== ''" >
+    <app-layout></app-layout>
+</div>
