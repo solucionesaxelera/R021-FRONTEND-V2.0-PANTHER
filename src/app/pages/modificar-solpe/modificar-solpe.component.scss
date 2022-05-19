@@ -1,9 +1,20 @@
-.header-crear-solpe {
+.header-modificar-solpe {
     position: relative;
     width: 100%;
     display: grid;
-    grid-template-columns: 150px 1fr;
+    grid-template-rows: repeat(2,1fr);
     align-items: center;
+}
+
+.busqueda-header {
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    align-items: center;
+    grid-gap:15px;
+}
+
+.btn-buscar {
+    margin-bottom: 18px;
 }
 
 .inputs-header {
@@ -27,7 +38,3 @@ table {
   .button-footer {
       margin-top: 15px;
   }
-
-.btn-agregar {
-    margin-bottom: 18px;
-}

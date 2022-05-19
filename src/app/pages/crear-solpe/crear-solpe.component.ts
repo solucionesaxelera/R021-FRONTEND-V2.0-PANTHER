@@ -19,11 +19,9 @@ export class CrearSolpeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: any;
   @ViewChild("dialogAgregarPosicion") dialogTemplateAgregarPosicion: any;
 
-  
-
   config?: MatDialogConfig;
 
-  nro_requisicion:any="";
+  nro_requisicion:any = "";
 
   constructor(
     public dialog: MatDialog,
@@ -105,14 +103,11 @@ export class CrearSolpeComponent implements OnInit {
         Detalle: this.dataSourceCrearSolpe.data
       }
     }
-    console.log("DATOS DE ENTRADA: ",json_req);
     this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
-      console.log("RESPUESTA DE CREAR SOLPE: ",data);
       if(data.etMsgReturnField[0].successField == 'X'){
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = [];
       }
-      
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
         duration:5*1000
       });

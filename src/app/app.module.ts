@@ -31,6 +31,7 @@ import { RolesComponent } from './pages/administrador/roles/roles.component';
 
 import { TokenInterceptor } from './auth/token.interceptor';
 import { CrearSolpeComponent } from './pages/crear-solpe/crear-solpe.component';
+import { ModificarSolpeComponent } from './pages/modificar-solpe/modificar-solpe.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { CrearSolpeComponent } from './pages/crear-solpe/crear-solpe.component';
     SnackbarComponent,
     UsuariosComponent,
     RolesComponent,
-    CrearSolpeComponent
+    CrearSolpeComponent,
+    ModificarSolpeComponent
   ],
   imports: [
     BrowserModule,
