@@ -8,6 +8,7 @@ import { agregarPosicionI, tableAgregarPosicionI } from 'src/app/models/crear-so
 import { CrearSolpeService } from 'src/app/services/crear-solpe/crear-solpe.service';
 
 import * as moment from 'moment';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-crear-solpe',
@@ -18,10 +19,15 @@ export class CrearSolpeComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: any;
   @ViewChild("dialogAgregarPosicion") dialogTemplateAgregarPosicion: any;
+  @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
+
+  public helper = new JwtHelperService();
+  token = localStorage.getItem('data_current')?.toString();
 
   config?: MatDialogConfig;
 
   nro_requisicion:any = "";
+  idSeleccionadoEditarPosicion:number = 0;
 
   constructor(
     public dialog: MatDialog,
@@ -53,10 +59,26 @@ export class CrearSolpeComponent implements OnInit {
     Nroreq: new FormControl('',[Validators.required]),
     Area: new FormControl('',[Validators.required]),
     Fecha: new FormControl('',[Validators.required]),
+    Moneda: new FormControl('',[Validators.required]),
+    Centro: new FormControl('',[Validators.required]),
     DescrSolpe: new FormControl('')
-  })
+  });
+
+  editarPosicionForm = new FormGroup({
+    item: new FormControl(''),
+    presu: new FormControl('',[Validators.required]),
+    menge: new FormControl('',[Validators.required]),
+    meins: new FormControl('',[Validators.required]),
+    descr: new FormControl('',[Validators.required]),
+    matnr: new FormControl('',[Validators.required]),
+    ccosto: new FormControl('',[Validators.required]),
+    gl: new FormControl('',[Validators.required]),
+    punit: new FormControl('',[Validators.required]),
+    totsinigv: new FormControl('',[Validators.required]),
+  });
 
   ngOnInit(): void {
+    
   }
 
   ngAfterViewInit() {
@@ -69,7 +91,6 @@ export class CrearSolpeComponent implements OnInit {
   }
 
   agregarPosicion(req:agregarPosicionI){
-    console.log(this.agregarPosicionForm.valid);
     if(this.agregarPosicionForm.valid ==true){
       this.dataSourceCrearSolpe.data.push({
         item: req.item,
@@ -99,7 +120,11 @@ export class CrearSolpeComponent implements OnInit {
         Nroreq: req.Nroreq,
         Area: req.Area,
         Fecha: moment(req.Fecha).format("YYYYMMDD"),
+        Moneda:req.Moneda,
+        Centro:req.Centro,
         DescrSolpe: req.DescrSolpe,
+        Estado: "",
+        Usuario:this.helper.decodeToken(this.token).usuario,
         Detalle: this.dataSourceCrearSolpe.data
       }
     }
@@ -117,7 +142,6 @@ export class CrearSolpeComponent implements OnInit {
   validacionInputNroRequisicion(valor:any){
     let texto = document.getElementById('nroreq') as HTMLInputElement;
     this.nro_requisicion += valor.target.value + '|';
-
     if(this.nro_requisicion.split('|').length == 5){
       texto.value += "-";
     }
@@ -188,5 +212,40 @@ export class CrearSolpeComponent implements OnInit {
   eliminarPosicion(id:number){
    this.dataSourceCrearSolpe.data.splice(id,1);
    this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+  }
+
+  abrirEditarPosicion(id:number){
+    this.idSeleccionadoEditarPosicion = id;
+
+    this.editarPosicionForm.controls['presu'].setValue(this.dataSourceCrearSolpe.data[id].presu);
+    this.editarPosicionForm.controls['menge'].setValue(this.dataSourceCrearSolpe.data[id].menge);
+    this.editarPosicionForm.controls['meins'].setValue(this.dataSourceCrearSolpe.data[id].meins);
+    this.editarPosicionForm.controls['descr'].setValue(this.dataSourceCrearSolpe.data[id].descr);
+    this.editarPosicionForm.controls['matnr'].setValue(this.dataSourceCrearSolpe.data[id].matnr);
+    this.editarPosicionForm.controls['ccosto'].setValue(this.dataSourceCrearSolpe.data[id].ccosto);
+    this.editarPosicionForm.controls['gl'].setValue(this.dataSourceCrearSolpe.data[id].gl);
+    this.editarPosicionForm.controls['punit'].setValue(this.dataSourceCrearSolpe.data[id].punit);
+    this.editarPosicionForm.controls['totsinigv'].setValue(this.dataSourceCrearSolpe.data[id].totsinigv);
+
+    return this.dialog.open(this.dialogTemplateEditarPosicion, this.config);
+  }
+
+  editarPosicion(req:any){
+
+    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].presu = req.presu;
+    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].menge = req.menge;
+    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].meins = req.meins;
+    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].descr = req.descr;
+    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].matnr = req.matnr;
+    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].ccosto = req.ccosto;
+    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].gl = req.gl;
+    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].punit = req.punit;
+    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].totsinigv = req.totsinigv;
+
+    this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+    if(this.editarPosicionForm.valid){
+      this.editarPosicionForm.reset();
+      this.dialog.closeAll();
+    }
   }
 }

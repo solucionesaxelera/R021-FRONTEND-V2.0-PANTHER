@@ -21,6 +21,17 @@
                     <mat-label>Fecha</mat-label>
                     <input type="date" matInput formControlName="Fecha">
                 </mat-form-field>
+                <mat-form-field appearance="fill">
+                    <mat-label>Moneda</mat-label>
+                    <mat-select  formControlName="Moneda">
+                      <mat-option value="PEN">Soles</mat-option>
+                      <mat-option value="USD">US$</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Centro</mat-label>
+                    <input type="text" matInput formControlName="Centro">
+                </mat-form-field>
                 <mat-form-field class="full-width item-input" appearance="fill">
                     <mat-label>Descripción</mat-label>
                     <input type="text" matInput placeholder="Ingrese una descripción" formControlName="DescrSolpe">
@@ -84,6 +95,9 @@
         <ng-container matColumnDef="accion">
             <th mat-header-cell *matHeaderCellDef> ACCIÓN </th>
             <td mat-cell *matCellDef="let element; let i = index;">
+                <button mat-icon-button color="primary" (click)="abrirEditarPosicion(i)">
+                    <mat-icon>edit</mat-icon>
+                </button>
                 <button mat-icon-button color="primary" (click)="eliminarPosicion(i)">
                     <mat-icon>delete</mat-icon>
                 </button>
@@ -104,7 +118,7 @@
 <div class="button-footer">
     <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit" 
     [disabled]="this.dataSourceCrearSolpe.data.length == 0 || cabeceraCrearSolpeForm.invalid" >
-        Crear SOLPE
+        Crear Solpe
     </button>
 </div>
 
@@ -154,5 +168,54 @@
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancelar</button>
         <button mat-button cdkFocusInitial form="agregarPosicion" type="submit">Agregar</button>
+      </mat-dialog-actions>
+</ng-template>
+
+<!-- EDITAR POSICIÓN -->
+<ng-template #dialogEditarPosicion>
+    <h2 mat-dialog-title>EDITAR POSICIÓN</h2>
+    <mat-dialog-content class="mat-typography">
+        <form id="editarPosicion" [formGroup]="editarPosicionForm" (ngSubmit)="editarPosicion(editarPosicionForm.value)">
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>PARTIDA(PRESUPUESTO)</mat-label>
+                <input matInput placeholder="INGRESE PARTIDA" (keypress)="validacionCrearSolpeInputPartida($event)" (paste)="validacionCrearSolpeInputPartida($event)" formControlName="presu">
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>CANTIDAD</mat-label>
+                <input matInput placeholder="INGRESE CANTIDAD" (keypress)="validacionCrearSolpeInputCantidad($event)" (paste)="validacionCrearSolpeInputCantidad($event)" formControlName="menge">
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>UNIDAD</mat-label>
+                <input matInput placeholder="INGRESE UNIDAD" formControlName="meins">
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>DESCRIPCIÓN</mat-label>
+                <input matInput placeholder="INGRESE DESCRIPCIÓN" formControlName="descr">
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>N° SAP MATERIAL</mat-label>
+                <input matInput placeholder="INGRESE N° SAP MATERIAL" (keypress)="validacionCrearSolpeInputNroSapMat($event)" (paste)="validacionCrearSolpeInputNroSapMat($event)" formControlName="matnr">
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>CENTRO DE COSTO</mat-label>
+                <input matInput placeholder="INGRESE CENTRO DE COSTO" formControlName="ccosto">
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>GL</mat-label>
+                <input matInput placeholder="INGRESE Gl" (keypress)="validacionCrearSolpeInputGl($event)" (paste)="validacionCrearSolpeInputGl($event)" formControlName="gl">
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>PRECIO UNITARIO</mat-label>
+                <input matInput placeholder="INGRESE PRECIO UNITARIO" (keypress)="validacionCrearSolpeInputPrecioUnitario($event)" (paste)="validacionCrearSolpeInputPrecioUnitario($event)" formControlName="punit">
+            </mat-form-field>
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>TOTAL(SIN IGV)</mat-label>
+                <input id="totsinigv" matInput placeholder="INGRESE TOTAL" (keypress)="validacionCrearSolpeInputTotalSinIgv($event)" (paste)="validacionCrearSolpeInputTotalSinIgv($event)" formControlName="totsinigv">
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button cdkFocusInitial form="editarPosicion" type="submit">Aceptar</button>
       </mat-dialog-actions>
 </ng-template>

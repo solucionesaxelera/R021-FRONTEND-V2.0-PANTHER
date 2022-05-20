@@ -16,9 +16,8 @@ export class AutorizacionGuard implements CanActivate {
 
   public async canActivate(){
     const token = localStorage.getItem('data_current');
-    console.log("guard token: ", token);
     if(token && !this.helper.isTokenExpired(token)){
-      console.log(this.helper.decodeToken(token))
+      // console.log(this.helper.decodeToken(token))
       return true;
     }
 
@@ -26,7 +25,6 @@ export class AutorizacionGuard implements CanActivate {
     if (!isRefreshSuccess) { 
       this._router.navigate(["acceso"]); 
     }
-    console.log(isRefreshSuccess)
     return isRefreshSuccess;
       
   }
@@ -39,7 +37,6 @@ export class AutorizacionGuard implements CanActivate {
    
     const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken});
     let isRefreshSuccess: boolean;
-    console.log(credentials);
     const refreshRes = await new Promise<any>((resolve, reject) => {
       this._http.post<any>("http://localhost:9021/api/RefreshToken", credentials, {
         headers: new HttpHeaders({
@@ -54,8 +51,6 @@ export class AutorizacionGuard implements CanActivate {
     localStorage.setItem("data_current", refreshRes.token);
     localStorage.setItem("data_current_refresh", refreshRes.refreshToken);
     isRefreshSuccess = true;
-
-    console.log(isRefreshSuccess)
     return isRefreshSuccess;
 
   }
