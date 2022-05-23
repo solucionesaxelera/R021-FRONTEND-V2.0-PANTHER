@@ -6,6 +6,7 @@ import { RolesComponent } from './pages/administrador/roles/roles.component';
 import { UsuariosComponent } from './pages/administrador/usuarios/usuarios.component';
 import { CrearSolpeComponent } from './pages/crear-solpe/crear-solpe.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ListarSolpeComponent } from './pages/listar-solpe/listar-solpe.component';
 import { ModificarSolpeComponent } from './pages/modificar-solpe/modificar-solpe.component';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path:'inicio', component:DashboardComponent , canActivate:[AutorizacionGuard] },
   { path:'crear-solpe', component:CrearSolpeComponent, canActivate:[AutorizacionGuard] },
   { path:'modificar-solpe', component:ModificarSolpeComponent, canActivate:[AutorizacionGuard] },
+  { path:'listar-solpe', component:ListarSolpeComponent, canActivate:[AutorizacionGuard] },
   {
     path:'administracion', children:[
       { path:'usuarios', component:UsuariosComponent,canActivate:[AutorizacionGuard] },
