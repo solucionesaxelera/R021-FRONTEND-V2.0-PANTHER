@@ -15,7 +15,7 @@
                 <ul>
                     <li><button mat-button routerLink="/administracion/usuarios">Usuarios</button></li>
                     <li><button mat-button routerLink="/administracion/roles">Roles</button></li>
-                    <li><button mat-button>Configuración</button></li>
+                    <li><button mat-button routerLink="/administracion/configuracion">Configuración</button></li>
                 </ul>
             </mat-expansion-panel>
             <mat-expansion-panel (opened)="panelOpenState = true"
@@ -39,11 +39,21 @@
       <button mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
+      <button mat-flat-button color="primary" (click)="openConsultarCerrarSesion()">Salir</button>
     </div>
     <main>
         <mat-card>
             <router-outlet></router-outlet>
         </mat-card>
-        
     </main>
   </mat-drawer-container>
+
+
+    <!-- CERRAR SESIÓN -->
+    <ng-template #dialogConsultarCerrarSesion>
+        <h2 mat-dialog-title>Está seguro que desea cerrar sesión?</h2>
+        <mat-dialog-actions align="end">
+          <button mat-button cdkFocusInitial mat-dialog-close>No</button>
+          <button mat-button form="modificarRolUsuario" type="submit" (click)="cerrarSesion()">Si</button>
+        </mat-dialog-actions>
+      </ng-template>

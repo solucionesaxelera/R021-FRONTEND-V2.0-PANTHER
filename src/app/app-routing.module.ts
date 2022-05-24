@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AutorizacionGuard } from './guards/autorizacion.guard';
 import { AccesoComponent } from './pages/acceso/acceso.component';
+import { ConfiguracionComponent } from './pages/administrador/configuracion/configuracion.component';
 import { RolesComponent } from './pages/administrador/roles/roles.component';
 import { UsuariosComponent } from './pages/administrador/usuarios/usuarios.component';
 import { CrearSolpeComponent } from './pages/crear-solpe/crear-solpe.component';
@@ -19,7 +20,8 @@ const routes: Routes = [
   {
     path:'administracion', children:[
       { path:'usuarios', component:UsuariosComponent,canActivate:[AutorizacionGuard] },
-      { path:'roles', component:RolesComponent,canActivate:[AutorizacionGuard] }
+      { path:'roles', component:RolesComponent,canActivate:[AutorizacionGuard] },
+      { path:'configuracion', component:ConfiguracionComponent,canActivate:[AutorizacionGuard] }
     ]
   }
 

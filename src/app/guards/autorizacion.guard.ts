@@ -19,6 +19,8 @@ export class AutorizacionGuard implements CanActivate {
     if(token && !this.helper.isTokenExpired(token)){
       // console.log(this.helper.decodeToken(token))
       return true;
+    }else{
+      this._router.navigate(["acceso"]); 
     }
 
     const isRefreshSuccess = await this.tryRefreshingTokens(token); 

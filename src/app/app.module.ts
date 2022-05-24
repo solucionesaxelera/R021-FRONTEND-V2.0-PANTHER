@@ -19,6 +19,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatListModule} from '@angular/material/list';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +35,8 @@ import { TokenInterceptor } from './auth/token.interceptor';
 import { CrearSolpeComponent } from './pages/crear-solpe/crear-solpe.component';
 import { ModificarSolpeComponent } from './pages/modificar-solpe/modificar-solpe.component';
 import { ListarSolpeComponent } from './pages/listar-solpe/listar-solpe.component';
+import { ConfiguracionComponent } from './pages/administrador/configuracion/configuracion.component';
+import { LiberarSolpeComponent } from './pages/liberar-solpe/liberar-solpe.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,9 @@ import { ListarSolpeComponent } from './pages/listar-solpe/listar-solpe.componen
     RolesComponent,
     CrearSolpeComponent,
     ModificarSolpeComponent,
-    ListarSolpeComponent
+    ListarSolpeComponent,
+    ConfiguracionComponent,
+    LiberarSolpeComponent
   ],
   imports: [
     BrowserModule,
@@ -69,7 +74,8 @@ import { ListarSolpeComponent } from './pages/listar-solpe/listar-solpe.componen
     MatGridListModule,
     MatListModule,
     MatSlideToggleModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatTooltipModule,
   ],
   providers: [
     {

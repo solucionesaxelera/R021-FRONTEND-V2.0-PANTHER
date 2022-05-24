@@ -21,6 +21,8 @@ export class CrearSolpeComponent implements OnInit {
   @ViewChild("dialogAgregarPosicion") dialogTemplateAgregarPosicion: any;
   @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
 
+  indicadorCarga:Boolean=false;
+
   public helper = new JwtHelperService();
   token = localStorage.getItem('data_current')?.toString();
 
@@ -93,7 +95,7 @@ export class CrearSolpeComponent implements OnInit {
   agregarPosicion(req:agregarPosicionI){
     if(this.agregarPosicionForm.valid ==true){
       this.dataSourceCrearSolpe.data.push({
-        item: req.item,
+        item: this.dataSourceCrearSolpe.data.length + 1,
         presu: req.presu,
         menge: req.menge,
         meins: req.meins,
@@ -111,6 +113,7 @@ export class CrearSolpeComponent implements OnInit {
   }
 
   crearSolpe(req:any){
+    this.indicadorCarga=true;
     let json_req={
       IsAccion: "C",
       IsIdSolpe: "",
@@ -132,6 +135,7 @@ export class CrearSolpeComponent implements OnInit {
       if(data.etMsgReturnField[0].successField == 'X'){
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = [];
+        this.indicadorCarga=false;
       }
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
         duration:5*1000
