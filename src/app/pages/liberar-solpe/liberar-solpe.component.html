@@ -1,1 +1,117 @@
-<p>liberar-solpe works!</p>
+<div class="header-crear-solpe">
+    <div class="button-header">
+        <button mat-flat-button color="primary" (click)="buscarSolpe()">
+            Buscar Solpe
+        </button>
+    </div>
+    <div>
+        <form id="cabecera-crear-solped" [formGroup]="cabeceraCrearSolpeForm">
+            <div class="inputs-header">
+                <!-- <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>N° Requisición</mat-label>
+                    <input id="nroreq" type="text" matInput placeholder="YYYY-00000" maxlength="10"
+                        formControlName="Nroreq">
+                </mat-form-field> -->
+                <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Usuario</mat-label>
+                    <input type="text" matInput placeholder="Ingrese nombre de usuario" formControlName="Usuario">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Fecha</mat-label>
+                    <input type="date" matInput formControlName="Fecha">
+                </mat-form-field>
+                <!-- <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Descripción</mat-label>
+                    <input type="text" matInput placeholder="Ingrese una descripción" formControlName="DescrSolpe">
+                </mat-form-field> -->
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<!-- <div class="center">
+    <mat-progress-spinner diameter=50 mode="indeterminate" *ngIf="is_loading">
+
+    </mat-progress-spinner>
+</div> -->
+
+<!-- tabla -->
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSourceCrearSolpe">
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID</th>
+            <td mat-cell *matCellDef="let element"> {{element.idField}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nroreq">
+            <th mat-header-cell *matHeaderCellDef> NROREQ </th>
+            <td mat-cell *matCellDef="let element"> {{element.nroreqField}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="area">
+            <th mat-header-cell *matHeaderCellDef> AREA </th>
+            <td mat-cell *matCellDef="let element"> {{element.areaField}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef> FECHA </th>
+            <td mat-cell *matCellDef="let element"> {{formatearFecha(element.fechaField, 1)}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="descr">
+            <th mat-header-cell *matHeaderCellDef> DESCR SOLPE </th>
+            <td mat-cell *matCellDef="let element"> {{element.descrSolpeField}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="usuario">
+            <th mat-header-cell *matHeaderCellDef> USUARIO </th>
+            <td mat-cell *matCellDef="let element"> {{element.usuarioField}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="accion">
+            <th mat-header-cell *matHeaderCellDef> ACCIÓN </th>
+            <td mat-cell *matCellDef="let element; let i = index;">
+                <button mat-icon-button color="primary" (click)="openAprobarSolpe(element.idField)">
+                    <mat-icon matTooltip="Aprobar Solpe">check_circle</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" (click)="openRechazarSolpe(element.idField)">
+                    <mat-icon matTooltip="Rechazar Solpe">highlight_off</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+
+</div>
+
+<!-- APROBAR SOLPED -->
+<ng-template #dialogAprobarSolped>
+    <h2 mat-dialog-title>¿Seguro de aprobar la solicitud de pedido?</h2>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button cdkFocusInitial (click)="aprobarSolpe()" type="submit">Aceptar</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<!-- RECHAZAR SOLPED -->
+<ng-template #dialogRechazarSolped>
+    <h2 mat-dialog-title>¿Seguro de rechazar la solicitud de pedido?</h2>
+    <mat-dialog-actions align="end">
+        <button mat-button mat-dialog-close>Cancelar</button>
+        <button mat-button cdkFocusInitial (click)="rechazarSolpe()" type="submit">Aceptar</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<!-- BOTON PARA OBTENER LISTADO DE SOLPES - SE LIMPIA FILTROS -->
+<div class="button-footer" >
+    <button mat-flat-button color="primary" (click)="obtenerListadoSolpes()" >
+        Limpiar Filtros
+    </button>
+</div>

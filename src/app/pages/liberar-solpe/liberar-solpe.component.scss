@@ -1,0 +1,38 @@
+.header-crear-solpe {
+    position: relative;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+}
+
+.inputs-header {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    grid-gap: 8px;
+}
+
+.item-input:nth-child(4) {
+    grid-column: 3 span;
+}
+
+.full-width {
+    width: 100%
+}
+
+table {
+    width: 100%;
+}
+
+.button-footer {
+    margin-top: 15px;
+}
+
+.center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -moz-transform: translateX(-50%) translateY(-50%);
+    -webkit-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
