@@ -32,6 +32,17 @@
                     <li><button mat-button routerLink="/liberar-solpe">Liberar Solpe</button></li>
                 </ul>
             </mat-expansion-panel>
+            <mat-expansion-panel (opened)="panelOpenState = true"
+            (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                    Auditoria
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <ul>
+                    <li><button mat-button routerLink="/auditoria">Visualizar Auditoria</button></li>
+                </ul>
+            </mat-expansion-panel>
         </mat-accordion>
     </mat-drawer>
   

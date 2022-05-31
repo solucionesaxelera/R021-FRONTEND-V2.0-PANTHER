@@ -1,0 +1,81 @@
+<div class="header-crear-solpe">
+    <div class="button-header">
+        <button mat-flat-button color="primary" (click)="buscarAuditoria()">
+            Buscar Auditoría
+        </button>
+    </div>
+    <div>
+        <form id="cabecera-crear-solped" [formGroup]="cabeceraAuditoriaForm">
+            <div class="inputs-header">
+                <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Acción</mat-label>
+                    <input id="nroreq" type="text" matInput placeholder="Ingrese la acción" formControlName="Accion">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Usuario</mat-label>
+                    <input type="text" matInput placeholder="Ingrese el usuario" formControlName="Usuario">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Fecha</mat-label>
+                    <input type="date" matInput formControlName="Fecha">
+                </mat-form-field>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSourceAuditoria">
+
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID</th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="codi_solpe">
+            <th mat-header-cell *matHeaderCellDef> ID SOLPE </th>
+            <td mat-cell *matCellDef="let element"> {{element.id_solpe}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="usuario">
+            <th mat-header-cell *matHeaderCellDef> USUARIO </th>
+            <td mat-cell *matCellDef="let element"> {{element.usuario}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef> FECHA </th>
+            <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hora">
+            <th mat-header-cell *matHeaderCellDef> HORA </th>
+            <td mat-cell *matCellDef="let element"> {{element.hora}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="accion">
+            <th mat-header-cell *matHeaderCellDef> ACCIÓN </th>
+            <td mat-cell *matCellDef="let element">
+                <div *ngIf="element.accion == 'C'">CREÓ SOLPE</div>
+                <div *ngIf="element.accion == 'M'">MODIFICÓ SOLPE</div>
+                <div *ngIf="element.accion == 'E'">ELIMINÓ SOLPE</div>
+                <div *ngIf="element.accion == 'A'">APROBÓ SOLPE</div>
+                <div *ngIf="element.accion == 'R'">RECHAZÓ SOLPE</div>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+
+</div>
+
+<div class="button-footer">
+    <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit" (click)="exportar()"
+        [disabled]="this.dataSourceAuditoria.data.length == 0">
+        Exportar Excel
+    </button>
+</div>
