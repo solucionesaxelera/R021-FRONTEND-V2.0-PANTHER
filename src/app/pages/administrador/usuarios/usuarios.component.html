@@ -50,7 +50,7 @@
           <button mat-icon-button color="primary" (click)="openDialogModificarUsuario(element.id)">
               <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button color="primary" (click)="openDialogEliminarUsuario(element.id)">
+          <button [disabled]="element.id == idUsuarioSesion.id ? true : false" mat-icon-button color="primary" (click)="openDialogEliminarUsuario(element.id)">
             <mat-icon>delete</mat-icon>
           </button>
         </td>

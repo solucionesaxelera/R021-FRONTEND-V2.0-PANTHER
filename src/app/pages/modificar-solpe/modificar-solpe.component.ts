@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as moment from 'moment';
 import { tableModificarPosicionI } from 'src/app/models/modificar-solpe';
+import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 import { CrearSolpeService } from 'src/app/services/crear-solpe/crear-solpe.service';
 
 @Component({
@@ -32,6 +33,7 @@ export class ModificarSolpeComponent implements OnInit {
     public dialog: MatDialog,
     private _SolpeOptionPrelimS : CrearSolpeService,
     private _snackBar: MatSnackBar,
+    private _auditoriaS : AuditoriaService,
   ) { }
 
   displayedColumnsModificarSolpe: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'ccosto', 'gl', 'punit', 'totsinigv','accion'];
@@ -141,6 +143,15 @@ export class ModificarSolpeComponent implements OnInit {
     }
     this._SolpeOptionPrelimS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
       if(data.etMsgReturnField[0].successField == 'X'){
+
+        let json_req_auditoria = {
+          id_solpe:data.esSolpePrelimCabField.idField,
+          usuario:this.helper.decodeToken(this.token).usuario,
+          accion:"M"
+        }
+        this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
+          console.log(data)
+        });
         this.idSolpe="";
         this.dataSourceModificarSolpe.data = [];
         this.cabeceraModificarSolpeForm.reset();
@@ -277,6 +288,14 @@ export class ModificarSolpeComponent implements OnInit {
     }
     this._SolpeOptionPrelimS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
       if(data.etMsgReturnField[0].successField == 'X'){
+        let json_req_auditoria = {
+          id_solpe:data.esSolpePrelimCabField.idField,
+          usuario:this.helper.decodeToken(this.token).usuario,
+          accion:"E"
+        }
+        this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
+          console.log(data)
+        });
         this.idSolpe="";
         this.dataSourceModificarSolpe.data = [];
         this.cabeceraModificarSolpeForm.reset();

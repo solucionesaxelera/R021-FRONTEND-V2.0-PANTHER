@@ -15,6 +15,7 @@ export class AuditoriaService {
 
   constructor(private _http: HttpClient) { }
 
+  // Registrar Auditoria
   postAuditoria(req: any): Observable<any> {
     return this._http.post<any>(this._Auditoria, req, {
       headers: new HttpHeaders({
@@ -23,20 +24,19 @@ export class AuditoriaService {
       })
     })
   }
-
+  //Exportar Auditoría
   exportarAuditoria(accion: string, usuario: string, fecha: string): Observable<any> {
     this.cadena_service = this._Excel + '?accion=' + accion + '&usuario=' + usuario + '&fecha=' + fecha;
-    // console.log(this.cadena_service)
-    return this._http.post(this.cadena_service, null, { // SE QUITO EL ANY DEL POST PARA QUE ACEPTE EL BLOB
+    return this._http.post(this.cadena_service, null, {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem('data_current')
       }),
       responseType: 'blob'
     })
-    // .pipe(map(data => data))
   }
 
+  //Obtener listado de Auditoría
   getAuditoria(): Observable<any> {
     return this._http.get<any>(this._Auditoria, {
       headers: new HttpHeaders({
@@ -48,7 +48,6 @@ export class AuditoriaService {
 
   filtrarAuditoria(accion: string, usuario: string, fecha: string): Observable<any> {
     this.cadena_service = this._Auditoria + '?accion=' + accion + '&usuario=' + usuario + '&fecha=' + fecha;
-    // console.log(this.cadena_service)
     return this._http.get<any>(this.cadena_service, {
       headers: new HttpHeaders({
         "Content-Type": "application/json",

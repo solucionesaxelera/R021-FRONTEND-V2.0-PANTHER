@@ -188,7 +188,7 @@
   <ng-template #dialogEliminarSolpe>
     <h2 mat-dialog-title>Está seguro que desea eliminar la solicitud de pedido?</h2>
     <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>No</button>
-      <button mat-button cdkFocusInitial form="modificarRolUsuario" type="submit" (click)="eliminarSolpe()">Si</button>
+      <button mat-button cdkFocusInitial mat-dialog-close>No</button>
+      <button mat-button form="modificarRolUsuario" type="submit" (click)="eliminarSolpe()">Si</button>
     </mat-dialog-actions>
   </ng-template>

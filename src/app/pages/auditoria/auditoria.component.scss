@@ -27,3 +27,7 @@ table {
 .button-footer {
     margin-top: 15px;
 }
+
+.button-footer > button:nth-child(2){
+    margin-left: 15px;
+}

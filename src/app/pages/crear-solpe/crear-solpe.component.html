@@ -25,8 +25,8 @@
                 <mat-form-field appearance="fill">
                     <mat-label>Moneda</mat-label>
                     <mat-select  formControlName="Moneda">
-                      <mat-option value="PEN">Soles</mat-option>
-                      <mat-option value="USD">US$</mat-option>
+                    <mat-option value="PEN">Soles</mat-option>
+                    <mat-option value="USD">US$</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="full-width item-input" appearance="fill">
@@ -108,7 +108,6 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
- 
     <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                     showFirstLastButtons 
                     aria-label="Select page of periodic elements">
@@ -169,7 +168,7 @@
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancelar</button>
         <button mat-button cdkFocusInitial form="agregarPosicion" type="submit">Agregar</button>
-      </mat-dialog-actions>
+    </mat-dialog-actions>
 </ng-template>
 
 <!-- EDITAR POSICIÓN -->
@@ -218,5 +217,5 @@
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancelar</button>
         <button mat-button cdkFocusInitial form="editarPosicion" type="submit">Aceptar</button>
-      </mat-dialog-actions>
+    </mat-dialog-actions>
 </ng-template>

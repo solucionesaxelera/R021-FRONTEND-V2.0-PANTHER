@@ -9,6 +9,7 @@ import { CrearSolpeService } from 'src/app/services/crear-solpe/crear-solpe.serv
 
 import * as moment from 'moment';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 
 @Component({
   selector: 'app-crear-solpe',
@@ -34,7 +35,8 @@ export class CrearSolpeComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private _crearSolpeS : CrearSolpeService
+    private _crearSolpeS : CrearSolpeService,
+    private _auditoriaS : AuditoriaService,
   ) { }
 
   displayedColumns: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'ccosto', 'gl', 'punit', 'totsinigv','accion'];
@@ -131,8 +133,17 @@ export class CrearSolpeComponent implements OnInit {
         Detalle: this.dataSourceCrearSolpe.data
       }
     }
+    
     this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
       if(data.etMsgReturnField[0].successField == 'X'){
+        let json_req_auditoria = {
+          id_solpe:data.esSolpePrelimCabField.idField,
+          usuario:this.helper.decodeToken(this.token).usuario,
+          accion:"C"
+        }
+        this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
+          console.log(data)
+        });
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = [];
         this.indicadorCarga=false;

@@ -53,8 +53,10 @@ export class AuditoriaComponent implements OnInit {
       if (data.status == 1) {
         this.cabeceraAuditoriaForm.reset();
         this.dataSourceAuditoria.data = data.body.auditoria;
+        // this.is_loading = false;
       }
       else {
+        // this.is_loading = false;
         this._snackBar.open(data.message, 'cerrar', {
           duration: 5 * 1000
         });

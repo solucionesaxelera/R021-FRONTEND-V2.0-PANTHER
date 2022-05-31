@@ -7,6 +7,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as moment from 'moment';
 import { tableLiberarSolpe } from 'src/app/models/liberar-solpe';
+import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 import { LiberarSolpeService } from 'src/app/services/liberar-solpe/liberar-solpe.service';
 
 @Component({
@@ -25,14 +26,14 @@ export class LiberarSolpeComponent implements OnInit {
 
   config?: MatDialogConfig;
   id_fila_solped: any = "";
-  // is_loading: any = true;
   usuario: any = "";
   fecha: any = "";
 
   constructor(
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private _liberarSolpeS: LiberarSolpeService
+    private _liberarSolpeS: LiberarSolpeService,
+    private _auditoriaS : AuditoriaService,
   ) { }
 
   displayedColumns: string[] = ['id', 'nroreq', 'area', 'fecha', 'descr', 'usuario', 'accion'];
@@ -52,7 +53,6 @@ export class LiberarSolpeComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    // this.cabeceraCrearSolpeForm.controls['Fecha'].setValue(moment().format("YYYY-MM-DD"))
     this.dataSourceCrearSolpe.paginator = this.paginator;
   }
 
@@ -76,14 +76,11 @@ export class LiberarSolpeComponent implements OnInit {
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
-      // console.log("RESPUESTA DE LIBERAR SOLPE - LISTAR: ", data);
       if (data.etMsgReturnField[0].successField == 'X') {
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = data.etSolpePrelimCabField;
-        // this.is_loading = false;
       }
       else {
-        // this.is_loading = false;
         this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar', {
           duration: 5 * 1000
         });
@@ -93,7 +90,6 @@ export class LiberarSolpeComponent implements OnInit {
   }
 
   aprobarSolpe() {
-    // console.log("aprobar solpe: ", this.id_fila_solped);
     let json_req = {
       IsAccion: "C",
       IsId: this.id_fila_solped,
@@ -103,13 +99,19 @@ export class LiberarSolpeComponent implements OnInit {
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
-      // console.log("RESPUESTA DE LIBERAR SOLPE - APROBAR: ", data);
       if (data.etMsgReturnField[0].successField == 'X') {
+        let json_req_auditoria = {
+          id_solpe:this.id_fila_solped,
+          usuario:this.helper.decodeToken(this.token).usuario,
+          accion:"A"
+        }
+        this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
+          console.log(data)
+        });
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = data.etSolpePrelimCabField;
         this.obtenerListadoSolpes();
       }
-      // console.log(this.dataSourceCrearSolpe.data)
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar', {
         duration: 5 * 1000
       });
@@ -118,7 +120,6 @@ export class LiberarSolpeComponent implements OnInit {
   }
 
   rechazarSolpe() {
-    // console.log("rechazar solpe: ", this.id_fila_solped);
     let json_req = {
       IsAccion: "R",
       IsId: this.id_fila_solped,
@@ -128,13 +129,19 @@ export class LiberarSolpeComponent implements OnInit {
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
-      // console.log("RESPUESTA DE LIBERAR SOLPE - RECHAZAR: ", data);
       if (data.etMsgReturnField[0].successField == 'X') {
+        let json_req_auditoria = {
+          id_solpe:this.id_fila_solped,
+          usuario:this.helper.decodeToken(this.token).usuario,
+          accion:"R"
+        }
+        this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
+          console.log(data)
+        });
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = data.etSolpePrelimCabField;
         this.obtenerListadoSolpes();
       }
-      // console.log(this.dataSourceCrearSolpe.data)
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar', {
         duration: 5 * 1000
       });
@@ -146,7 +153,6 @@ export class LiberarSolpeComponent implements OnInit {
 
     this.usuario = this.cabeceraCrearSolpeForm.get('Usuario')?.value;
     this.fecha = this.cabeceraCrearSolpeForm.get('Fecha')?.value;
-    console.log(this.usuario, this.fecha)
 
     let json_req = {
       IsAccion: "L",
@@ -157,7 +163,6 @@ export class LiberarSolpeComponent implements OnInit {
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
-      // console.log("RESPUESTA DE LIBERAR SOLPE - RECHAZAR: ", data);
       if (data.etMsgReturnField[0].successField == 'X') {
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = data.etSolpePrelimCabField;

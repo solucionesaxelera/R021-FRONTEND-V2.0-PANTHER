@@ -7,9 +7,19 @@
     <div>
         <form id="cabecera-crear-solped" [formGroup]="cabeceraAuditoriaForm">
             <div class="inputs-header">
-                <mat-form-field class="full-width item-input" appearance="fill">
+                <!-- <mat-form-field class="full-width item-input" appearance="fill">
                     <mat-label>Acción</mat-label>
                     <input id="nroreq" type="text" matInput placeholder="Ingrese la acción" formControlName="Accion">
+                </mat-form-field> -->
+                <mat-form-field appearance="fill">
+                    <mat-label>Acción</mat-label>
+                    <mat-select formControlName="Accion">
+                        <mat-option value="C">CREÓ SOLPE</mat-option>
+                        <mat-option value="M">MODIFICÓ SOLPE</mat-option>
+                        <mat-option value="E">ELIMINÓ SOLPE</mat-option>
+                        <mat-option value="A">APROBÓ SOLPE</mat-option>
+                        <mat-option value="R">RECHAZÓ SOLPE</mat-option>
+                    </mat-select>
                 </mat-form-field>
                 <mat-form-field class="full-width item-input" appearance="fill">
                     <mat-label>Usuario</mat-label>
@@ -68,12 +78,16 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons aria-label="Select page of periodic elements">
     </mat-paginator>
 
 </div>
 
 <div class="button-footer">
+    <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit"
+        (click)="obtenerListadoAuditoria()" [disabled]="this.dataSourceAuditoria.data.length == 0">
+        Limpiar Filtros
+    </button>
     <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit" (click)="exportar()"
         [disabled]="this.dataSourceAuditoria.data.length == 0">
         Exportar Excel
