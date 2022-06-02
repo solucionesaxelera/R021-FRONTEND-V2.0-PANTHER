@@ -10,6 +10,7 @@ import { CrearSolpeService } from 'src/app/services/crear-solpe/crear-solpe.serv
 import * as moment from 'moment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
+import { MatchcodeComponent } from 'src/app/components/matchcode/matchcode.component';
 
 @Component({
   selector: 'app-crear-solpe',
@@ -262,5 +263,56 @@ export class CrearSolpeComponent implements OnInit {
       this.editarPosicionForm.reset();
       this.dialog.closeAll();
     }
+  }
+
+  matchcodeCabecera(name:string,value:string){
+    const dialogRef = this.dialog.open(MatchcodeComponent, {
+      width: '40%',
+      data: {name: name,value:value},
+      disableClose:true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(name == "WERKS"){
+        this.cabeceraCrearSolpeForm.controls['Centro'].setValue(result);
+      }
+    });
+  }
+
+  matchcodeAgregarPosicion(name:string,value:string){
+    const dialogRef = this.dialog.open(MatchcodeComponent, {
+      width: '40%',
+      data: {name: name,value:value},
+      disableClose:true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(name == "MATNR"){
+        this.agregarPosicionForm.controls['matnr'].setValue(result);
+      }
+      if(name == "KOSTL"){
+        this.agregarPosicionForm.controls['ccosto'].setValue(result);
+      }
+    });
+  }
+
+  matchcodeEditarPosicion(name:string,value:string){
+    const dialogRef = this.dialog.open(MatchcodeComponent, {
+      width: '40%',
+      data: {name: name,value:value},
+      disableClose:true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(name == "MATNR"){
+        this.editarPosicionForm.controls['matnr'].setValue(result);
+      }
+      if(name == "KOSTL"){
+        this.editarPosicionForm.controls['ccosto'].setValue(result);
+      }
+    });
+  }
+
+
+  acortarDescripcion(valor:string){
+    let result = valor;
+    return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
   }
 }

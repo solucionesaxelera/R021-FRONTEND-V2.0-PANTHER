@@ -42,3 +42,16 @@ table {
 .button-footer > button:nth-child(2){
     margin-left: 15px;
 }
+
+.matchcode-icon{
+    cursor: pointer;
+}
+
+.matchcode-icon:hover{
+   color:#D29E0E;
+}
+
+.mat-column-descr {
+    flex: none;
+    width: 150px;
+}

@@ -1,0 +1,81 @@
+<mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
+
+<h2 mat-dialog-title *ngIf="data.name == 'MATNR'">N° SAP MATERIAL</h2>
+<h2 mat-dialog-title *ngIf="data.name == 'KOSTL'">CENTRO DE COSTO</h2>
+<h2 mat-dialog-title *ngIf="data.name == 'WERKS'">CENTRO</h2>
+
+<!-- MATERIAL -->
+<div  class="mat-elevation-z8" *ngIf="data.name == 'MATNR'">
+<table mat-table [dataSource]="dataSourceMATNR" >
+        <!-- matnrField Column -->
+        <ng-container matColumnDef="matnrField">
+            <th mat-header-cell *matHeaderCellDef> Material </th>
+            <td mat-cell *matCellDef="let element"> {{element.matnrField}} </td>
+        </ng-container>
+        <!-- maktgField Column -->
+        <ng-container matColumnDef="maktgField">
+            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+            <td mat-cell *matCellDef="let element"> {{element.maktgField}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsMATNR"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsMATNR;" class="row-table" [mat-dialog-close]="row.matnrField"></tr>
+</table>
+<mat-paginator [pageSizeOptions]="[10, 20, 30]"
+                 showFirstLastButtons 
+                 aria-label="Select page of periodic elements">
+</mat-paginator>
+</div>
+
+<!-- CENTRO DE COSTO -->
+<div  class="mat-elevation-z8" *ngIf="data.name == 'KOSTL'">
+<table mat-table [dataSource]="dataSourceKOSTL" >
+        <!-- kostlField Column -->
+        <ng-container matColumnDef="kostlField">
+            <th mat-header-cell *matHeaderCellDef> Centro de Costo </th>
+            <td mat-cell *matCellDef="let element"> {{element.kostlField}} </td>
+        </ng-container>
+        <!-- ktextField Column -->
+        <ng-container matColumnDef="ktextField">
+            <th mat-header-cell *matHeaderCellDef> Descripción </th>
+            <td mat-cell *matCellDef="let element"> {{element.ktextField}} </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsKOSTL"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsKOSTL;" class="row-table" [mat-dialog-close]="row.kostlField"></tr>
+</table>
+
+<mat-paginator [pageSizeOptions]="[10, 20, 30]"
+                 showFirstLastButtons 
+                 aria-label="Select page of periodic elements">
+</mat-paginator>
+</div>
+
+<!-- CENTRO -->
+<div  class="mat-elevation-z8" *ngIf="data.name == 'WERKS'">
+    <table mat-table [dataSource]="dataSourceWERKS" >
+            <!-- werksField Column -->
+            <ng-container matColumnDef="werksField">
+                <th mat-header-cell *matHeaderCellDef> Centro </th>
+                <td mat-cell *matCellDef="let element"> {{element.werksField}} </td>
+            </ng-container>
+            <!-- name1Field Column -->
+            <ng-container matColumnDef="name1Field">
+                <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                <td mat-cell *matCellDef="let element"> {{element.name1Field}} </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsWERKS"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsWERKS;" class="row-table" [mat-dialog-close]="row.werksField"></tr>
+    </table>
+    
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+                     showFirstLastButtons 
+                     aria-label="Select page of periodic elements">
+    </mat-paginator>
+
+</div>
+
+<mat-dialog-actions align="end">
+    <button mat-flat-button color="primary" mat-dialog-close [mat-dialog-close]="data.value" >Cerrar</button>
+</mat-dialog-actions>

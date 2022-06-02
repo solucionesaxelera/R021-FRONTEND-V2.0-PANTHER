@@ -31,3 +31,16 @@ table {
 .btn-agregar {
     margin-bottom: 18px;
 }
+
+.matchcode-icon{
+    cursor: pointer;
+}
+
+.matchcode-icon:hover{
+   color:#D29E0E;
+}
+
+.mat-column-descr {
+    flex: none;
+    width: 150px;
+}

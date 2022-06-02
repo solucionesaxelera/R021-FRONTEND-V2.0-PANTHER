@@ -7,11 +7,6 @@
     <div>
         <form id="cabecera-crear-solped" [formGroup]="cabeceraCrearSolpeForm">
             <div class="inputs-header">
-                <!-- <mat-form-field class="full-width item-input" appearance="fill">
-                    <mat-label>N° Requisición</mat-label>
-                    <input id="nroreq" type="text" matInput placeholder="YYYY-00000" maxlength="10"
-                        formControlName="Nroreq">
-                </mat-form-field> -->
                 <mat-form-field class="full-width item-input" appearance="fill">
                     <mat-label>Usuario</mat-label>
                     <input type="text" matInput placeholder="Ingrese nombre de usuario" formControlName="Usuario">
@@ -20,23 +15,12 @@
                     <mat-label>Fecha</mat-label>
                     <input type="date" matInput formControlName="Fecha">
                 </mat-form-field>
-                <!-- <mat-form-field class="full-width item-input" appearance="fill">
-                    <mat-label>Descripción</mat-label>
-                    <input type="text" matInput placeholder="Ingrese una descripción" formControlName="DescrSolpe">
-                </mat-form-field> -->
             </div>
 
         </form>
     </div>
 </div>
 
-<!-- <div class="center">
-    <mat-progress-spinner diameter=50 mode="indeterminate" *ngIf="is_loading">
-
-    </mat-progress-spinner>
-</div> -->
-
-<!-- tabla -->
 <div class="mat-elevation-z8">
     <table mat-table [dataSource]="dataSourceCrearSolpe">
 

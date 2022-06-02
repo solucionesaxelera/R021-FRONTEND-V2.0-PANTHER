@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as moment from 'moment';
+import { MatchcodeComponent } from 'src/app/components/matchcode/matchcode.component';
 import { tableModificarPosicionI } from 'src/app/models/modificar-solpe';
 import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 import { CrearSolpeService } from 'src/app/services/crear-solpe/crear-solpe.service';
@@ -20,6 +21,8 @@ export class ModificarSolpeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: any;
   @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
   @ViewChild("dialogEliminarSolpe") dialogTemplateEliminarSolpe: any;
+
+  indicadorCarga:Boolean=false;
 
   public helper = new JwtHelperService();
   token = localStorage.getItem('data_current')?.toString();
@@ -69,6 +72,7 @@ export class ModificarSolpeComponent implements OnInit {
   }
 
   buscarSolpe(){
+    this.indicadorCarga = true;
     this.dataSourceModificarSolpe.data = [];
     let json_req={
       IsAccion: "B",
@@ -88,7 +92,7 @@ export class ModificarSolpeComponent implements OnInit {
       }
     }
     this._SolpeOptionPrelimS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
-
+      this.indicadorCarga = false;
       if(data.etMsgReturnField[0].successField=="X"){
         this.cabeceraModificarSolpeForm.controls['Nroreq'].setValue(data.esSolpePrelimCabField.nroreqField);
         this.cabeceraModificarSolpeForm.controls['Area'].setValue(data.esSolpePrelimCabField.areaField);
@@ -304,6 +308,51 @@ export class ModificarSolpeComponent implements OnInit {
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
         duration:5*1000
       });
+    });
+  }
+
+  matchcodeCabecera(name:string,value:string){
+    console.log(value)
+    const dialogRef = this.dialog.open(MatchcodeComponent, {
+      width: '40%',
+      data: {name: name,value:value},
+      disableClose:true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(name == "WERKS"){
+        this.cabeceraModificarSolpeForm.controls['Centro'].setValue(result);
+      }
+    });
+  }
+  
+  // matchcodeAgregarPosicion(name:string){
+  //   const dialogRef = this.dialog.open(MatchcodeComponent, {
+  //     width: '40%',
+  //     data: {name: name},
+  //   });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if(name == "MATNR"){
+  //       this.agregarPosicionForm.controls['matnr'].setValue(result);
+  //     }
+  //     if(name == "KOSTL"){
+  //       this.agregarPosicionForm.controls['ccosto'].setValue(result);
+  //     }
+  //   });
+  // }
+
+  matchcodeEditarPosicion(name:string,value:string){
+    const dialogRef = this.dialog.open(MatchcodeComponent, {
+      width: '40%',
+      data: {name: name,value:value},
+      disableClose:true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(name == "MATNR"){
+        this.editarPosicionForm.controls['matnr'].setValue(result);
+      }
+      if(name == "KOSTL"){
+        this.editarPosicionForm.controls['ccosto'].setValue(result);
+      }
     });
   }
 

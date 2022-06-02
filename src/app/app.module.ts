@@ -38,6 +38,7 @@ import { ListarSolpeComponent } from './pages/listar-solpe/listar-solpe.componen
 import { ConfiguracionComponent } from './pages/administrador/configuracion/configuracion.component';
 import { LiberarSolpeComponent } from './pages/liberar-solpe/liberar-solpe.component';
 import { AuditoriaComponent } from './pages/auditoria/auditoria.component';
+import { MatchcodeComponent } from './components/matchcode/matchcode.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { AuditoriaComponent } from './pages/auditoria/auditoria.component';
     ListarSolpeComponent,
     ConfiguracionComponent,
     LiberarSolpeComponent,
-    AuditoriaComponent
+    AuditoriaComponent,
+    MatchcodeComponent
   ],
   imports: [
     BrowserModule,
