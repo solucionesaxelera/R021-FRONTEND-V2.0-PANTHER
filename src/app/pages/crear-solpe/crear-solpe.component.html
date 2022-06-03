@@ -141,6 +141,7 @@
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>UNIDAD</mat-label>
                 <input matInput placeholder="INGRESE UNIDAD" formControlName="meins">
+                <mat-icon class="matchcode-icon" (click)="matchcodeAgregarPosicion('MSEHI',agregarPosicionForm.controls['meins'].value)" matSuffix>filter_none</mat-icon>
             </mat-form-field>
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>DESCRIPCIÓN</mat-label>
@@ -160,6 +161,7 @@
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>GL</mat-label>
                 <input matInput placeholder="INGRESE Gl" (keypress)="validacionCrearSolpeInputGl($event)" (paste)="validacionCrearSolpeInputGl($event)" formControlName="gl">
+                <mat-icon class="matchcode-icon" (click)="matchcodeAgregarPosicion('SAKNR',agregarPosicionForm.controls['gl'].value)" matSuffix>filter_none</mat-icon>
             </mat-form-field>
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>PRECIO UNITARIO</mat-label>
@@ -193,6 +195,7 @@
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>UNIDAD</mat-label>
                 <input matInput placeholder="INGRESE UNIDAD" formControlName="meins">
+                <mat-icon class="matchcode-icon" (click)="matchcodeEditarPosicion('MSEHI',editarPosicionForm.controls['meins'].value)" matSuffix>filter_none</mat-icon>
             </mat-form-field>
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>DESCRIPCIÓN</mat-label>
@@ -211,6 +214,7 @@
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>GL</mat-label>
                 <input matInput placeholder="INGRESE Gl" (keypress)="validacionCrearSolpeInputGl($event)" (paste)="validacionCrearSolpeInputGl($event)" formControlName="gl">
+                <mat-icon class="matchcode-icon" (click)="matchcodeEditarPosicion('SAKNR',editarPosicionForm.controls['gl'].value)" matSuffix>filter_none</mat-icon>
             </mat-form-field>
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>PRECIO UNITARIO</mat-label>

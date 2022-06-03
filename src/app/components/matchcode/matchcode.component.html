@@ -3,6 +3,53 @@
 <h2 mat-dialog-title *ngIf="data.name == 'MATNR'">N° SAP MATERIAL</h2>
 <h2 mat-dialog-title *ngIf="data.name == 'KOSTL'">CENTRO DE COSTO</h2>
 <h2 mat-dialog-title *ngIf="data.name == 'WERKS'">CENTRO</h2>
+<h2 mat-dialog-title *ngIf="data.name == 'MSEHI'">UNIDADES DE MEDIDA</h2>
+<h2 mat-dialog-title *ngIf="data.name == 'SAKNR'">GL</h2>
+
+<!-- fILTRO MATERIAL -->
+<div *ngIf="data.name == 'MATNR'">
+    <form [formGroup]="matchcodeMaterialForm" (submit)="filtrarMatchcodeMaterial(matchcodeMaterialForm.value)">
+        <mat-form-field class="filter-matchcode" appearance="fill">
+            <mat-label>IsMatnr</mat-label>
+            <input matInput placeholder="Ingrese IsMatnr" formControlName="IsMatnr">
+        </mat-form-field>
+        <mat-form-field class="filter-matchcode" appearance="fill">
+            <mat-label>IsNameMatnr</mat-label>
+            <input matInput placeholder="Ingrese IsNameMatnr " formControlName="IsNameMatnr">
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="full-width btn-filter">Filtrar</button>
+    </form>
+</div>
+
+<!-- FILTRO CENTRO DE COSTO -->
+<div *ngIf="data.name == 'KOSTL'">
+    <form [formGroup]="matchcodeCentroCostoForm" (submit)="filtrarMatchcodeCentroCosto(matchcodeCentroCostoForm.value)">
+        <mat-form-field class="filter-matchcode" appearance="fill">
+            <mat-label>IsCeco</mat-label>
+            <input matInput placeholder="Ingrese IsCeco" formControlName="IsCeco">
+        </mat-form-field>
+        <mat-form-field class="filter-matchcode" appearance="fill">
+            <mat-label>IsNameCeco</mat-label>
+            <input matInput placeholder="Ingrese IsNameCeco " formControlName="IsNameCeco">
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="full-width btn-filter">Filtrar</button>
+    </form>
+</div>
+
+<!-- FILTRO GL -->
+<div *ngIf="data.name == 'SAKNR'">
+    <form [formGroup]="matchcodeGLForm" (submit)="filtrarMatchcodeGL(matchcodeGLForm.value)">
+        <mat-form-field class="filter-matchcode" appearance="fill">
+            <mat-label>IsBukrs</mat-label>
+            <input matInput placeholder="Ingrese IsBukrs" formControlName="IsBukrs">
+        </mat-form-field>
+        <mat-form-field class="filter-matchcode" appearance="fill">
+            <mat-label>IsSaknr</mat-label>
+            <input matInput placeholder="Ingrese IsSaknr " formControlName="IsSaknr">
+        </mat-form-field>
+        <button mat-flat-button color="primary" class="full-width btn-filter">Filtrar</button>
+    </form>
+</div>
 
 <!-- MATERIAL -->
 <div  class="mat-elevation-z8" *ngIf="data.name == 'MATNR'">
@@ -73,7 +120,59 @@
                      showFirstLastButtons 
                      aria-label="Select page of periodic elements">
     </mat-paginator>
+</div>
 
+<!-- UNIDAD DE MEDIDA -->
+<div  class="mat-elevation-z8" *ngIf="data.name == 'MSEHI'">
+    <table mat-table [dataSource]="dataSourceMSEHI" >
+            <!-- msehiField Column -->
+            <ng-container matColumnDef="msehiField">
+                <th mat-header-cell *matHeaderCellDef> UNIDAD MEDIDA </th>
+                <td mat-cell *matCellDef="let element"> {{element.msehiField}} </td>
+            </ng-container>
+            <!-- msehlField Column -->
+            <ng-container matColumnDef="msehlField">
+                <th mat-header-cell *matHeaderCellDef> Descripción </th>
+                <td mat-cell *matCellDef="let element"> {{element.msehlField}} </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsMSEHI"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsMSEHI;" class="row-table" [mat-dialog-close]="row.msehiField"></tr>
+    </table>
+    
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+                     showFirstLastButtons 
+                     aria-label="Select page of periodic elements">
+    </mat-paginator>
+</div>
+
+<!-- CUENTAS (GL) -->
+<div  class="mat-elevation-z8" *ngIf="data.name == 'SAKNR'">
+    <table mat-table [dataSource]="dataSourceSAKNR" >
+            <!-- saknrField Column -->
+            <ng-container matColumnDef="saknrField">
+                <th mat-header-cell *matHeaderCellDef> saknrField </th>
+                <td mat-cell *matCellDef="let element"> {{element.saknrField}} </td>
+            </ng-container>
+            <!-- ktoplField Column -->
+            <ng-container matColumnDef="ktoplField">
+                <th mat-header-cell *matHeaderCellDef> ktoplField </th>
+                <td mat-cell *matCellDef="let element"> {{element.ktoplField}} </td>
+            </ng-container>
+            <!-- txt50Field Column -->
+            <ng-container matColumnDef="txt50Field">
+                <th mat-header-cell *matHeaderCellDef> txt50Field </th>
+                <td mat-cell *matCellDef="let element"> {{element.txt50Field}} </td>
+            </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsSAKNR"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsSAKNR;" class="row-table" [mat-dialog-close]="row.saknrField"></tr>
+    </table>
+    
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+                     showFirstLastButtons 
+                     aria-label="Select page of periodic elements">
+    </mat-paginator>
 </div>
 
 <mat-dialog-actions align="end">

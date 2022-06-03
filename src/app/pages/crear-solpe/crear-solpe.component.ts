@@ -291,6 +291,12 @@ export class CrearSolpeComponent implements OnInit {
       if(name == "KOSTL"){
         this.agregarPosicionForm.controls['ccosto'].setValue(result);
       }
+      if(name == "MSEHI"){
+        this.agregarPosicionForm.controls['meins'].setValue(result);
+      }
+      if(name == "SAKNR"){
+        this.agregarPosicionForm.controls['gl'].setValue(result);
+      }
     });
   }
 
@@ -307,9 +313,14 @@ export class CrearSolpeComponent implements OnInit {
       if(name == "KOSTL"){
         this.editarPosicionForm.controls['ccosto'].setValue(result);
       }
+      if(name == "MSEHI"){
+        this.editarPosicionForm.controls['meins'].setValue(result);
+      }
+      if(name == "SAKNR"){
+        this.editarPosicionForm.controls['gl'].setValue(result);
+      }
     });
   }
-
 
   acortarDescripcion(valor:string){
     let result = valor;

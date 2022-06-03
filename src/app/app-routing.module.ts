@@ -16,16 +16,20 @@ const routes: Routes = [
   // { path:'', component:AccesoComponent },
   { path:'acceso', component:AccesoComponent },
   { path:'inicio', component:DashboardComponent , canActivate:[AutorizacionGuard] },
-  { path:'crear-solpe', component:CrearSolpeComponent, canActivate:[AutorizacionGuard] },
-  { path:'modificar-solpe', component:ModificarSolpeComponent, canActivate:[AutorizacionGuard] },
-  { path:'listar-solpe', component:ListarSolpeComponent, canActivate:[AutorizacionGuard] },
-  { path:'liberar-solpe', component:LiberarSolpeComponent, canActivate:[AutorizacionGuard] },
-  { path:'auditoria', component:AuditoriaComponent, canActivate:[AutorizacionGuard] },
+  {
+    path:'solpe', children:[
+      { path:'crear-solpe', component:CrearSolpeComponent, canActivate:[AutorizacionGuard] },
+      { path:'modificar-solpe', component:ModificarSolpeComponent, canActivate:[AutorizacionGuard] },
+      { path:'listar-solpe', component:ListarSolpeComponent, canActivate:[AutorizacionGuard] },
+      { path:'liberar-solpe', component:LiberarSolpeComponent, canActivate:[AutorizacionGuard] }
+    ]
+  },
   {
     path:'administracion', children:[
       { path:'usuarios', component:UsuariosComponent,canActivate:[AutorizacionGuard] },
       { path:'roles', component:RolesComponent,canActivate:[AutorizacionGuard] },
-      { path:'configuracion', component:ConfiguracionComponent,canActivate:[AutorizacionGuard] }
+      { path:'configuracion', component:ConfiguracionComponent,canActivate:[AutorizacionGuard] },
+      { path:'auditoria', component:AuditoriaComponent, canActivate:[AutorizacionGuard] }
     ]
   }
 

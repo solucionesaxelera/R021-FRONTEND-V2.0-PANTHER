@@ -353,6 +353,12 @@ export class ModificarSolpeComponent implements OnInit {
       if(name == "KOSTL"){
         this.editarPosicionForm.controls['ccosto'].setValue(result);
       }
+      if(name == "MSEHI"){
+        this.editarPosicionForm.controls['meins'].setValue(result);
+      }
+      if(name == "SAKNR"){
+        this.editarPosicionForm.controls['gl'].setValue(result);
+      }
     });
   }
 
