@@ -20,6 +20,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatSortModule} from '@angular/material/sort';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -80,6 +81,7 @@ import { MatchcodeComponent } from './components/matchcode/matchcode.component';
     MatSlideToggleModule,
     MatProgressBarModule,
     MatTooltipModule,
+    MatSortModule
   ],
   providers: [
     {

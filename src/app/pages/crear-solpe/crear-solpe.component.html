@@ -3,9 +3,12 @@
 <hr>
 <div class="header-crear-solpe">
     <div class="button-header">
-        <button mat-flat-button color="primary" class="btn-agregar" (click)="openAgregarPosicion()">
+        <button  mat-flat-button color="primary" class="btn-agregar" (click)="openAgregarPosicion()">
             Agregar Posición
         </button>
+        <!-- <button mat-flat-button color="primary" class="btn-agregar" (click)="agregarFila()">
+            Agregar Fila
+        </button> -->
     </div>
     <div>
         <form  id="cabecera-crear-solped" [formGroup]="cabeceraCrearSolpeForm" (ngSubmit)="crearSolpe(cabeceraCrearSolpeForm.value)">
@@ -47,62 +50,172 @@
 
 
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSourceCrearSolpe">
-
+    <table mat-table matSort [dataSource]="dataSourceCrearSolpe" matSortActive="item" matSortDirection="desc">
+        
         <ng-container matColumnDef="presu">
-            <th mat-header-cell *matHeaderCellDef> PARTIDA<br>(PRESUPUESTO)</th>
-            <td mat-cell *matCellDef="let element"> {{element.presu}} </td>
+            <th mat-header-cell *matHeaderCellDef > PARTIDA<br>(PRESUPUESTO)</th>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <div *ngIf="i!=idSeleccionadoEditarPosicion">
+                    {{element.presu}}
+                </div>
+                <mat-form-field *ngIf="i==idSeleccionadoEditarPosicion" class="form-input" style="margin-top:5px;">
+                    <input
+                    matInput
+                    placeholder="Ingrese Partida"
+                    type="text"
+                    [(ngModel)]="element.presu"
+                />
+                </mat-form-field>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="menge">
             <th mat-header-cell *matHeaderCellDef> CANTIDAD </th>
-            <td mat-cell *matCellDef="let element"> {{element.menge}} </td>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <div *ngIf="i!=idSeleccionadoEditarPosicion">
+                    {{element.menge}}
+                </div>
+                <mat-form-field *ngIf="i==idSeleccionadoEditarPosicion" class="form-input" style="margin-top:5px;">
+                    <input
+                    matInput
+                    placeholder="Ingrese Cantidad"
+                    type="text"
+                    [(ngModel)]="element.menge"
+                />
+                </mat-form-field>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="meins">
             <th mat-header-cell *matHeaderCellDef> UNIDAD </th>
-            <td mat-cell *matCellDef="let element"> {{element.meins}} </td>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <div *ngIf="i!=idSeleccionadoEditarPosicion">
+                    {{element.meins}}
+                </div>
+                <mat-form-field *ngIf="i==idSeleccionadoEditarPosicion" class="form-input" style="margin-top:5px;">
+                    <input
+                    matInput
+                    placeholder="Ingrese Unidad"
+                    type="text"
+                    [(ngModel)]="element.meins"
+                />
+                <mat-icon class="matchcode-icon" (click)="matchcodeAgregarPosicion('MSEHI',agregarPosicionForm.controls['meins'].value)" matSuffix>filter_none</mat-icon>
+                </mat-form-field>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="descr">
             <th mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </th>
-            <!-- <td mat-cell *matCellDef="let element"> {{element.descr}} </td> -->
-            <td mat-cell *matCellDef="let element" matTooltip={{element.descr}}> {{acortarDescripcion(element.descr)}}</td>
-            
+            <td mat-cell *matCellDef="let element; let i = index" matTooltip={{element.descr}}> 
+                <div *ngIf="i!=idSeleccionadoEditarPosicion">
+                    {{acortarDescripcion(element.descr)}}
+                </div>
+                <mat-form-field *ngIf="i==idSeleccionadoEditarPosicion" class="form-input" style="margin-top:5px;">
+                    <input
+                    matInput
+                    placeholder="Ingrese Descripción"
+                    type="text"
+                    [(ngModel)]="element.descr"
+                />
+                </mat-form-field>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="matnr">
             <th mat-header-cell *matHeaderCellDef> N° SAP MATERIAL </th>
-            <td mat-cell *matCellDef="let element"> {{element.matnr}} </td>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <div *ngIf="i!=idSeleccionadoEditarPosicion">
+                    {{element.matnr}}
+                </div>
+                <mat-form-field *ngIf="i==idSeleccionadoEditarPosicion" class="form-input" style="margin-top:5px;">
+                    <input
+                    matInput
+                    placeholder="Ingrese N° SAP Material"
+                    type="text"
+                    [(ngModel)]="element.matnr"
+                />
+                </mat-form-field>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="ccosto">
             <th mat-header-cell *matHeaderCellDef> CENTRO DE COSTO </th>
-            <td mat-cell *matCellDef="let element"> {{element.ccosto}} </td>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <div *ngIf="i!=idSeleccionadoEditarPosicion">
+                    {{element.ccosto}}
+                </div>
+                <mat-form-field *ngIf="i==idSeleccionadoEditarPosicion" class="form-input" style="margin-top:5px;">
+                    <input
+                    matInput
+                    placeholder="Ingrese Centro de Costo"
+                    type="text"
+                    [(ngModel)]="element.ccosto"
+                />
+                </mat-form-field>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="gl">
             <th mat-header-cell *matHeaderCellDef> GL </th>
-            <td mat-cell *matCellDef="let element"> {{element.gl}} </td>
+            <td mat-cell *matCellDef="let element; let i = index"> 
+                <div *ngIf="i!=idSeleccionadoEditarPosicion">
+                    {{element.gl}}
+                </div>
+                <mat-form-field *ngIf="i==idSeleccionadoEditarPosicion" class="form-input" style="margin-top:5px;">
+                    <input
+                    matInput
+                    placeholder="Ingrese GL"
+                    type="text"
+                    [(ngModel)]="element.gl"
+                />
+                </mat-form-field>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="punit">
             <th mat-header-cell *matHeaderCellDef> P. UNITARIO </th>
-            <td mat-cell *matCellDef="let element"> {{element.punit}} </td>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <div *ngIf="i!=idSeleccionadoEditarPosicion">
+                    {{element.punit}}
+                </div>
+                <mat-form-field *ngIf="i==idSeleccionadoEditarPosicion" class="form-input" style="margin-top:5px;">
+                    <input
+                    matInput
+                    placeholder="Ingrese Precio Unitario"
+                    type="text"
+                    [(ngModel)]="element.punit"
+                />
+                </mat-form-field>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="totsinigv">
             <th mat-header-cell *matHeaderCellDef>TOTAL<br>(SIN IGV)</th>
-            <td mat-cell *matCellDef="let element"> {{element.totsinigv}} </td>
+            <td mat-cell *matCellDef="let element; let i = index">
+                <div *ngIf="i!=idSeleccionadoEditarPosicion">
+                    {{element.totsinigv}}
+                </div>
+                <mat-form-field *ngIf="i==idSeleccionadoEditarPosicion" class="form-input" style="margin-top:5px;">
+                    <input
+                    matInput
+                    placeholder="Ingrese Total"
+                    type="text"
+                    [(ngModel)]="element.totsinigv"
+                />
+                </mat-form-field>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef="accion">
             <th mat-header-cell *matHeaderCellDef> ACCIÓN </th>
             <td mat-cell *matCellDef="let element; let i = index;">
-                <button mat-icon-button color="primary" (click)="abrirEditarPosicion(i)">
+                <button *ngIf="i!=idSeleccionadoEditarPosicion" mat-icon-button color="primary" (click)="abrirEditarPosicion(i)">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="primary" (click)="eliminarPosicion(i)">
+                <button *ngIf="i==idSeleccionadoEditarPosicion" mat-icon-button color="primary" (click)="editarPosicion(element)">
+                    <mat-icon>done</mat-icon>
+                </button>
+                <button mat-icon-button color="primary" (click)="eliminarPosicion(element.item)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </td>
@@ -111,7 +224,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]"
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]"
                     showFirstLastButtons 
                     aria-label="Select page of periodic elements">
     </mat-paginator>
@@ -129,7 +242,7 @@
 <ng-template #dialogAgregarPosicion>
     <h2 mat-dialog-title>AGREGAR POSICIÓN</h2>
     <mat-dialog-content class="mat-typography">
-        <form id="agregarPosicion" [formGroup]="agregarPosicionForm" (ngSubmit)="agregarPosicion(agregarPosicionForm.value)">
+        <!-- <form id="agregarPosicion" [formGroup]="agregarPosicionForm" (ngSubmit)="agregarPosicion(agregarPosicionForm.value)">
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>PARTIDA(PRESUPUESTO)</mat-label>
                 <input matInput placeholder="INGRESE PARTIDA" (keypress)="validacionCrearSolpeInputPartida($event)" (paste)="validacionCrearSolpeInputPartida($event)" formControlName="presu">
@@ -145,7 +258,6 @@
             </mat-form-field>
             <mat-form-field class="full-width" appearance="fill">
                 <mat-label>DESCRIPCIÓN</mat-label>
-                <!-- <input matInput placeholder="INGRESE DESCRIPCIÓN" formControlName="descr"> -->
                 <textarea matInput placeholder="Ex. It makes me feel..." formControlName="descr"></textarea>
             </mat-form-field>
             <mat-form-field class="full-width" appearance="fill">
@@ -171,7 +283,7 @@
                 <mat-label>TOTAL(SIN IGV)</mat-label>
                 <input id="totsinigv" matInput placeholder="INGRESE TOTAL" (keypress)="validacionCrearSolpeInputTotalSinIgv($event)" (paste)="validacionCrearSolpeInputTotalSinIgv($event)" formControlName="totsinigv">
             </mat-form-field>
-        </form>
+        </form> -->
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancelar</button>

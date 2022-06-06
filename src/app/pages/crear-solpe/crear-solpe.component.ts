@@ -11,6 +11,7 @@ import * as moment from 'moment';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 import { MatchcodeComponent } from 'src/app/components/matchcode/matchcode.component';
+import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-crear-solpe',
@@ -22,6 +23,9 @@ export class CrearSolpeComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: any;
   @ViewChild("dialogAgregarPosicion") dialogTemplateAgregarPosicion: any;
   @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
+  @ViewChild(MatSort) sort: any;
+
+  
 
   indicadorCarga:Boolean=false;
 
@@ -31,6 +35,7 @@ export class CrearSolpeComponent implements OnInit {
   config?: MatDialogConfig;
 
   nro_requisicion:any = "";
+  editColumn:boolean=false;
   idSeleccionadoEditarPosicion:number = 0;
 
   constructor(
@@ -40,9 +45,36 @@ export class CrearSolpeComponent implements OnInit {
     private _auditoriaS : AuditoriaService,
   ) { }
 
+  // this.sort.sort(({ id: 'name', start: 'asc'}) as MatSortable);
+
   displayedColumns: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'ccosto', 'gl', 'punit', 'totsinigv','accion'];
   
-  ELEMENT_DATA_CREAR_SOLPE: tableAgregarPosicionI[] = [];
+  ELEMENT_DATA_CREAR_SOLPE: any[] = [
+    // {
+    //   item: "1",
+    //   presu: "a",
+    //   menge: "",
+    //   meins: "",
+    //   descr: "",
+    //   matnr: "",
+    //   ccosto: "",
+    //   gl: "",
+    //   punit: "",
+    //   totsinigv: ""
+    // },
+    // {
+    //   item: "2",
+    //   presu: "b",
+    //   menge: "",
+    //   meins: "",
+    //   descr: "",
+    //   matnr: "",
+    //   ccosto: "",
+    //   gl: "",
+    //   punit: "",
+    //   totsinigv: ""
+    // }
+  ];
 
   dataSourceCrearSolpe = new MatTableDataSource<any>(this.ELEMENT_DATA_CREAR_SOLPE);
 
@@ -89,10 +121,32 @@ export class CrearSolpeComponent implements OnInit {
   ngAfterViewInit() {
     this.cabeceraCrearSolpeForm.controls['Fecha'].setValue(moment().format("YYYY-MM-DD"))
     this.dataSourceCrearSolpe.paginator = this.paginator;
+    this.dataSourceCrearSolpe.sort = this.sort;
   }
 
   openAgregarPosicion(){
-    return this.dialog.open(this.dialogTemplateAgregarPosicion, this.config);
+    console.log(this.dataSourceCrearSolpe.data);
+    this.idSeleccionadoEditarPosicion = 0;
+    if(this.dataSourceCrearSolpe.data.length >= 1 ){
+      console.log(this.dataSourceCrearSolpe.data.length);
+      // this.idSeleccionadoEditarPosicion = this.dataSourceCrearSolpe.data.length ;
+      // this.idSeleccionadoEditarPosicion = this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion+1].item
+    }
+    this.dataSourceCrearSolpe.data.push({
+      item: this.dataSourceCrearSolpe.data.length + 1,
+      presu: "",
+      menge: "",
+      meins: "",
+      descr: "",
+      matnr: "",
+      ccosto: "",
+      gl: "",
+      punit: "",
+      totsinigv: ""
+    });
+    this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+    // this.idSeleccionadoEditarPosicion = this.dataSourceCrearSolpe.data.length;
+    // return this.dialog.open(this.dialogTemplateAgregarPosicion, this.config);
   }
 
   agregarPosicion(req:agregarPosicionI){
@@ -226,42 +280,74 @@ export class CrearSolpeComponent implements OnInit {
   }
 
   eliminarPosicion(id:number){
-   this.dataSourceCrearSolpe.data.splice(id,1);
+    if(this.dataSourceCrearSolpe.data.length>=2){
+      this.dataSourceCrearSolpe.data.splice(id-1,1)
+    }else{
+      console.log(id);
+      this.dataSourceCrearSolpe.data=[];
+    }
+   
    this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
   }
 
   abrirEditarPosicion(id:number){
+
+    
+    this.editColumn = false;
     this.idSeleccionadoEditarPosicion = id;
 
-    this.editarPosicionForm.controls['presu'].setValue(this.dataSourceCrearSolpe.data[id].presu);
-    this.editarPosicionForm.controls['menge'].setValue(this.dataSourceCrearSolpe.data[id].menge);
-    this.editarPosicionForm.controls['meins'].setValue(this.dataSourceCrearSolpe.data[id].meins);
-    this.editarPosicionForm.controls['descr'].setValue(this.dataSourceCrearSolpe.data[id].descr);
-    this.editarPosicionForm.controls['matnr'].setValue(this.dataSourceCrearSolpe.data[id].matnr);
-    this.editarPosicionForm.controls['ccosto'].setValue(this.dataSourceCrearSolpe.data[id].ccosto);
-    this.editarPosicionForm.controls['gl'].setValue(this.dataSourceCrearSolpe.data[id].gl);
-    this.editarPosicionForm.controls['punit'].setValue(this.dataSourceCrearSolpe.data[id].punit);
-    this.editarPosicionForm.controls['totsinigv'].setValue(this.dataSourceCrearSolpe.data[id].totsinigv);
+    // this.editarPosicionForm.controls['presu'].setValue(this.dataSourceCrearSolpe.data[id].presu);
+    // this.editarPosicionForm.controls['menge'].setValue(this.dataSourceCrearSolpe.data[id].menge);
+    // this.editarPosicionForm.controls['meins'].setValue(this.dataSourceCrearSolpe.data[id].meins);
+    // this.editarPosicionForm.controls['descr'].setValue(this.dataSourceCrearSolpe.data[id].descr);
+    // this.editarPosicionForm.controls['matnr'].setValue(this.dataSourceCrearSolpe.data[id].matnr);
+    // this.editarPosicionForm.controls['ccosto'].setValue(this.dataSourceCrearSolpe.data[id].ccosto);
+    // this.editarPosicionForm.controls['gl'].setValue(this.dataSourceCrearSolpe.data[id].gl);
+    // this.editarPosicionForm.controls['punit'].setValue(this.dataSourceCrearSolpe.data[id].punit);
+    // this.editarPosicionForm.controls['totsinigv'].setValue(this.dataSourceCrearSolpe.data[id].totsinigv);
 
-    return this.dialog.open(this.dialogTemplateEditarPosicion, this.config);
+    // return this.dialog.open(this.dialogTemplateEditarPosicion, this.config);
   }
 
+
+
   editarPosicion(req:any){
+    
+    if(
+      req.presu.trim()=="" &&
+      req.menge.trim()=="" &&
+      req.meins.trim()=="" &&
+      req.descr.trim()=="" &&
+      req.matnr.trim()=="" &&
+      req.ccosto.trim()=="" &&
+      req.gl.trim()=="" &&
+      req.punit.trim()=="" &&
+      req.totsinigv.trim()==""
+      ){
 
-    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].presu = req.presu;
-    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].menge = req.menge;
-    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].meins = req.meins;
-    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].descr = req.descr;
-    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].matnr = req.matnr;
-    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].ccosto = req.ccosto;
-    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].gl = req.gl;
-    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].punit = req.punit;
-    this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].totsinigv = req.totsinigv;
+      this._snackBar.open("Complete todos los campos", 'cerrar',{
+        duration:5*1000
+      });
 
-    this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
-    if(this.editarPosicionForm.valid){
+      
       this.editarPosicionForm.reset();
       this.dialog.closeAll();
+    }else{
+      this.editColumn = false;
+      this.idSeleccionadoEditarPosicion = 1000000;
+      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].presu = req.presu;
+      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].menge = req.menge;
+      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].meins = req.meins;
+      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].descr = req.descr;
+      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].matnr = req.matnr;
+      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].ccosto = req.ccosto;
+      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].gl = req.gl;
+      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].punit = req.punit;
+      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].totsinigv = req.totsinigv;
+  
+      this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+      
+      console.log(this.dataSourceCrearSolpe.data)
     }
   }
 
@@ -325,5 +411,25 @@ export class CrearSolpeComponent implements OnInit {
   acortarDescripcion(valor:string){
     let result = valor;
     return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
+  }
+
+  agregarFila() {
+    if(this.dataSourceCrearSolpe.data.length >= 1 ){
+      this.idSeleccionadoEditarPosicion = this.dataSourceCrearSolpe.data.length;
+    }
+    
+    this.dataSourceCrearSolpe.data.push({
+      item: this.dataSourceCrearSolpe.data.length + 1,
+      presu: "",
+      menge: "",
+      meins: "",
+      descr: "",
+      matnr: "",
+      ccosto: "",
+      gl: "",
+      punit: "",
+      totsinigv: ""
+    });
+    this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
   }
 }
