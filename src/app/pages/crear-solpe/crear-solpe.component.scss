@@ -1,19 +1,6 @@
 .header-crear-solpe {
     position: relative;
     width: 100%;
-    // display: grid;
-    // grid-template-columns: 150px 1fr;
-    // align-items: center;
-}
-
-.inputs-header {
-    // display: grid;
-    // grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
-    // grid-gap:8px;
-}
-
-.item-input:nth-child(6) {
-    // grid-column: 3 span;
 }
 
 .full-width {
@@ -29,8 +16,6 @@ table {
   }
 
 .btn-cabecera {
-    // margin-bottom: 18px;
-    // width: 100%;
     height: 50px;
 }
 
@@ -49,10 +34,6 @@ table {
 .mat-column-accion {
     flex: none;
     width: 250px;
-}
-
-.button-header {
-    // margin-top:18px;
 }
 
 textarea{
