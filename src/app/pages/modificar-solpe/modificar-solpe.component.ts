@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as moment from 'moment';
@@ -19,8 +20,9 @@ import { CrearSolpeService } from 'src/app/services/crear-solpe/crear-solpe.serv
 export class ModificarSolpeComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: any;
-  @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
-  @ViewChild("dialogEliminarSolpe") dialogTemplateEliminarSolpe: any;
+  // @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
+  // @ViewChild("dialogEliminarSolpe") dialogTemplateEliminarSolpe: any;
+  @ViewChild(MatSort) sort: any;
 
   indicadorCarga:Boolean=false;
 
@@ -56,23 +58,67 @@ export class ModificarSolpeComponent implements OnInit {
     DescrSolpe: new FormControl('')
   });
 
-  editarPosicionForm = new FormGroup({
-    item: new FormControl(''),
-    presu: new FormControl('',[Validators.required]),
-    menge: new FormControl('',[Validators.required]),
-    meins: new FormControl('',[Validators.required]),
-    descr: new FormControl('',[Validators.required]),
-    matnr: new FormControl('',[Validators.required]),
-    ccosto: new FormControl('',[Validators.required]),
-    gl: new FormControl('',[Validators.required]),
-    punit: new FormControl('',[Validators.required]),
-    totsinigv: new FormControl('',[Validators.required]),
-  });
+  // editarPosicionForm = new FormGroup({
+  //   item: new FormControl(''),
+  //   presu: new FormControl('',[Validators.required]),
+  //   menge: new FormControl('',[Validators.required]),
+  //   meins: new FormControl('',[Validators.required]),
+  //   descr: new FormControl('',[Validators.required]),
+  //   matnr: new FormControl('',[Validators.required]),
+  //   ccosto: new FormControl('',[Validators.required]),
+  //   gl: new FormControl('',[Validators.required]),
+  //   punit: new FormControl('',[Validators.required]),
+  //   totsinigv: new FormControl('',[Validators.required]),
+  // });
 
   ngOnInit(): void {
   }
 
+  openAgregarPosicion(){
+    if(this.dataSourceModificarSolpe.data.length >= 2 ){
+      
+      this.idSeleccionadoEditarPosicion = this.verificarItem(this.dataSourceModificarSolpe.data.length+1);
+      this.dataSourceModificarSolpe.data.push({
+        item: this.verificarItem(this.dataSourceModificarSolpe.data.length + 1),
+        presu: "",
+        menge: "",
+        meins: "",
+        descr: "",
+        matnr: "",
+        ccosto: "",
+        gl: "",
+        punit: "",
+        totsinigv: ""
+      });
+      this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+    }else{
+      this.idSeleccionadoEditarPosicion = this.dataSourceModificarSolpe.data.length +1;
+      this.dataSourceModificarSolpe.data.push({
+        item: this.dataSourceModificarSolpe.data.length + 1,
+        presu: "",
+        menge: "",
+        meins: "",
+        descr: "",
+        matnr: "",
+        ccosto: "",
+        gl: "",
+        punit: "",
+        totsinigv: ""
+      });
+      this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+    }
+  }
+
+  verificarItem(item:number){
+    if(this.dataSourceModificarSolpe.data[this.dataSourceModificarSolpe.data.length-1].item==item){
+      return item +1;
+    }else{
+      return item
+    }
+  }
+
   buscarSolpe(){
+    this.idSeleccionadoEditarPosicion=0;
     this.indicadorCarga = true;
     this.dataSourceModificarSolpe.data = [];
     let json_req={
@@ -118,6 +164,7 @@ export class ModificarSolpeComponent implements OnInit {
           this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
         }
         this.dataSourceModificarSolpe.paginator = this.paginator;
+        this.dataSourceModificarSolpe.sort = this.sort;
       }
       else{
         this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
@@ -229,48 +276,94 @@ export class ModificarSolpeComponent implements OnInit {
     }
   }
 
-  eliminarPosicion(id:number){
-    this.dataSourceModificarSolpe.data.splice(id,1);
+  eliminarPosicion(item:number){
+    // this.dataSourceModificarSolpe.data.splice(id,1);
+    // this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+    if(this.dataSourceModificarSolpe.data.length>=2)
+    for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
+      if(this.dataSourceModificarSolpe.data[ind].item == item){
+        this.dataSourceModificarSolpe.data.splice(ind,1)
+      }
+    }else{
+      this.dataSourceModificarSolpe.data=[];
+    }
     this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+    this.idSeleccionadoEditarPosicion = 0;
   }
 
   abrirEditarPosicion(id:number){
     this.idSeleccionadoEditarPosicion = id;
     
-    this.editarPosicionForm.controls['presu'].setValue(this.dataSourceModificarSolpe.data[id].presu);
-    this.editarPosicionForm.controls['menge'].setValue(this.dataSourceModificarSolpe.data[id].menge);
-    this.editarPosicionForm.controls['meins'].setValue(this.dataSourceModificarSolpe.data[id].meins);
-    this.editarPosicionForm.controls['descr'].setValue(this.dataSourceModificarSolpe.data[id].descr);
-    this.editarPosicionForm.controls['matnr'].setValue(this.dataSourceModificarSolpe.data[id].matnr);
-    this.editarPosicionForm.controls['ccosto'].setValue(this.dataSourceModificarSolpe.data[id].ccosto);
-    this.editarPosicionForm.controls['gl'].setValue(this.dataSourceModificarSolpe.data[id].gl);
-    this.editarPosicionForm.controls['punit'].setValue(this.dataSourceModificarSolpe.data[id].punit);
-    this.editarPosicionForm.controls['totsinigv'].setValue(this.dataSourceModificarSolpe.data[id].totsinigv);
+    // this.editarPosicionForm.controls['presu'].setValue(this.dataSourceModificarSolpe.data[id].presu);
+    // this.editarPosicionForm.controls['menge'].setValue(this.dataSourceModificarSolpe.data[id].menge);
+    // this.editarPosicionForm.controls['meins'].setValue(this.dataSourceModificarSolpe.data[id].meins);
+    // this.editarPosicionForm.controls['descr'].setValue(this.dataSourceModificarSolpe.data[id].descr);
+    // this.editarPosicionForm.controls['matnr'].setValue(this.dataSourceModificarSolpe.data[id].matnr);
+    // this.editarPosicionForm.controls['ccosto'].setValue(this.dataSourceModificarSolpe.data[id].ccosto);
+    // this.editarPosicionForm.controls['gl'].setValue(this.dataSourceModificarSolpe.data[id].gl);
+    // this.editarPosicionForm.controls['punit'].setValue(this.dataSourceModificarSolpe.data[id].punit);
+    // this.editarPosicionForm.controls['totsinigv'].setValue(this.dataSourceModificarSolpe.data[id].totsinigv);
 
-    return this.dialog.open(this.dialogTemplateEditarPosicion, this.config);
+    // return this.dialog.open(this.dialogTemplateEditarPosicion, this.config);
   }
 
-  editarPosicion(req:any){
+  editarPosicion(req:any,item:any){
 
-    this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].presu = req.presu;
-    this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].menge = req.menge;
-    this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].meins = req.meins;
-    this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].descr = req.descr;
-    this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].matnr = req.matnr;
-    this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].ccosto = req.ccosto;
-    this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].gl = req.gl;
-    this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].punit = req.punit;
-    this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].totsinigv = req.totsinigv;
-
-    this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
-    if(this.editarPosicionForm.valid){
-      this.editarPosicionForm.reset();
-      this.dialog.closeAll();
+    if(
+      req.presu.trim()=="" ||
+      req.menge.trim()=="" ||
+      req.meins.trim()=="" ||
+      req.descr.trim()=="" ||
+      req.matnr.trim()=="" ||
+      req.ccosto.trim()=="" ||
+      req.gl.trim()=="" ||
+      req.punit.trim()=="" ||
+      req.totsinigv.trim()==""
+      ){
+        
+      this._snackBar.open("Complete todos los campos", 'cerrar',{
+        duration:5*1000
+      });
+    }else{
+      
+      for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
+        if(this.dataSourceModificarSolpe.data[ind].item == item){
+          this.dataSourceModificarSolpe.data[ind].presu = req.presu;
+          this.dataSourceModificarSolpe.data[ind].menge = req.menge;
+          this.dataSourceModificarSolpe.data[ind].meins = req.meins;
+          this.dataSourceModificarSolpe.data[ind].descr = req.descr;
+          this.dataSourceModificarSolpe.data[ind].matnr = req.matnr;
+          this.dataSourceModificarSolpe.data[ind].ccosto = req.ccosto;
+          this.dataSourceModificarSolpe.data[ind].gl = req.gl;
+          this.dataSourceModificarSolpe.data[ind].punit = req.punit;
+          this.dataSourceModificarSolpe.data[ind].totsinigv = req.totsinigv;
+          this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+        }
+        if(this.dataSourceModificarSolpe.data.length - 1 == ind){
+          this.idSeleccionadoEditarPosicion = 0;
+        }
+      }
     }
+
+    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].presu = req.presu;
+    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].menge = req.menge;
+    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].meins = req.meins;
+    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].descr = req.descr;
+    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].matnr = req.matnr;
+    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].ccosto = req.ccosto;
+    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].gl = req.gl;
+    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].punit = req.punit;
+    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].totsinigv = req.totsinigv;
+
+    // this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+    // if(this.editarPosicionForm.valid){
+    //   this.editarPosicionForm.reset();
+    //   this.dialog.closeAll();
+    // }
   }
 
   abrirEliminarSolpe(){
-    return this.dialog.open(this.dialogTemplateEliminarSolpe, this.config);
+    // return this.dialog.open(this.dialogTemplateEliminarSolpe, this.config);
   }
 
   eliminarSolpe(){
@@ -348,19 +441,54 @@ export class ModificarSolpeComponent implements OnInit {
       disableClose:true
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(name == "MATNR"){
-        this.editarPosicionForm.controls['matnr'].setValue(result);
-      }
-      if(name == "KOSTL"){
-        this.editarPosicionForm.controls['ccosto'].setValue(result);
-      }
-      if(name == "MSEHI"){
-        this.editarPosicionForm.controls['meins'].setValue(result);
-      }
-      if(name == "SAKNR"){
-        this.editarPosicionForm.controls['gl'].setValue(result);
+      // if(name == "MATNR"){
+      //   this.editarPosicionForm.controls['matnr'].setValue(result);
+      // }
+      // if(name == "KOSTL"){
+      //   this.editarPosicionForm.controls['ccosto'].setValue(result);
+      // }
+      // if(name == "MSEHI"){
+      //   this.editarPosicionForm.controls['meins'].setValue(result);
+      // }
+      // if(name == "SAKNR"){
+      //   this.editarPosicionForm.controls['gl'].setValue(result);
+      // }
+    });
+  }
+
+  matchcodeAgregarPosicion(name:string,value:string,item:any){
+    const dialogRef = this.dialog.open(MatchcodeComponent, {
+      width: '40%',
+      data: {name: name,value:value},
+      disableClose:true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
+        if(this.dataSourceModificarSolpe.data[ind].item == item){
+          switch (name) {
+            case  "MATNR":
+              this.dataSourceModificarSolpe.data[ind].matnr = result;
+              break;
+            case  "KOSTL":
+              this.dataSourceModificarSolpe.data[ind].ccosto = result;
+              break;
+            case  "MSEHI":
+              this.dataSourceModificarSolpe.data[ind].meins = result;
+            break;
+            case  "SAKNR":
+              this.dataSourceModificarSolpe.data[ind].gl = result;
+              break;
+            default:
+              break;
+          } 
+        }
       }
     });
+  }
+
+  acortarDescripcion(valor:string){
+    let result = valor;
+    return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
   }
 
 }

@@ -3,14 +3,14 @@
 <hr>
 <div class="header-crear-solpe">
     <div class="row">
-        <div class="button-header col-md-2 ">
-            <button  mat-flat-button color="primary" class="btn-agregar " (click)="openAgregarPosicion()" [disabled]="idSeleccionadoEditarPosicion!=0">
+        <div class="button-header col-md-2">
+            <button  mat-flat-button color="primary" class="full-width btn-cabecera " (click)="openAgregarPosicion()" [disabled]="idSeleccionadoEditarPosicion!=0">
                 Agregar Posición
             </button>
         </div>
-        <div>
+        <div class="col-md-10">
             <form  id="cabecera-crear-solped" [formGroup]="cabeceraCrearSolpeForm" (ngSubmit)="crearSolpe(cabeceraCrearSolpeForm.value)">
-                <div class="inputs-header">
+                <div class="inputs-header row">
                     <mat-form-field class="full-width item-input col-md-2" appearance="fill">
                         <mat-label>N° Requisición</mat-label>
                         <input id="nroreq" type="text" matInput placeholder="YYYY-00000" maxlength="10" (keyup)="validacionInputNroRequisicion($event)" formControlName="Nroreq">
@@ -103,7 +103,6 @@
                 />
                 <mat-icon class="matchcode-icon" *ngIf="element.item==idSeleccionadoEditarPosicion" (click)="matchcodeAgregarPosicion('MSEHI',element.meins,element.item)" matSuffix>filter_none</mat-icon>
                 </mat-form-field>
-                
             </td>
         </ng-container>
 

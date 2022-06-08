@@ -1,30 +1,31 @@
 .header-modificar-solpe {
     position: relative;
     width: 100%;
-    display: grid;
-    grid-template-rows: repeat(2,1fr);
-    align-items: center;
+    // display: grid;
+    // grid-template-rows: repeat(2,1fr);
+    // align-items: center;
 }
 
 .busqueda-header {
-    display: grid;
-    grid-template-columns: repeat(2,1fr);
-    align-items: center;
-    grid-gap:15px;
+    // display: grid;
+    // grid-template-columns: repeat(2,1fr);
+    // align-items: center;
+    // grid-gap:15px;
 }
 
-.btn-buscar {
-    margin-bottom: 18px;
+.btn-cabecera {
+    // margin-bottom: 18px;
+    height: 50px;
 }
 
 .inputs-header {
-    display: grid;
-    grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
-    grid-gap:8px;
+    // display: grid;
+    // grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    // grid-gap:8px;
 }
 
 .item-input:nth-child(4) {
-    grid-column: 3 span;
+    // grid-column: 3 span;
 }
 
 .full-width {
@@ -54,4 +55,10 @@ table {
 .mat-column-descr {
     flex: none;
     width: 150px;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
