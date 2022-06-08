@@ -64,7 +64,7 @@ export class AutorizacionGuard implements CanActivate {
     localStorage.setItem("data_current", refreshRes.token);
     localStorage.setItem("data_current_refresh", refreshRes.refreshToken);
     isRefreshSuccess = true;
-    console.log(isRefreshSuccess)
+    // console.log(isRefreshSuccess)
     return isRefreshSuccess;
   }
 

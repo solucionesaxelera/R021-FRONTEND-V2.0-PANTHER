@@ -28,7 +28,6 @@ export class ConfiguracionComponent implements OnInit {
   obtenerConfiguracion(){
     this.indicadorCarga = true;
     this._configuracionS.getObtenerConfiguracionPassword().subscribe(data=>{
-      console.log(data)
       this.indicadorCarga = false;
       this.configuracionPasswordForm.controls['num'].setValue(data.body[0].num);
     })
@@ -37,7 +36,6 @@ export class ConfiguracionComponent implements OnInit {
   guardarConfiguracion(req:any){
     this.indicadorCarga = true;
     this._configuracionS.postActualizarConfiguracionPassword(req).subscribe(data=>{
-      console.log(data);
       this.indicadorCarga = false;
       this._snackBar.open(data.message, 'cerrar',{
         duration:5*1000

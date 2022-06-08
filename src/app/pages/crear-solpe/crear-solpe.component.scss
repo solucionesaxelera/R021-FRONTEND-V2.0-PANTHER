@@ -1,19 +1,19 @@
 .header-crear-solpe {
     position: relative;
     width: 100%;
-    display: grid;
-    grid-template-columns: 150px 1fr;
-    align-items: center;
+    // display: grid;
+    // grid-template-columns: 150px 1fr;
+    // align-items: center;
 }
 
 .inputs-header {
-    display: grid;
-    grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
-    grid-gap:8px;
+    // display: grid;
+    // grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
+    // grid-gap:8px;
 }
 
 .item-input:nth-child(6) {
-    grid-column: 3 span;
+    // grid-column: 3 span;
 }
 
 .full-width {
@@ -29,7 +29,8 @@ table {
   }
 
 .btn-agregar {
-    margin-bottom: 18px;
+    // margin-bottom: 18px;
+    width: 100%;
 }
 
 .matchcode-icon{
@@ -40,7 +41,23 @@ table {
    color:#D29E0E;
 }
 
-// .mat-column-descr {
-//     flex: none;
-//     width: 150px;
-// }
+.mat-column-descr {
+    flex: none;
+    width: 250px;
+}
+.mat-column-accion {
+    flex: none;
+    width: 250px;
+}
+
+.button-header {
+    margin-top:18px;
+}
+
+textarea{
+    height: 17px;
+    
+}
+.descrip-form-filed{
+    width: 250px;
+}

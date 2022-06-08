@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -37,6 +37,7 @@ export class ModificarSolpeComponent implements OnInit {
     private _SolpeOptionPrelimS : CrearSolpeService,
     private _snackBar: MatSnackBar,
     private _auditoriaS : AuditoriaService,
+    private _cd:ChangeDetectorRef
   ) { }
 
   displayedColumnsModificarSolpe: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'ccosto', 'gl', 'punit', 'totsinigv','accion'];

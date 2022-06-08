@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -25,7 +25,8 @@ export class AuditoriaComponent implements OnInit {
 
   constructor(
     private _auditoriaS: AuditoriaService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _cd:ChangeDetectorRef
   ) { }
 
   displayedColumns: string[] = ['id', 'codi_solpe', 'usuario', 'fecha', 'hora', 'accion']
@@ -46,6 +47,7 @@ export class AuditoriaComponent implements OnInit {
 
   ngAfterViewInit() {
     this.dataSourceAuditoria.paginator = this.paginator;
+    this._cd.detectChanges();
   }
 
   obtenerListadoAuditoria() {

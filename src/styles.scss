@@ -6,6 +6,23 @@ body { margin: 0; }
     font-family: 'Roboto', sans-serif;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  &:hover {
+      cursor: pointer;
+  }
+}
+
+::-webkit-scrollbar-track{
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(184, 170, 131);
+  border-radius: 15px;
+}
+
 .header-module {
     margin: 15px 0;
 }
@@ -21,4 +38,9 @@ body { margin: 0; }
 
 .mat-tooltip {
   max-width: 100%;
+}
+
+.matchcode-icon {
+  font-size: 15px!important;
+  // padding: 0 20px!important;
 }

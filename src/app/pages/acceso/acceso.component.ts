@@ -31,7 +31,7 @@ export class AccesoComponent implements OnInit {
       console.log(data.body.token);
       localStorage.setItem('data_current',data.body.token);
       localStorage.setItem('data_current_refresh',data.body.refreshToken);
-      this._router.navigateByUrl('/inicio').then();
+      this._router.navigateByUrl('/solpe/crear-solpe').then();
     },err=>{
       if(err.status === 401){
         this._snackBar.open('Credenciales incorrectas', 'cerrar',{

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -21,11 +21,7 @@ import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 export class CrearSolpeComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: any;
-  @ViewChild("dialogAgregarPosicion") dialogTemplateAgregarPosicion: any;
-  @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
   @ViewChild(MatSort) sort: any;
-
-  
 
   indicadorCarga:Boolean=false;
 
@@ -35,7 +31,6 @@ export class CrearSolpeComponent implements OnInit {
   config?: MatDialogConfig;
 
   nro_requisicion:any = "";
-  editColumn:boolean=false;
   idSeleccionadoEditarPosicion:number = 0;
 
   constructor(
@@ -43,53 +38,14 @@ export class CrearSolpeComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _crearSolpeS : CrearSolpeService,
     private _auditoriaS : AuditoriaService,
+    private _cd:ChangeDetectorRef
   ) { }
-
-  // this.sort.sort(({ id: 'name', start: 'asc'}) as MatSortable);
 
   displayedColumns: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'ccosto', 'gl', 'punit', 'totsinigv','accion'];
   
-  ELEMENT_DATA_CREAR_SOLPE: any[] = [
-    // {
-    //   item: "1",
-    //   presu: "a",
-    //   menge: "",
-    //   meins: "",
-    //   descr: "",
-    //   matnr: "",
-    //   ccosto: "",
-    //   gl: "",
-    //   punit: "",
-    //   totsinigv: ""
-    // },
-    // {
-    //   item: "2",
-    //   presu: "b",
-    //   menge: "",
-    //   meins: "",
-    //   descr: "",
-    //   matnr: "",
-    //   ccosto: "",
-    //   gl: "",
-    //   punit: "",
-    //   totsinigv: ""
-    // }
-  ];
+  ELEMENT_DATA_CREAR_SOLPE: any[] = [];
 
   dataSourceCrearSolpe = new MatTableDataSource<any>(this.ELEMENT_DATA_CREAR_SOLPE);
-
-  agregarPosicionForm = new FormGroup({
-    item: new FormControl(''),
-    presu: new FormControl('',[Validators.required]),
-    menge: new FormControl('',[Validators.required]),
-    meins: new FormControl('',[Validators.required]),
-    descr: new FormControl('',[Validators.required]),
-    matnr: new FormControl('',[Validators.required]),
-    ccosto: new FormControl('',[Validators.required]),
-    gl: new FormControl('',[Validators.required]),
-    punit: new FormControl('',[Validators.required]),
-    totsinigv: new FormControl('',[Validators.required]),
-  });
 
   cabeceraCrearSolpeForm = new FormGroup({
     Id:  new FormControl(''),
@@ -101,19 +57,6 @@ export class CrearSolpeComponent implements OnInit {
     DescrSolpe: new FormControl('')
   });
 
-  editarPosicionForm = new FormGroup({
-    item: new FormControl(''),
-    presu: new FormControl('',[Validators.required]),
-    menge: new FormControl('',[Validators.required]),
-    meins: new FormControl('',[Validators.required]),
-    descr: new FormControl('',[Validators.required]),
-    matnr: new FormControl('',[Validators.required]),
-    ccosto: new FormControl('',[Validators.required]),
-    gl: new FormControl('',[Validators.required]),
-    punit: new FormControl('',[Validators.required]),
-    totsinigv: new FormControl('',[Validators.required]),
-  });
-
   ngOnInit(): void {
     
   }
@@ -122,50 +65,49 @@ export class CrearSolpeComponent implements OnInit {
     this.cabeceraCrearSolpeForm.controls['Fecha'].setValue(moment().format("YYYY-MM-DD"))
     this.dataSourceCrearSolpe.paginator = this.paginator;
     this.dataSourceCrearSolpe.sort = this.sort;
+    this._cd.detectChanges();
   }
 
   openAgregarPosicion(){
-    console.log(this.dataSourceCrearSolpe.data);
-    this.idSeleccionadoEditarPosicion = 0;
-    if(this.dataSourceCrearSolpe.data.length >= 1 ){
-      console.log(this.dataSourceCrearSolpe.data.length);
-      // this.idSeleccionadoEditarPosicion = this.dataSourceCrearSolpe.data.length ;
-      // this.idSeleccionadoEditarPosicion = this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion+1].item
-    }
-    this.dataSourceCrearSolpe.data.push({
-      item: this.dataSourceCrearSolpe.data.length + 1,
-      presu: "",
-      menge: "",
-      meins: "",
-      descr: "",
-      matnr: "",
-      ccosto: "",
-      gl: "",
-      punit: "",
-      totsinigv: ""
-    });
-    this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
-    // this.idSeleccionadoEditarPosicion = this.dataSourceCrearSolpe.data.length;
-    // return this.dialog.open(this.dialogTemplateAgregarPosicion, this.config);
-  }
-
-  agregarPosicion(req:agregarPosicionI){
-    if(this.agregarPosicionForm.valid ==true){
+    if(this.dataSourceCrearSolpe.data.length >= 2 ){
+      
+      this.idSeleccionadoEditarPosicion = this.verificarItem(this.dataSourceCrearSolpe.data.length+1);
       this.dataSourceCrearSolpe.data.push({
-        item: this.dataSourceCrearSolpe.data.length + 1,
-        presu: req.presu,
-        menge: req.menge,
-        meins: req.meins,
-        descr: req.descr,
-        matnr: req.matnr,
-        ccosto: req.ccosto,
-        gl: req.gl,
-        punit: req.punit,
-        totsinigv: req.totsinigv
+        item: this.verificarItem(this.dataSourceCrearSolpe.data.length + 1),
+        presu: "",
+        menge: "",
+        meins: "",
+        descr: "",
+        matnr: "",
+        ccosto: "",
+        gl: "",
+        punit: "",
+        totsinigv: ""
       });
       this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
-      this.agregarPosicionForm.reset();
-      this.dialog.closeAll();
+    }else{
+      this.idSeleccionadoEditarPosicion = this.dataSourceCrearSolpe.data.length +1;
+      this.dataSourceCrearSolpe.data.push({
+        item: this.dataSourceCrearSolpe.data.length + 1,
+        presu: "",
+        menge: "",
+        meins: "",
+        descr: "",
+        matnr: "",
+        ccosto: "",
+        gl: "",
+        punit: "",
+        totsinigv: ""
+      });
+      this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+    }
+
+  }
+  verificarItem(item:number){
+    if(this.dataSourceCrearSolpe.data[this.dataSourceCrearSolpe.data.length-1].item==item){
+      return item +1;
+    }else{
+      return item
     }
   }
 
@@ -279,75 +221,58 @@ export class CrearSolpeComponent implements OnInit {
     }
   }
 
-  eliminarPosicion(id:number){
-    if(this.dataSourceCrearSolpe.data.length>=2){
-      this.dataSourceCrearSolpe.data.splice(id-1,1)
+  eliminarPosicion(item:number){
+    if(this.dataSourceCrearSolpe.data.length>=2)
+    for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
+      if(this.dataSourceCrearSolpe.data[ind].item == item){
+        this.dataSourceCrearSolpe.data.splice(ind,1)
+      }
     }else{
-      console.log(id);
       this.dataSourceCrearSolpe.data=[];
     }
-   
-   this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+    this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+    this.idSeleccionadoEditarPosicion = 0;
   }
 
   abrirEditarPosicion(id:number){
-
-    
-    this.editColumn = false;
     this.idSeleccionadoEditarPosicion = id;
-
-    // this.editarPosicionForm.controls['presu'].setValue(this.dataSourceCrearSolpe.data[id].presu);
-    // this.editarPosicionForm.controls['menge'].setValue(this.dataSourceCrearSolpe.data[id].menge);
-    // this.editarPosicionForm.controls['meins'].setValue(this.dataSourceCrearSolpe.data[id].meins);
-    // this.editarPosicionForm.controls['descr'].setValue(this.dataSourceCrearSolpe.data[id].descr);
-    // this.editarPosicionForm.controls['matnr'].setValue(this.dataSourceCrearSolpe.data[id].matnr);
-    // this.editarPosicionForm.controls['ccosto'].setValue(this.dataSourceCrearSolpe.data[id].ccosto);
-    // this.editarPosicionForm.controls['gl'].setValue(this.dataSourceCrearSolpe.data[id].gl);
-    // this.editarPosicionForm.controls['punit'].setValue(this.dataSourceCrearSolpe.data[id].punit);
-    // this.editarPosicionForm.controls['totsinigv'].setValue(this.dataSourceCrearSolpe.data[id].totsinigv);
-
-    // return this.dialog.open(this.dialogTemplateEditarPosicion, this.config);
   }
 
-
-
-  editarPosicion(req:any){
-    
+  editarPosicion(req:any,item:any){
     if(
-      req.presu.trim()=="" &&
-      req.menge.trim()=="" &&
-      req.meins.trim()=="" &&
-      req.descr.trim()=="" &&
-      req.matnr.trim()=="" &&
-      req.ccosto.trim()=="" &&
-      req.gl.trim()=="" &&
-      req.punit.trim()=="" &&
+      req.presu.trim()=="" ||
+      req.menge.trim()=="" ||
+      req.meins.trim()=="" ||
+      req.descr.trim()=="" ||
+      req.matnr.trim()=="" ||
+      req.ccosto.trim()=="" ||
+      req.gl.trim()=="" ||
+      req.punit.trim()=="" ||
       req.totsinigv.trim()==""
       ){
-
+        
       this._snackBar.open("Complete todos los campos", 'cerrar',{
         duration:5*1000
       });
-
-      
-      this.editarPosicionForm.reset();
-      this.dialog.closeAll();
     }else{
-      this.editColumn = false;
-      this.idSeleccionadoEditarPosicion = 1000000;
-      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].presu = req.presu;
-      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].menge = req.menge;
-      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].meins = req.meins;
-      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].descr = req.descr;
-      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].matnr = req.matnr;
-      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].ccosto = req.ccosto;
-      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].gl = req.gl;
-      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].punit = req.punit;
-      this.dataSourceCrearSolpe.data[this.idSeleccionadoEditarPosicion].totsinigv = req.totsinigv;
-  
-      this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
       
-      console.log(this.dataSourceCrearSolpe.data)
+      for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
+        if(this.dataSourceCrearSolpe.data[ind].item == item){
+          this.dataSourceCrearSolpe.data[ind].presu = req.presu;
+          this.dataSourceCrearSolpe.data[ind].menge = req.menge;
+          this.dataSourceCrearSolpe.data[ind].meins = req.meins;
+          this.dataSourceCrearSolpe.data[ind].descr = req.descr;
+          this.dataSourceCrearSolpe.data[ind].matnr = req.matnr;
+          this.dataSourceCrearSolpe.data[ind].ccosto = req.ccosto;
+          this.dataSourceCrearSolpe.data[ind].gl = req.gl;
+          this.dataSourceCrearSolpe.data[ind].punit = req.punit;
+          this.dataSourceCrearSolpe.data[ind].totsinigv = req.totsinigv;
+          this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+        }
+        if(this.dataSourceCrearSolpe.data.length - 1 == ind){
+          this.idSeleccionadoEditarPosicion = 0;
+        }
+      }
     }
   }
 
@@ -364,46 +289,32 @@ export class CrearSolpeComponent implements OnInit {
     });
   }
 
-  matchcodeAgregarPosicion(name:string,value:string){
+  matchcodeAgregarPosicion(name:string,value:string,item:any){
     const dialogRef = this.dialog.open(MatchcodeComponent, {
       width: '40%',
       data: {name: name,value:value},
       disableClose:true
     });
     dialogRef.afterClosed().subscribe(result => {
-      if(name == "MATNR"){
-        this.agregarPosicionForm.controls['matnr'].setValue(result);
-      }
-      if(name == "KOSTL"){
-        this.agregarPosicionForm.controls['ccosto'].setValue(result);
-      }
-      if(name == "MSEHI"){
-        this.agregarPosicionForm.controls['meins'].setValue(result);
-      }
-      if(name == "SAKNR"){
-        this.agregarPosicionForm.controls['gl'].setValue(result);
-      }
-    });
-  }
-
-  matchcodeEditarPosicion(name:string,value:string){
-    const dialogRef = this.dialog.open(MatchcodeComponent, {
-      width: '40%',
-      data: {name: name,value:value},
-      disableClose:true
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if(name == "MATNR"){
-        this.editarPosicionForm.controls['matnr'].setValue(result);
-      }
-      if(name == "KOSTL"){
-        this.editarPosicionForm.controls['ccosto'].setValue(result);
-      }
-      if(name == "MSEHI"){
-        this.editarPosicionForm.controls['meins'].setValue(result);
-      }
-      if(name == "SAKNR"){
-        this.editarPosicionForm.controls['gl'].setValue(result);
+      for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
+        if(this.dataSourceCrearSolpe.data[ind].item == item){
+          switch (name) {
+            case  "MATNR":
+              this.dataSourceCrearSolpe.data[ind].matnr = result;
+              break;
+            case  "KOSTL":
+              this.dataSourceCrearSolpe.data[ind].ccosto = result;
+              break;
+            case  "MSEHI":
+              this.dataSourceCrearSolpe.data[ind].meins = result;
+            break;
+            case  "SAKNR":
+              this.dataSourceCrearSolpe.data[ind].gl = result;
+              break;
+            default:
+              break;
+          } 
+        }
       }
     });
   }
@@ -413,23 +324,4 @@ export class CrearSolpeComponent implements OnInit {
     return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
   }
 
-  agregarFila() {
-    if(this.dataSourceCrearSolpe.data.length >= 1 ){
-      this.idSeleccionadoEditarPosicion = this.dataSourceCrearSolpe.data.length;
-    }
-    
-    this.dataSourceCrearSolpe.data.push({
-      item: this.dataSourceCrearSolpe.data.length + 1,
-      presu: "",
-      menge: "",
-      meins: "",
-      descr: "",
-      matnr: "",
-      ccosto: "",
-      gl: "",
-      punit: "",
-      totsinigv: ""
-    });
-    this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
-  }
 }
