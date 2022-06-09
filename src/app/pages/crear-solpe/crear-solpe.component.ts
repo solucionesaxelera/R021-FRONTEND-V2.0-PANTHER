@@ -57,8 +57,29 @@ export class CrearSolpeComponent implements OnInit {
     DescrSolpe: new FormControl('')
   });
 
+
+  detalleJson = {
+    ParaSerusado: "",
+    Locacion:  "",
+    FechaReque:  "",
+    ProveSuge:  "",
+    Ocotiza:  "",
+    SoNomb:  "",
+    SoCargo:  "",
+    SoAsigna: "",
+    SoFecha: "",
+    CoNomb: "",
+    CoCargo: "",
+    CoAsigna: "",
+    CoFecha: "",
+    AuNomb: "",
+    AuCargo: "",
+    AuAsigna: "",
+    AuFecha: ""
+  }
+
   ngOnInit(): void {
-    
+
   }
 
   ngAfterViewInit() {
@@ -112,6 +133,7 @@ export class CrearSolpeComponent implements OnInit {
   }
 
   crearSolpe(req:any){
+
     this.indicadorCarga=true;
     let json_req={
       IsAccion: "C",
@@ -127,9 +149,27 @@ export class CrearSolpeComponent implements OnInit {
         DescrSolpe: req.DescrSolpe,
         Estado: "",
         Usuario:this.helper.decodeToken(this.token).usuario,
-        Detalle: this.dataSourceCrearSolpe.data
+        Detalle: this.dataSourceCrearSolpe.data,
+        ParaSerusado: this.detalleJson.ParaSerusado,
+        Locacion:  this.detalleJson.Locacion,
+        FechaReque:  moment(this.detalleJson.FechaReque).format("YYYYMMDD"),
+        ProveSuge:  this.detalleJson.ProveSuge,
+        Ocotiza:  this.detalleJson.Ocotiza,
+        SoNomb:  this.detalleJson.SoNomb,
+        SoCargo:  this.detalleJson.SoCargo,
+        SoAsigna: this.detalleJson.SoAsigna,
+        SoFecha: moment(this.detalleJson.SoFecha).format("YYYYMMDD"),
+        CoNomb: this.detalleJson.CoNomb,
+        CoCargo: this.detalleJson.CoCargo,
+        CoAsigna: this.detalleJson.CoAsigna,
+        CoFecha: moment(this.detalleJson.CoFecha).format("YYYYMMDD"),
+        AuNomb: this.detalleJson.AuNomb,
+        AuCargo: this.detalleJson.AuCargo,
+        AuAsigna: this.detalleJson.AuAsigna,
+        AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD")
       }
     }
+    console.log(json_req)
     
     this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
       if(data.etMsgReturnField[0].successField == 'X'){
@@ -150,6 +190,7 @@ export class CrearSolpeComponent implements OnInit {
       });
     })
   }
+
 
   validacionInputNroRequisicion(valor:any){
     let texto = document.getElementById('nroreq') as HTMLInputElement;

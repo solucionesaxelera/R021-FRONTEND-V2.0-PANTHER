@@ -21,7 +21,7 @@ export class ModificarSolpeComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: any;
   // @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
-  // @ViewChild("dialogEliminarSolpe") dialogTemplateEliminarSolpe: any;
+  @ViewChild("dialogEliminarSolpe") dialogTemplateEliminarSolpe: any;
   @ViewChild(MatSort) sort: any;
 
   indicadorCarga:Boolean=false;
@@ -70,6 +70,26 @@ export class ModificarSolpeComponent implements OnInit {
   //   punit: new FormControl('',[Validators.required]),
   //   totsinigv: new FormControl('',[Validators.required]),
   // });
+
+  detalleJson = {
+    ParaSerusado: "",
+    Locacion:  "",
+    FechaReque:  "",
+    ProveSuge:  "",
+    Ocotiza:  "",
+    SoNomb:  "",
+    SoCargo:  "",
+    SoAsigna: "",
+    SoFecha: "",
+    CoNomb: "",
+    CoCargo: "",
+    CoAsigna: "",
+    CoFecha: "",
+    AuNomb: "",
+    AuCargo: "",
+    AuAsigna: "",
+    AuFecha: ""
+  }
 
   ngOnInit(): void {
   }
@@ -147,6 +167,24 @@ export class ModificarSolpeComponent implements OnInit {
         this.cabeceraModificarSolpeForm.controls['Moneda'].setValue(data.esSolpePrelimCabField.monedaField);
         this.cabeceraModificarSolpeForm.controls['Centro'].setValue(data.esSolpePrelimCabField.centroField);
         this.cabeceraModificarSolpeForm.controls['DescrSolpe'].setValue(data.esSolpePrelimCabField.descrSolpeField);
+
+        this.detalleJson.ParaSerusado = data.esSolpePrelimCabField.paraSerusadoField;
+        this.detalleJson.Locacion = data.esSolpePrelimCabField.locacionField;
+        this.detalleJson.FechaReque = moment(data.esSolpePrelimCabField.fechaRequeField).format("YYYY-MM-DD");
+        this.detalleJson.ProveSuge = data.esSolpePrelimCabField.proveSugeField;
+        this.detalleJson.Ocotiza = data.esSolpePrelimCabField.ocotizaField;
+        this.detalleJson.SoNomb = data.esSolpePrelimCabField.soNombField;
+        this.detalleJson.SoCargo = data.esSolpePrelimCabField.soCargoField;
+        this.detalleJson.SoAsigna = data.esSolpePrelimCabField.soAsignaField;
+        this.detalleJson.SoFecha = moment(data.esSolpePrelimCabField.soFechaField).format("YYYY-MM-DD");
+        this.detalleJson.CoNomb = data.esSolpePrelimCabField.coNombField;
+        this.detalleJson.CoCargo = data.esSolpePrelimCabField.coCargoField;
+        this.detalleJson.CoAsigna = data.esSolpePrelimCabField.coAsignaField;
+        this.detalleJson.CoFecha = moment(data.esSolpePrelimCabField.coFechaField).format("YYYY-MM-DD");
+        this.detalleJson.AuNomb = data.esSolpePrelimCabField.auNombField;
+        this.detalleJson.AuCargo = data.esSolpePrelimCabField.auCargoField;
+        this.detalleJson.AuAsigna = data.esSolpePrelimCabField.auAsignaField;
+        this.detalleJson.AuFecha = moment(data.esSolpePrelimCabField.auFechaField).format("YYYY-MM-DD");
   
         for (let i = 0; i < data.esSolpePrelimCabField.detalleField.length; i++) {
           this.dataSourceModificarSolpe.data.push({
@@ -190,7 +228,24 @@ export class ModificarSolpeComponent implements OnInit {
         DescrSolpe: req.DescrSolpe,
         Estado: "",
         Usuario:this.helper.decodeToken(this.token).usuario,
-        Detalle: this.dataSourceModificarSolpe.data
+        Detalle: this.dataSourceModificarSolpe.data,
+        ParaSerusado: this.detalleJson.ParaSerusado,
+        Locacion:  this.detalleJson.Locacion,
+        FechaReque:  moment(this.detalleJson.FechaReque).format("YYYYMMDD"),
+        ProveSuge:  this.detalleJson.ProveSuge,
+        Ocotiza:  this.detalleJson.Ocotiza,
+        SoNomb:  this.detalleJson.SoNomb,
+        SoCargo:  this.detalleJson.SoCargo,
+        SoAsigna: this.detalleJson.SoAsigna,
+        SoFecha: moment(this.detalleJson.SoFecha).format("YYYYMMDD"),
+        CoNomb: this.detalleJson.CoNomb,
+        CoCargo: this.detalleJson.CoCargo,
+        CoAsigna: this.detalleJson.CoAsigna,
+        CoFecha: moment(this.detalleJson.CoFecha).format("YYYYMMDD"),
+        AuNomb: this.detalleJson.AuNomb,
+        AuCargo: this.detalleJson.AuCargo,
+        AuAsigna: this.detalleJson.AuAsigna,
+        AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD")
       }
     }
     this._SolpeOptionPrelimS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
@@ -363,7 +418,7 @@ export class ModificarSolpeComponent implements OnInit {
   }
 
   abrirEliminarSolpe(){
-    // return this.dialog.open(this.dialogTemplateEliminarSolpe, this.config);
+    return this.dialog.open(this.dialogTemplateEliminarSolpe, this.config);
   }
 
   eliminarSolpe(){
@@ -397,6 +452,25 @@ export class ModificarSolpeComponent implements OnInit {
         this.idSolpe="";
         this.dataSourceModificarSolpe.data = [];
         this.cabeceraModificarSolpeForm.reset();
+
+        this.detalleJson.ParaSerusado = "";
+        this.detalleJson.Locacion = "";
+        this.detalleJson.FechaReque = "";
+        this.detalleJson.ProveSuge = "";
+        this.detalleJson.Ocotiza = "";
+        this.detalleJson.SoNomb = "";
+        this.detalleJson.SoCargo = "";
+        this.detalleJson.SoAsigna = ""; 
+        this.detalleJson.SoFecha = "";
+        this.detalleJson.CoNomb = "";
+        this.detalleJson.CoCargo = "";
+        this.detalleJson.CoAsigna = "";
+        this.detalleJson.CoFecha = "";
+        this.detalleJson.AuNomb = "";
+        this.detalleJson.AuCargo = "";
+        this.detalleJson.AuAsigna = "";
+        this.detalleJson.AuFecha = "";
+
         this.dialog.closeAll();
       }
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{

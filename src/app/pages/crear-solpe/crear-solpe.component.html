@@ -243,96 +243,110 @@
     </mat-paginator>
 </div>
 
-<section style="margin: 18px 0;" class="row">
-    <div class="col-md-6 row">
-        <div class="col-md-6">
-            <mat-form-field class="full-width item-input" appearance="fill">
-                <mat-label>Para ser usado en ...</mat-label>
-                <textarea type="text" style="height: 100%;" matInput placeholder="Para ser usado en ..."></textarea>
+<!-- <form id="detalle-crear-solped" [formGroup]="detalleCrearSolpeForm" (ngSubmit)="crearDetalleSolpe(detalleCrearSolpeForm.value)"> -->
+    <section style="margin: 18px 0;" class="row">
+        <div class="col-md-6 row">
+            <div class="col-md-6">
+                <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Para ser usado en ...</mat-label>
+                    <textarea type="text" style="height: 100%;" matInput placeholder="Para ser usado en ..." [(ngModel)]="detalleJson.ParaSerusado"></textarea>
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Locación</mat-label>
+                    <input type="text" matInput placeholder="Locación" [(ngModel)]="detalleJson.Locacion">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input" appearance="fill">
+                    <mat-label>Fecha requerida</mat-label>
+                    <input type="date" matInput placeholder="Fecha requerida" [(ngModel)]="detalleJson.FechaReque">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-md-6 row">
+            <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                <mat-label>Proveedor sugerido</mat-label>
+                <input type="text" matInput placeholder="Proveedor sugerido" [(ngModel)]="detalleJson.ProveSuge">
+            </mat-form-field>
+            <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                <mat-label>Otras cotizaciones</mat-label>
+                <input type="text" matInput placeholder="Otras cotizaciones" [(ngModel)]="detalleJson.Ocotiza">
             </mat-form-field>
         </div>
-        <div class="col-md-6">
-            <mat-form-field class="full-width item-input" appearance="fill">
-                <mat-label>Locación</mat-label>
-                <input type="text" matInput placeholder="Locación">
-            </mat-form-field>
-            <mat-form-field class="full-width item-input" appearance="fill">
-                <mat-label>Fecha requerida</mat-label>
-                <input type="date" matInput placeholder="Fecha requerida">
-            </mat-form-field>
-        </div>
-    </div>
-    <div class="col-md-6 row">
-        <mat-form-field class="full-width item-input col-md-12" appearance="fill">
-            <mat-label>Proveedor sugerido</mat-label>
-            <input type="text" matInput placeholder="Proveedor sugerido">
-        </mat-form-field>
-        <mat-form-field class="full-width item-input col-md-12" appearance="fill">
-            <mat-label>Otras cotizaciones</mat-label>
-            <input type="text" matInput placeholder="Otras cotizaciones">
-        </mat-form-field>
-    </div>
-</section>
+    </section>
 
-<section style="margin: 18px 0;" class="row">
-    <div class="col-md-4">
-        <h2>SOLICITA</h2><hr>
-        <div class="row">
-            <mat-form-field class="full-width item-input col-md-6" appearance="fill">
-                <mat-label>Nombre y cargo</mat-label>
-                <input type="text" matInput placeholder="Nombre y cargo">
-            </mat-form-field>
-            <mat-form-field class="full-width item-input col-md-6" appearance="fill">
-                <mat-label>Signature</mat-label>
-                <input type="text" matInput placeholder="Signature">
-            </mat-form-field>
+    <section style="margin: 18px 0;" class="row">
+        <div class="col-md-4">
+            <h2>SOLICITA</h2><hr>
+            <div class="row">
+                <mat-form-field class="full-width item-input col-md-6" appearance="fill">
+                    <mat-label>Nombre</mat-label>
+                    <input type="text" matInput placeholder="Nombre" [(ngModel)]="detalleJson.SoNomb">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input col-md-6" appearance="fill">
+                    <mat-label>Cargo</mat-label>
+                    <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.SoCargo">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                    <mat-label>Signature</mat-label>
+                    <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.SoAsigna">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                    <mat-label>Fecha</mat-label>
+                    <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.SoFecha">
+                </mat-form-field>
+            </div>
         </div>
-        <div class="row">
-            <mat-form-field class="full-width item-input col-md-12" appearance="fill">
-                <mat-label>Fecha</mat-label>
-                <input type="date" matInput placeholder="Fecha">
-            </mat-form-field>
+        <div class="col-md-4">
+            <h2>CONTROLLER</h2><hr>
+            <div class="row">
+                <mat-form-field class="full-width item-input col-md-6" appearance="fill">
+                    <mat-label>Nombre</mat-label>
+                    <input type="text" matInput placeholder="Nombre" [(ngModel)]="detalleJson.CoNomb">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input col-md-6" appearance="fill">
+                    <mat-label>Cargo</mat-label>
+                    <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.CoCargo">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                    <mat-label>Signature</mat-label>
+                    <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.CoAsigna">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                    <mat-label>Fecha</mat-label>
+                    <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.CoFecha">
+                </mat-form-field>
+            </div> 
         </div>
-    </div>
-    <div class="col-md-4">
-        <h2>CONTROLLER</h2><hr>
-        <div class="row">
-            <mat-form-field class="full-width item-input col-md-6" appearance="fill">
-                <mat-label>Nombre y cargo</mat-label>
-                <input type="text" matInput placeholder="Nombre y cargo">
-            </mat-form-field>
-            <mat-form-field class="full-width item-input col-md-6" appearance="fill">
-                <mat-label>Signature</mat-label>
-                <input type="text" matInput placeholder="Signature">
-            </mat-form-field>
+        <div class="col-md-4">
+            <h2>AUTORIZA</h2><hr>
+            <div class="row">
+                <mat-form-field class="full-width item-input col-md-6" appearance="fill">
+                    <mat-label>Nombre</mat-label>
+                    <input type="text" matInput placeholder="Nombre" [(ngModel)]="detalleJson.AuNomb">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input col-md-6" appearance="fill">
+                    <mat-label>Cargo</mat-label>
+                    <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.AuCargo">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                    <mat-label>Signature</mat-label>
+                    <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.AuAsigna">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                    <mat-label>Fecha</mat-label>
+                    <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.AuFecha">
+                </mat-form-field>
+            </div>
         </div>
-        <div class="row">
-            <mat-form-field class="full-width item-input col-md-12" appearance="fill">
-                <mat-label>Fecha</mat-label>
-                <input type="date" matInput placeholder="Fecha">
-            </mat-form-field>
-        </div> 
-    </div>
-    <div class="col-md-4">
-        <h2>AUTORIZA</h2><hr>
-        <div class="row">
-            <mat-form-field class="full-width item-input col-md-6" appearance="fill">
-                <mat-label>Nombre y cargo</mat-label>
-                <input type="text" matInput placeholder="Nombre y cargo">
-            </mat-form-field>
-            <mat-form-field class="full-width item-input col-md-6" appearance="fill">
-                <mat-label>Signature</mat-label>
-                <input type="text" matInput placeholder="Signature">
-            </mat-form-field>
-        </div>
-        <div class="row">
-            <mat-form-field class="full-width item-input col-md-12" appearance="fill">
-                <mat-label>Fecha</mat-label>
-                <input type="date" matInput placeholder="Fecha">
-            </mat-form-field>
-        </div>
-    </div>
-</section>
+    </section>
+<!-- </form> -->
 
 <div class="button-footer">
     <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit" 
