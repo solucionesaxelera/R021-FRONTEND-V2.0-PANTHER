@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccesoService } from 'src/app/services/acceso/acceso.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 
 @Component({
   selector: 'app-acceso',
@@ -11,20 +12,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./acceso.component.scss']
 })
 export class AccesoComponent implements OnInit {
-
+  selectedValue: string="";
+  sociedades: any[] = [];
   constructor(
     private _accesoS: AccesoService,
     private _snackBar: MatSnackBar,
+    private _matchcodeS: MatchcodeService,
     private _router: Router
     ) { }
-
+ 
   ngOnInit(): void {
+    this.cargarSociedades();
   }
 
   accesoForm = new FormGroup({
     usuario: new FormControl('',[Validators.required]),
     clave: new FormControl('',[Validators.required])
-  })
+  });
+
+  cargarSociedades(){
+    this._matchcodeS.getSolpeOptionsMatchcodeSociedades().subscribe(data=>{
+      console.log(data);
+      this.sociedades = data.etSocieField
+    });
+  }
 
   acceder(req:accesoI) {
     this._accesoS.postAccesoS(req).subscribe(data=>{

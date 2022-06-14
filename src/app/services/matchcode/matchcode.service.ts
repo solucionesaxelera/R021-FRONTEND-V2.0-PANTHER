@@ -12,6 +12,7 @@ export class MatchcodeService {
   url = environment.url;
 
   private _SolpeOptionsMatchcode = this.url + 'SolpeOptionsMatchcode';
+  private _SolpeOptionsMatchcodeSociedades = this.url + 'SolpeOptionsMatchSociedades';
 
   constructor(private _http: HttpClient) { }
 
@@ -22,6 +23,10 @@ export class MatchcodeService {
         "Authorization": "Bearer " + localStorage.getItem('data_current')
       })
     })
+  }
+
+  getSolpeOptionsMatchcodeSociedades(): Observable<any> {
+    return this._http.get<any>(this._SolpeOptionsMatchcodeSociedades)
   }
 
 }

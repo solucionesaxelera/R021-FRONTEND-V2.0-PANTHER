@@ -25,7 +25,6 @@ export class TokenInterceptor implements HttpInterceptor {
     const re = "/acceso";
     // console.log(request.url.search(re) )
     if (this._router.url !== '/acceso') {
-        // console.log("estamos aqui")
         if(token && !this.helper.isTokenExpired(token)){
             // console.log(this.helper.isTokenExpired(token))
           // isRefreshSuccess = this.tryRefreshingTokens(localStorage.getItem("data_current")); 
@@ -38,7 +37,7 @@ export class TokenInterceptor implements HttpInterceptor {
   }
 
     async validar(request: HttpRequest<any>, next: HttpHandler) {
-        // console.log("iniciando")
+        console.log("iniciando")
         // const result = await this._autorizacionGuard.canActivate();
         const token = localStorage.getItem('data_current');
         if(token && this.helper.isTokenExpired(token)==true){

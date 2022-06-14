@@ -13,13 +13,21 @@
             <mat-label>Contraseña</mat-label>
             <input matInput placeholder="Ingrese contraseña" type="password" formControlName="clave">
         </mat-form-field>
-        <span>seleccione un idioma</span>
+        <!-- <span>seleccione un idioma</span> -->
         <mat-form-field class="full-width" appearance="fill">
-        <mat-label>Idioma</mat-label>
+        <mat-label>Seleccione un idioma</mat-label>
         <mat-select>
             <mat-option value="option1"><div class="option"><img src="../../../assets/images/espana.png" width="25" /> Español</div></mat-option>
             <mat-option value="option2"><div class="option"><img src="../../../assets/images/estados-unidos-de-america.png" width="25" /> Inglés</div></mat-option>
         </mat-select>
+        </mat-form-field>
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Seleccione una Sociedad</mat-label>
+            <mat-select  [(ngModel)]="selectedValue" name="sociedad" [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let sociedad of sociedades" [value]="sociedad.bukrsField">
+                    {{sociedad.butxtField}}
+                  </mat-option>
+            </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" class="full-width">Ingresar</button>
     </form>
