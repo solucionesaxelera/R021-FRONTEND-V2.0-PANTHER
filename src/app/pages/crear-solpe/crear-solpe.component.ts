@@ -169,8 +169,6 @@ export class CrearSolpeComponent implements OnInit {
         AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD")
       }
     }
-    console.log(json_req)
-    
     this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
       if(data.etMsgReturnField[0].successField == 'X'){
         let json_req_auditoria = {
@@ -179,7 +177,6 @@ export class CrearSolpeComponent implements OnInit {
           accion:"C"
         }
         this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
-          console.log(data)
         });
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = [];

@@ -25,6 +25,7 @@ export class UsuariosComponent implements OnInit {
   @ViewChild('dialogCrearUsuario') dialogTemplateCrearUsuario: any;
   @ViewChild('dialogModificarUsuario') dialogTemplateModificarUsuario: any;
   @ViewChild('dialogModificarRolUsuario') dialogTemplateModificarRolUsuario: any;
+  @ViewChild('dialogModificarClaveUsuario') dialogTemplateModificarClaveUsuario: any;
   @ViewChild('dialogEliminarUsuario') dialogTemplateEliminarUsuario: any;
 
   config?: MatDialogConfig;
@@ -54,6 +55,7 @@ export class UsuariosComponent implements OnInit {
     usuario: new FormControl('',[Validators.required]),
     clave: new FormControl('',[Validators.required]),
     id_rol: new FormControl('',[Validators.required]),
+    IsAprobador: new FormControl('',[Validators.required])
   });
 
   modificarUsuarioForm = new FormGroup({
@@ -66,6 +68,11 @@ export class UsuariosComponent implements OnInit {
   
   modificarRolUsuarioForm = new FormGroup({
     id_rol: new FormControl('',[Validators.required])
+  });
+
+  modificarClaveUsuarioForm = new FormGroup({
+    clave: new FormControl('',[Validators.required]),
+    status_password: new FormControl('0'),
   });
 
   constructor(
@@ -104,6 +111,11 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
+  openDialogModificarClaveUsuario(id:number) {
+    this.idUsuarioSeleccionado = id;
+    return this.dialog.open(this.dialogTemplateModificarClaveUsuario, this.config);
+  }
+
   openDialogEliminarUsuario(id:number) {
     this.idUsuarioSeleccionado = id;
     return this.dialog.open(this.dialogTemplateEliminarUsuario, this.config);
@@ -122,10 +134,18 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-  crearUsuario(req:crearUsuarioI) {
+  crearUsuario(req:any) {
+    let req_json_sap = {
+      IsAccion: "C",
+      IsAprobador: req.IsAprobador,
+      IsCreador: req.usuario
+    }
     this._usuariosS.postCrearUsuario(req).subscribe(data=>{
       
       if(data.status == 1){
+        this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
+          console.log(data);
+        });
         this.listarUsuarios();
         this.crearUsuarioForm.reset();
         this.dialog.closeAll();
@@ -166,6 +186,21 @@ export class UsuariosComponent implements OnInit {
       estado: e.checked == true ? 1 : 0
     }
     this._usuariosS.putModificarEstadoUsuario(id,request).subscribe(data=>{
+      this._snackBar.open(data.message, 'cerrar',{
+        duration:5*1000,
+        panelClass:['background-snackbar']
+      });
+    })
+  }
+
+  modificarClaveUsuario(req:any) {
+    this._usuariosS.putModificarClaveUsuario(this.idUsuarioSeleccionado,req).subscribe(data=>{
+
+      if(data.status == 1) {
+        this.modificarClaveUsuarioForm.reset();
+        this.dialog.closeAll();
+      }
+      
       this._snackBar.open(data.message, 'cerrar',{
         duration:5*1000,
         panelClass:['background-snackbar']

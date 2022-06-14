@@ -24,28 +24,26 @@ export class TokenInterceptor implements HttpInterceptor {
     
     const re = "/acceso";
     // console.log(request.url.search(re) )
-    if (this._router.url !== '/acceso') {
-        if(token && !this.helper.isTokenExpired(token)){
-            // console.log(this.helper.isTokenExpired(token))
-          // isRefreshSuccess = this.tryRefreshingTokens(localStorage.getItem("data_current")); 
-        //   this._autorizacionGuard.canActivate()
-        }
-        
-    }
-    // return next.handle(request);
+    // if (this._router.url !== '/acceso') {
+    //     if(token && !this.helper.isTokenExpired(token)){
+    //         // console.log(this.helper.isTokenExpired(token))
+    //       // isRefreshSuccess = this.tryRefreshingTokens(localStorage.getItem("data_current")); 
+    //     //   this._autorizacionGuard.canActivate()
+    //     }
+    // }
     return from(this.validar(request,next));
   }
 
     async validar(request: HttpRequest<any>, next: HttpHandler) {
-        console.log("iniciando")
-        // const result = await this._autorizacionGuard.canActivate();
         const token = localStorage.getItem('data_current');
+        if(token === "undefined"){
+          localStorage.removeItem("data_current");
+    localStorage.removeItem("data_current_refresh");
+          this._router.navigate(["acceso"]); 
+        }
         if(token && this.helper.isTokenExpired(token)==true){
           this._router.navigate(["acceso"]); 
         }
-        // console.log(result);
-
-
         return next.handle(request).toPromise();
     }
 

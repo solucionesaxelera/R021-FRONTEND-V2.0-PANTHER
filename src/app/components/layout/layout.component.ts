@@ -29,18 +29,15 @@ export class LayoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if(this._router.url !="/"){
-      this._modulosS.getModulosByIdRol(this.helper.decodeToken(this.token).id_rol).subscribe(data=>{
-        for (let i = 0; i < data.body.length; i++) {
-          if(data.body[i].url.substr(1,14) == "administracion"){
-            this.modulosAdministracion = [...this.modulosAdministracion,data.body[i]]
-          }if(data.body[i].url.substr(1,5) == "solpe"){
-            this.modulosSolpe = [...this.modulosSolpe,data.body[i]]
-          }
+    this._modulosS.getModulosByIdRol(this.helper.decodeToken(this.token).id_rol).subscribe(data=>{
+      for (let i = 0; i < data.body.length; i++) {
+        if(data.body[i].url.substr(1,14) == "administracion"){
+          this.modulosAdministracion = [...this.modulosAdministracion,data.body[i]]
+        }if(data.body[i].url.substr(1,5) == "solpe"){
+          this.modulosSolpe = [...this.modulosSolpe,data.body[i]]
         }
-      })
-    }
-
+      }
+    })
   }
 
   openConsultarCerrarSesion(){

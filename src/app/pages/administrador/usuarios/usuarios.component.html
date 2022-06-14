@@ -39,7 +39,7 @@
       <ng-container matColumnDef="estado">
         <th mat-header-cell *matHeaderCellDef> Estado </th>
         <td mat-cell *matCellDef="let element">
-            <mat-slide-toggle [disabled]="element.id == idUsuarioSesion.id ? true : false"  [checked]="element.estado == '1' ? true : false" (change)="modificarEstadoUsuario(element.id,$event)"></mat-slide-toggle>
+            <mat-slide-toggle  matTooltip="Habilitar o deshabilitar usuario" [disabled]="element.id == idUsuarioSesion.id ? true : false"  [checked]="element.estado == '1' ? true : false" (change)="modificarEstadoUsuario(element.id,$event)"></mat-slide-toggle>
         </td>
       </ng-container>
 
@@ -48,10 +48,13 @@
         <th mat-header-cell *matHeaderCellDef> Acción </th>
         <td mat-cell *matCellDef="let element">
           <button mat-icon-button color="primary" (click)="openDialogModificarUsuario(element.id)">
-              <mat-icon>edit</mat-icon>
+              <mat-icon matTooltip="Modificar usuario">edit</mat-icon>
           </button>
+          <button mat-icon-button color="primary" (click)="openDialogModificarClaveUsuario(element.id)">
+            <mat-icon matTooltip="Cambiar contraseña">lock</mat-icon>
+        </button>
           <button [disabled]="element.id == idUsuarioSesion.id ? true : false" mat-icon-button color="primary" (click)="openDialogEliminarUsuario(element.id)">
-            <mat-icon>delete</mat-icon>
+            <mat-icon matTooltip="Eliminar usuario">delete</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -61,7 +64,7 @@
         <th mat-header-cell *matHeaderCellDef> Rol </th>
         <td mat-cell *matCellDef="let element">
           <button mat-icon-button color="primary" (click)="openDialogModificarRolUsuario(element.id)">
-              <mat-icon>filter_none</mat-icon>
+              <mat-icon matTooltip="Asignar rol">filter_none</mat-icon>
           </button>
         </td>
       </ng-container>
@@ -121,6 +124,16 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Aprobador</mat-label>
+          <mat-select formControlName="IsAprobador">
+            <mat-option *ngFor="let aprobador of dataSourceUsuarios.data" [value]="aprobador.nombres">
+              {{aprobador.nombres}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
       </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
@@ -181,6 +194,23 @@
     <mat-dialog-actions align="end">
       <button mat-button mat-dialog-close>Cancelar</button>
       <button mat-button cdkFocusInitial form="modificarRolUsuario" type="submit">Guardar</button>
+    </mat-dialog-actions>
+  </ng-template>
+
+<!-- MODIFICAR CLAVE DE USUARIO -->
+  <ng-template #dialogModificarClaveUsuario>
+    <h2 mat-dialog-title>Modificar Clave de Usuario</h2>
+    <mat-dialog-content class="mat-typography">
+      <form id="modificarClaveUsuario" [formGroup]="modificarClaveUsuarioForm" (ngSubmit)="modificarClaveUsuario(modificarClaveUsuarioForm.value)">
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Nueva clave</mat-label>
+            <input matInput placeholder="Ingrese nombres" formControlName="clave">
+        </mat-form-field>
+      </form>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancelar</button>
+      <button mat-button cdkFocusInitial form="modificarClaveUsuario" type="submit">Guardar</button>
     </mat-dialog-actions>
   </ng-template>
 

@@ -22,13 +22,13 @@
         </mat-select>
         </mat-form-field>
         <mat-form-field class="full-width" appearance="fill">
-            <mat-label>Seleccione una Sociedad</mat-label>
-            <mat-select  [(ngModel)]="selectedValue" name="sociedad" [ngModelOptions]="{standalone: true}">
+            <mat-label>Seleccione una sociedad</mat-label>
+            <mat-select  [(ngModel)]="selectedValue" name="sociedad" formControlName="sociedad">
                 <mat-option *ngFor="let sociedad of sociedades" [value]="sociedad.bukrsField">
                     {{sociedad.butxtField}}
                   </mat-option>
             </mat-select>
         </mat-form-field>
-        <button mat-flat-button color="primary" class="full-width">Ingresar</button>
+        <button mat-flat-button color="primary" class="full-width" [disabled]="!accesoForm.valid">Ingresar</button>
     </form>
 </mat-card>

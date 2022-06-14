@@ -18,7 +18,10 @@ export class UsuariosService {
   private _modificarUsuarioS = this.url + 'Usuario/';
   private _modificarRolUsuarioS = this.url + 'Usuario/UpdateRol?id=';
   private _modificarEstadoUsuarioS = this.url + 'Usuario/UpdateStatus?id=';
+  private _modificarClaveUsuarioS = this.url + 'Usuario/UpdateClave?id=';
   private _eliminarUsuarioS = this.url + 'Usuario/';
+
+  private _aprobadoresSAPS = this.url + 'SolpeOptionsUser';
 
   constructor(
     private _http: HttpClient,
@@ -79,8 +82,26 @@ export class UsuariosService {
     });
   }
 
+  putModificarClaveUsuario(id:number, req:any) {
+    return this._http.put<any>(this._modificarClaveUsuarioS+id,req,{
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('data_current')
+      })
+    });
+  }
+
   deleteEliminarUsuario(id:number) {
     return this._http.delete<modificarEstadoUsuarioO>(this._eliminarUsuarioS+id,{
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('data_current')
+      })
+    });
+  }
+
+  postAprobadoresSAP(req:any) {
+    return this._http.post<any>(this._aprobadoresSAPS,req,{
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem('data_current')

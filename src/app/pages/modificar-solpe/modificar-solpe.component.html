@@ -10,7 +10,7 @@
                 </button>
             </div>
             <div class="col-lg-6">
-                <button mat-flat-button color="primary" class="btn-cabecera full-width" (click)="openAgregarPosicion()" [disabled]="idSeleccionadoEditarPosicion!=0">
+                <button mat-flat-button color="primary" class="btn-cabecera full-width" (click)="openAgregarPosicion()" [disabled]="idSeleccionadoEditarPosicion!=0 || agregarPosicionButton==false">
                     Agregar Posición
                 </button>
             </div>
@@ -61,7 +61,7 @@
 </div>
 
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8" style="overflow-x:auto;">
     <table mat-table matSort [dataSource]="dataSourceModificarSolpe" matSortActive="item" matSortDirection="desc">
 
         <ng-container matColumnDef="presu">

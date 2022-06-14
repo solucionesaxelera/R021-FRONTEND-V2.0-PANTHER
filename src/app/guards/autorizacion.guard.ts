@@ -27,7 +27,13 @@ export class AutorizacionGuard implements CanActivate {
     let url: string = state.url;
     const token = localStorage.getItem('data_current');
     
- 
+    console.log(token)
+    if(token === "undefined"){
+      localStorage.removeItem("data_current");
+    localStorage.removeItem("data_current_refresh");
+      this._router.navigate(["acceso"]); 
+      return false;
+    }
     if(token && !this.helper.isTokenExpired(token)){
       return this.checkUserRoute(url);
       // return this.checkUserRoute2(url);
@@ -50,21 +56,23 @@ export class AutorizacionGuard implements CanActivate {
       return false;
     }
     const credentials = JSON.stringify({ accessToken: token, refreshToken: refreshToken});
-    let isRefreshSuccess: boolean;
+    let isRefreshSuccess: boolean = false;
+    // isRefreshSuccess = true;
     const refreshRes = await new Promise<any>((resolve, reject) => {
       this._http.post<any>("http://localhost:9021/api/RefreshToken", credentials, {
         headers: new HttpHeaders({
           "Content-Type": "application/json"
         })
       }).subscribe({
-        next: (res: accesoO) => resolve(res),
-        error: (_) => { reject; isRefreshSuccess = false; }
+        next: (res: accesoO) => { isRefreshSuccess = true; resolve(res); },
+        error: (err) => { console.log(err); isRefreshSuccess = false; reject(); }
       });
     });
     localStorage.setItem("data_current", refreshRes.token);
     localStorage.setItem("data_current_refresh", refreshRes.refreshToken);
-    isRefreshSuccess = true;
-    // console.log(isRefreshSuccess)
+    // console.log(isRefreshSuccess);
+    
+    console.log(isRefreshSuccess)
     return isRefreshSuccess;
   }
 
@@ -99,7 +107,6 @@ export class AutorizacionGuard implements CanActivate {
     this.helper.decodeToken(token);
     const isRefreshSuccess = await this.tryRefreshingTokens(token);
     if(!isRefreshSuccess){
-      console.log("as")
       this._router.navigate(["acceso"]);
       return false;
     }else{

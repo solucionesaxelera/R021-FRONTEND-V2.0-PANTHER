@@ -32,6 +32,7 @@ export class ModificarSolpeComponent implements OnInit {
   config?: MatDialogConfig;
   deshabilitarModificarInput:boolean = true;
   idSeleccionadoEditarPosicion:number = 0;
+  agregarPosicionButton:boolean = false;
   idSolpe:any = "";
 
   constructor(
@@ -187,6 +188,7 @@ export class ModificarSolpeComponent implements OnInit {
         this.detalleJson.AuFecha = moment(data.esSolpePrelimCabField.auFechaField).format("YYYY-MM-DD");
   
         for (let i = 0; i < data.esSolpePrelimCabField.detalleField.length; i++) {
+          this.agregarPosicionButton = true;
           this.dataSourceModificarSolpe.data.push({
             item: data.esSolpePrelimCabField.detalleField[i].itemField,
             presu: data.esSolpePrelimCabField.detalleField[i].presuField,
@@ -257,11 +259,11 @@ export class ModificarSolpeComponent implements OnInit {
           accion:"M"
         }
         this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
-          console.log(data)
         });
         this.idSolpe="";
         this.dataSourceModificarSolpe.data = [];
         this.cabeceraModificarSolpeForm.reset();
+        this.agregarPosicionButton = false;
       }
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
         duration:5*1000

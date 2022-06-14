@@ -27,19 +27,18 @@ export class AccesoComponent implements OnInit {
 
   accesoForm = new FormGroup({
     usuario: new FormControl('',[Validators.required]),
-    clave: new FormControl('',[Validators.required])
+    clave: new FormControl('',[Validators.required]),
+    sociedad: new FormControl('',[Validators.required])
   });
 
   cargarSociedades(){
     this._matchcodeS.getSolpeOptionsMatchcodeSociedades().subscribe(data=>{
-      console.log(data);
       this.sociedades = data.etSocieField
     });
   }
 
   acceder(req:accesoI) {
     this._accesoS.postAccesoS(req).subscribe(data=>{
-      console.log(data.body.token);
       localStorage.setItem('data_current',data.body.token);
       localStorage.setItem('data_current_refresh',data.body.refreshToken);
       this._router.navigateByUrl('/solpe/crear-solpe').then();
