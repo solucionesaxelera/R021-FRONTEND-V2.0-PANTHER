@@ -285,22 +285,22 @@
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-6" appearance="fill">
                     <mat-label>Cargo</mat-label>
-                    <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.SoCargo">
+                    <input type="text" matInput placeholder="Cargo" [(ngModel)]="detalleJson.SoCargo">
                 </mat-form-field>
             </div>
             <div class="row">
-                <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                <!-- <mat-form-field class="full-width item-input col-md-12" appearance="fill">
                     <mat-label>Signature</mat-label>
                     <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.SoAsigna">
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-form-field class="full-width item-input col-md-12" appearance="fill">
                     <mat-label>Fecha</mat-label>
-                    <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.SoFecha">
+                    <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.SoFecha" value="2022-06-15" disabled>
                 </mat-form-field>
             </div>
         </div>
         <div class="col-md-4">
-            <h2>CONTROLLER</h2><hr>
+            <h2>JEFE DE ÁREA</h2><hr>
             <div class="row">
                 <mat-form-field class="full-width item-input col-md-6" appearance="fill">
                     <mat-label>Nombre</mat-label>
@@ -308,17 +308,17 @@
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-6" appearance="fill">
                     <mat-label>Cargo</mat-label>
-                    <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.CoCargo">
+                    <input type="text" matInput placeholder="Cargo" [(ngModel)]="detalleJson.CoCargo">
                 </mat-form-field>
             </div>
             <div class="row">
-                <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                <!-- <mat-form-field class="full-width item-input col-md-12" appearance="fill">
                     <mat-label>Signature</mat-label>
                     <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.CoAsigna">
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-form-field class="full-width item-input col-md-12" appearance="fill">
                     <mat-label>Fecha</mat-label>
-                    <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.CoFecha">
+                    <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.CoFecha" value="2022-06-15" disabled>
                 </mat-form-field>
             </div> 
         </div>
@@ -331,17 +331,17 @@
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-6" appearance="fill">
                     <mat-label>Cargo</mat-label>
-                    <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.AuCargo">
+                    <input type="text" matInput placeholder="Cargo" [(ngModel)]="detalleJson.AuCargo">
                 </mat-form-field>
             </div>
             <div class="row">
-                <mat-form-field class="full-width item-input col-md-12" appearance="fill">
+                <!-- <mat-form-field class="full-width item-input col-md-12" appearance="fill">
                     <mat-label>Signature</mat-label>
                     <input type="text" matInput placeholder="Signature" [(ngModel)]="detalleJson.AuAsigna">
-                </mat-form-field>
+                </mat-form-field> -->
                 <mat-form-field class="full-width item-input col-md-12" appearance="fill">
                     <mat-label>Fecha</mat-label>
-                    <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.AuFecha">
+                    <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.AuFecha" value="15-06-2022" disabled>
                 </mat-form-field>
             </div>
         </div>
@@ -354,8 +354,6 @@
         Crear Solpe
     </button>
 </div>
-
-
 
 <!-- AGREGAR POSICIÓN -->
 <!-- <ng-template #dialogAgregarPosicion>
