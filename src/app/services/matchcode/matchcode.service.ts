@@ -13,6 +13,7 @@ export class MatchcodeService {
 
   private _SolpeOptionsMatchcode = this.url + 'SolpeOptionsMatchcode';
   private _SolpeOptionsMatchcodeSociedades = this.url + 'SolpeOptionsMatchSociedades';
+  private _SolpeOptionsInfo = this.url + 'SolpeOptionsInfo';
 
   constructor(private _http: HttpClient) { }
 
@@ -27,6 +28,15 @@ export class MatchcodeService {
 
   getSolpeOptionsMatchcodeSociedades(): Observable<any> {
     return this._http.get<any>(this._SolpeOptionsMatchcodeSociedades)
+  }
+
+  postInfoExtra(req:any) {
+    return this._http.post<any>(this._SolpeOptionsInfo,req,{
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('data_current')
+      })
+    });
   }
 
 }

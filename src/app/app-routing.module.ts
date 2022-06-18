@@ -13,7 +13,7 @@ import { ListarSolpeComponent } from './pages/listar-solpe/listar-solpe.componen
 import { ModificarSolpeComponent } from './pages/modificar-solpe/modificar-solpe.component';
 
 const routes: Routes = [
-  { path:'', component:CrearSolpeComponent,canActivate:[AutorizacionGuard] },
+  { path:'', component:DashboardComponent,canActivate:[AutorizacionGuard] },
   { path:'acceso', component:AccesoComponent },
   { path:'inicio', component:DashboardComponent , canActivate:[AutorizacionGuard] },
   {

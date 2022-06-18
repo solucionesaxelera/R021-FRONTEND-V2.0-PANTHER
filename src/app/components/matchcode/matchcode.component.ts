@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { matchcodeCentroCostoI, matchcodeGLI, matchcodeMaterialI } from 'src/app/models/matchcode';
 import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 export interface DialogData {
   name: string;
@@ -17,6 +18,8 @@ export interface DialogData {
   styleUrls: ['./matchcode.component.scss']
 })
 export class MatchcodeComponent implements OnInit {
+
+  public helper = new JwtHelperService();
 
   indicadorCarga:boolean = false;
   ELEMENT_DATA: any[]=[];
@@ -63,7 +66,7 @@ export class MatchcodeComponent implements OnInit {
     this.ELEMENT_DATA = [];
     this.indicadorCarga=true;
     let req_json = {
-      IsBukrs: "",
+      IsBukrs: this.sociedad(),
       IsCeco: "",
       IsMatnr: "",
       IsNameCeco: "",
@@ -103,7 +106,7 @@ export class MatchcodeComponent implements OnInit {
     this.dataSourceMATNR.data = [];
     this.indicadorCarga=true;
     let req_json = {
-      IsBukrs: "",
+      IsBukrs: this.sociedad(),
       IsCeco: "",
       IsMatnr: req.IsMatnr,
       IsNameCeco: "",
@@ -125,7 +128,7 @@ export class MatchcodeComponent implements OnInit {
     this.dataSourceKOSTL.data = [];
     this.indicadorCarga=true;
     let req_json = {
-      IsBukrs: "",
+      IsBukrs: this.sociedad(),
       IsCeco: req.IsCeco,
       IsMatnr: "",
       IsNameCeco: req.IsNameCeco,
@@ -147,7 +150,7 @@ export class MatchcodeComponent implements OnInit {
     this.dataSourceSAKNR.data = [];
     this.indicadorCarga=true;
     let req_json = {
-      IsBukrs: req.IsBukrs,
+      IsBukrs: this.sociedad(),
       IsCeco: "",
       IsMatnr: "",
       IsNameCeco: "",
@@ -162,6 +165,15 @@ export class MatchcodeComponent implements OnInit {
       this.dataSourceSAKNR.paginator = this.paginator;
       this.indicadorCarga=false;
     });
+  }
+
+  sociedad(){
+    if(this.data.name == "KOSTL" || this.data.name == "WERKS" || this.data.name == "SAKNR" ) {
+      const token = localStorage.getItem('data_current')?.toString();
+      return this.helper.decodeToken(token).sociedad;
+    }else{
+      return "";
+    }
   }
 
 }

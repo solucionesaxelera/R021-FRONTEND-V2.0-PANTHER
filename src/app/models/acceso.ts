@@ -1,6 +1,7 @@
 export interface accesoI {
     usuario : string,
-    clave: string
+    clave: string,
+    sociedad: string
 }
 
 export interface accesoO {

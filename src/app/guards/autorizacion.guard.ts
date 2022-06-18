@@ -26,8 +26,6 @@ export class AutorizacionGuard implements CanActivate {
   canActivate( next: ActivatedRouteSnapshot, state: RouterStateSnapshot): any {
     let url: string = state.url;
     const token = localStorage.getItem('data_current');
-    
-    console.log(token)
     if(token === "undefined"){
       localStorage.removeItem("data_current");
     localStorage.removeItem("data_current_refresh");
@@ -36,17 +34,10 @@ export class AutorizacionGuard implements CanActivate {
     }
     if(token && !this.helper.isTokenExpired(token)){
       return this.checkUserRoute(url);
-      // return this.checkUserRoute2(url);
-      // return true;
     }else{
       this._router.navigate(["acceso"]); 
       return false;
     }
-    // const isRefreshSuccess = this.tryRefreshingTokens(token); 
-    // if (!isRefreshSuccess) { 
-    //   this._router.navigate(["acceso"]); 
-    // }
-    // return isRefreshSuccess;
       
   }
 
@@ -70,36 +61,8 @@ export class AutorizacionGuard implements CanActivate {
     });
     localStorage.setItem("data_current", refreshRes.token);
     localStorage.setItem("data_current_refresh", refreshRes.refreshToken);
-    // console.log(isRefreshSuccess);
-    
-    console.log(isRefreshSuccess)
     return isRefreshSuccess;
   }
-
-  // checkUserRoute(url: any): Observable<boolean> | Promise<boolean> | boolean{
-  //   let conincidencia:boolean = false;
-  //   const token = localStorage.getItem('data_current')?.toString();
-  //   this.helper.decodeToken(token);
-  //   const isRefreshSuccess = this.tryRefreshingTokens(token);
-    
-  //   return this._modulosS.getModulosByIdRol(this.helper.decodeToken(token).id_rol).pipe(first(),map(data=>{
-  //     for (let i = 0; i < data.body.length; i++){
-  //       if(data.body[i].url == url){
-  //         conincidencia = true;
-  //         return true;
-  //       }
-  //       if(data.body.length - 1 == i){
-  //         if(conincidencia == false){
-  //           this._router.navigate(["acceso"]);
-  //           return false;
-  //         }else{
-  //           return false;
-  //         }
-  //       }
-  //     }
-  //     return false;
-  //   }))
-  // }
 
   async checkUserRoute(url:any):Promise<boolean | Observable<boolean>> {
     let conincidencia:boolean = false;
@@ -118,6 +81,11 @@ export class AutorizacionGuard implements CanActivate {
       }).toPromise().then(data=>{
         let datafinal:any = data;
         for (let i = 0; i < datafinal.body.length; i++){
+          
+          if(url=="/"){
+            conincidencia = true;
+            return true;
+          }
           if(datafinal.body[i].url == url){
             conincidencia = true;
             return true;

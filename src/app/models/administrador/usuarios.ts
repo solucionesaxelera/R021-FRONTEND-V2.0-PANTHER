@@ -73,6 +73,7 @@ interface bodyUsuarioByIdO {
     ape_mat:string,
     correo:string,
     telefono:string,
+    cargo:string,
     usuario:string,
     clave:string,
     creation_time:Date,
@@ -86,7 +87,10 @@ export interface modificarUsuarioI {
     ape_pat:string,
     ape_mat:string,
     correo:string,
-    telefono:string
+    telefono:string,
+    cargo:string,
+    isPrimerAprobador:string,
+    isSegundoAprobador:string,
 }
 
 export interface modificarUsuarioO {

@@ -21,16 +21,8 @@ export class TokenInterceptor implements HttpInterceptor {
     let isRefreshSuccess;
     const token = localStorage.getItem('data_current');
     
-    
     const re = "/acceso";
-    // console.log(request.url.search(re) )
-    // if (this._router.url !== '/acceso') {
-    //     if(token && !this.helper.isTokenExpired(token)){
-    //         // console.log(this.helper.isTokenExpired(token))
-    //       // isRefreshSuccess = this.tryRefreshingTokens(localStorage.getItem("data_current")); 
-    //     //   this._autorizacionGuard.canActivate()
-    //     }
-    // }
+
     return from(this.validar(request,next));
   }
 
@@ -38,7 +30,7 @@ export class TokenInterceptor implements HttpInterceptor {
         const token = localStorage.getItem('data_current');
         if(token === "undefined"){
           localStorage.removeItem("data_current");
-    localStorage.removeItem("data_current_refresh");
+          localStorage.removeItem("data_current_refresh");
           this._router.navigate(["acceso"]); 
         }
         if(token && this.helper.isTokenExpired(token)==true){

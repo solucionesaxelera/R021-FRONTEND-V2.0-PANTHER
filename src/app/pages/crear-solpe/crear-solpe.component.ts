@@ -12,6 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 import { MatchcodeComponent } from 'src/app/components/matchcode/matchcode.component';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
+import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 
 @Component({
   selector: 'app-crear-solpe',
@@ -38,10 +39,11 @@ export class CrearSolpeComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _crearSolpeS : CrearSolpeService,
     private _auditoriaS : AuditoriaService,
-    private _cd:ChangeDetectorRef
+    private _cd:ChangeDetectorRef,
+    private _matchcodeS: MatchcodeService
   ) { }
 
-  displayedColumns: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'ccosto', 'gl', 'punit', 'totsinigv','accion'];
+  displayedColumns: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'stock', 'ccosto','gl', 'punit', 'totsinigv','accion'];
   
   ELEMENT_DATA_CREAR_SOLPE: any[] = [];
 
@@ -67,15 +69,15 @@ export class CrearSolpeComponent implements OnInit {
     SoNomb:  "",
     SoCargo:  "",
     SoAsigna: "",
-    SoFecha: "",
+    SoFecha: moment().format("YYYY-MM-DD"),
     CoNomb: "",
     CoCargo: "",
     CoAsigna: "",
-    CoFecha: "",
+    CoFecha: moment().format("YYYY-MM-DD"),
     AuNomb: "",
     AuCargo: "",
     AuAsigna: "",
-    AuFecha: ""
+    AuFecha: moment().format("YYYY-MM-DD")
   }
 
   ngOnInit(): void {
@@ -309,6 +311,16 @@ export class CrearSolpeComponent implements OnInit {
         }
         if(this.dataSourceCrearSolpe.data.length - 1 == ind){
           this.idSeleccionadoEditarPosicion = 0;
+          let json_req_info_extra = {
+            IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
+            IsMaterial: req.matnr,
+            IsValor: "STOCK"
+          } 
+          console.log(json_req_info_extra);
+          this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+            this.dataSourceCrearSolpe.data[ind].stock = data.esCantidadField;
+            this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+          })
         }
       }
     }

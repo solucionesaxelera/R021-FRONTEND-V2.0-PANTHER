@@ -19,6 +19,10 @@ import { UsuariosService } from 'src/app/services/administrador/usuarios/usuario
 export class UsuariosComponent implements OnInit {
 
   public helper = new JwtHelperService();
+
+  checked = false;
+  segundoAprobadorDisabled: boolean = true;
+
   idUsuarioSesion = this.helper.decodeToken(localStorage.getItem('data_current')?.toString());
   
   @ViewChild(MatPaginator) paginator: any;
@@ -30,6 +34,7 @@ export class UsuariosComponent implements OnInit {
 
   config?: MatDialogConfig;
   idUsuarioSeleccionado:number = 0;
+  usuarioSeleccionado:string = "";
 
   listaRoles:any=[];
   
@@ -52,10 +57,12 @@ export class UsuariosComponent implements OnInit {
     ape_mat: new FormControl('',[Validators.required]),
     correo: new FormControl('',[Validators.required]),
     telefono: new FormControl('',[Validators.required]),
+    cargo: new FormControl('',[Validators.required]),
     usuario: new FormControl('',[Validators.required]),
     clave: new FormControl('',[Validators.required]),
     id_rol: new FormControl('',[Validators.required]),
-    IsAprobador: new FormControl('',[Validators.required])
+    isPrimerAprobador: new FormControl('',[Validators.required]),
+    isSegundoAprobador: new FormControl(''),
   });
 
   modificarUsuarioForm = new FormGroup({
@@ -63,7 +70,10 @@ export class UsuariosComponent implements OnInit {
     ape_pat: new FormControl('',[Validators.required]),
     ape_mat: new FormControl('',[Validators.required]),
     correo: new FormControl('',[Validators.required]),
-    telefono: new FormControl('',[Validators.required])
+    telefono: new FormControl('',[Validators.required]),
+    cargo: new FormControl('',[Validators.required]),
+    isPrimerAprobador: new FormControl('',[Validators.required]),
+    isSegundoAprobador: new FormControl(''),
   });
   
   modificarRolUsuarioForm = new FormGroup({
@@ -91,14 +101,32 @@ export class UsuariosComponent implements OnInit {
     return this.dialog.open(this.dialogTemplateCrearUsuario, this.config);
   }
 
-  openDialogModificarUsuario(id:number) {
+  openDialogModificarUsuario(id:number,usuario:string) {
+    this.segundoAprobadorDisabled = true;
     this.idUsuarioSeleccionado = id;
+    this.usuarioSeleccionado = usuario;
+    let req_json_sap = {
+      IsAccion: "L",
+      IsAprobador1: "",
+      IsAprobador2: "",
+      IsCreador: usuario
+    }
+    this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
+      console.log(data.esSolpeUsersField.aprobador1Field);
+      if(data.esSolpeUsersField.aprobador2Field != ""){
+        this.segundoAprobadorDisabled = false;
+        this.checked= true;
+      }
+      this.modificarUsuarioForm.controls['isPrimerAprobador'].setValue(data.esSolpeUsersField.aprobador1Field);
+      this.modificarUsuarioForm.controls['isSegundoAprobador'].setValue(data.esSolpeUsersField.aprobador2Field);
+    });
     this._usuariosS.getUsuarioById(id).subscribe(data=>{
       this.modificarUsuarioForm.controls['nombres'].setValue(data.body[0].nombres);
       this.modificarUsuarioForm.controls['ape_pat'].setValue(data.body[0].ape_pat);
       this.modificarUsuarioForm.controls['ape_mat'].setValue(data.body[0].ape_mat);
-      this.modificarUsuarioForm.controls['correo'].setValue(data.body[0].correo);
-      this.modificarUsuarioForm.controls['telefono'].setValue(data.body[0].telefono);
+      this.modificarUsuarioForm.controls['correo'].setValue(data.body[0].correo.trim());
+      this.modificarUsuarioForm.controls['telefono'].setValue(data.body[0].telefono.trim());
+      this.modificarUsuarioForm.controls['cargo'].setValue(data.body[0].cargo);
       return this.dialog.open(this.dialogTemplateModificarUsuario, this.config);
     });
   }
@@ -137,7 +165,8 @@ export class UsuariosComponent implements OnInit {
   crearUsuario(req:any) {
     let req_json_sap = {
       IsAccion: "C",
-      IsAprobador: req.IsAprobador,
+      IsAprobador1: req.isPrimerAprobador,
+      IsAprobador2: req.isSegundoAprobador,
       IsCreador: req.usuario
     }
     this._usuariosS.postCrearUsuario(req).subscribe(data=>{
@@ -159,6 +188,16 @@ export class UsuariosComponent implements OnInit {
   }
 
   modificarUsuario(req:modificarUsuarioI) {
+    console.log(req);
+    let req_json_sap = {
+      IsAccion: "M",
+      IsAprobador1: req.isPrimerAprobador,
+      IsAprobador2: req.isSegundoAprobador,
+      IsCreador: this.usuarioSeleccionado
+    }
+    this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
+      console.log(data);
+    });
     this._usuariosS.putModificarUsuario(this.idUsuarioSeleccionado,req).subscribe(data=>{
       this.listarUsuarios();
       this.modificarUsuarioForm.reset();
@@ -218,4 +257,14 @@ export class UsuariosComponent implements OnInit {
       });
     })
   }
+
+  habilitarSegundoAprobador(e:MatSlideToggleChange){
+    if(e.checked){
+      this.segundoAprobadorDisabled = false;
+    }else{
+      this.segundoAprobadorDisabled = true;
+    }
+    
+  }
+
 }
