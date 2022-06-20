@@ -188,13 +188,20 @@ export class UsuariosComponent implements OnInit {
   }
 
   modificarUsuario(req:modificarUsuarioI) {
-    console.log(req);
     let req_json_sap = {
       IsAccion: "M",
-      IsAprobador1: req.isPrimerAprobador,
-      IsAprobador2: req.isSegundoAprobador,
+      IsAprobador1: "",
+      IsAprobador2: "",
       IsCreador: this.usuarioSeleccionado
     }
+    if(this.segundoAprobadorDisabled == false){
+      req_json_sap.IsAprobador1 = req.isPrimerAprobador;
+      req_json_sap.IsAprobador2 = req.isSegundoAprobador;
+    } else{
+      req_json_sap.IsAprobador1 = req.isPrimerAprobador;
+      req_json_sap.IsAprobador2 = "";
+    }
+
     this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
       console.log(data);
     });

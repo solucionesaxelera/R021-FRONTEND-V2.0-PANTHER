@@ -11,6 +11,7 @@ import { MatchcodeComponent } from 'src/app/components/matchcode/matchcode.compo
 import { tableModificarPosicionI } from 'src/app/models/modificar-solpe';
 import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 import { CrearSolpeService } from 'src/app/services/crear-solpe/crear-solpe.service';
+import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 
 @Component({
   selector: 'app-modificar-solpe',
@@ -40,10 +41,11 @@ export class ModificarSolpeComponent implements OnInit {
     private _SolpeOptionPrelimS : CrearSolpeService,
     private _snackBar: MatSnackBar,
     private _auditoriaS : AuditoriaService,
-    private _cd:ChangeDetectorRef
+    private _cd:ChangeDetectorRef,
+    private _matchcodeS: MatchcodeService
   ) { }
 
-  displayedColumnsModificarSolpe: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'ccosto', 'gl', 'punit', 'totsinigv','accion'];
+  displayedColumnsModificarSolpe: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'stock','ccosto', 'gl', 'punit', 'totsinigv','accion'];
   
   ELEMENT_DATA_MODIFICAR_SOLPE: tableModificarPosicionI[] = [];
 
@@ -187,24 +189,27 @@ export class ModificarSolpeComponent implements OnInit {
         this.detalleJson.AuAsigna = data.esSolpePrelimCabField.auAsignaField;
         this.detalleJson.AuFecha = moment(data.esSolpePrelimCabField.auFechaField).format("YYYY-MM-DD");
   
-        for (let i = 0; i < data.esSolpePrelimCabField.detalleField.length; i++) {
-          this.agregarPosicionButton = true;
-          this.dataSourceModificarSolpe.data.push({
-            item: data.esSolpePrelimCabField.detalleField[i].itemField,
-            presu: data.esSolpePrelimCabField.detalleField[i].presuField,
-            menge: data.esSolpePrelimCabField.detalleField[i].mengeField,
-            meins: data.esSolpePrelimCabField.detalleField[i].meinsField,
-            descr: data.esSolpePrelimCabField.detalleField[i].descrField,
-            matnr: data.esSolpePrelimCabField.detalleField[i].matnrField,
-            ccosto: data.esSolpePrelimCabField.detalleField[i].ccostoField,
-            gl: data.esSolpePrelimCabField.detalleField[i].glField,
-            punit: data.esSolpePrelimCabField.detalleField[i].punitField,
-            totsinigv: data.esSolpePrelimCabField.detalleField[i].totSinigvField
-          });
-          this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
-        }
-        this.dataSourceModificarSolpe.paginator = this.paginator;
-        this.dataSourceModificarSolpe.sort = this.sort;
+        this.metodoPushTabla(data.esSolpePrelimCabField.detalleField);
+        // for (let i = 0; i < data.esSolpePrelimCabField.detalleField.length; i++) {
+        //   this.agregarPosicionButton = true;
+        //   this.dataSourceModificarSolpe.data.push({
+        //     item: data.esSolpePrelimCabField.detalleField[i].itemField,
+        //     presu: data.esSolpePrelimCabField.detalleField[i].presuField,
+        //     menge: data.esSolpePrelimCabField.detalleField[i].mengeField,
+        //     meins: data.esSolpePrelimCabField.detalleField[i].meinsField,
+        //     descr: data.esSolpePrelimCabField.detalleField[i].descrField,
+        //     matnr: data.esSolpePrelimCabField.detalleField[i].matnrField,
+        //     stock: this.calcularStock(data.esSolpePrelimCabField.detalleField[i].matnrField),
+        //     ccosto: data.esSolpePrelimCabField.detalleField[i].ccostoField,
+        //     gl: data.esSolpePrelimCabField.detalleField[i].glField,
+        //     punit: data.esSolpePrelimCabField.detalleField[i].punitField,
+        //     totsinigv: data.esSolpePrelimCabField.detalleField[i].totSinigvField
+        //   });
+        //   this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+        //   console.log(this.dataSourceModificarSolpe.data)
+        // }
+        // this.dataSourceModificarSolpe.paginator = this.paginator;
+        // this.dataSourceModificarSolpe.sort = this.sort;
       }
       else{
         this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
@@ -213,6 +218,31 @@ export class ModificarSolpeComponent implements OnInit {
       }
 
     })
+  }
+
+  async metodoPushTabla(data:any){
+      
+      for (let i = 0; i < data.length; i++) {
+          this.agregarPosicionButton = true;
+          let stock_temp = await this.calcularStock(data[i].matnrField);
+          await this.dataSourceModificarSolpe.data.push({
+            item: data[i].itemField,
+            presu: data[i].presuField,
+            menge: data[i].mengeField,
+            meins: data[i].meinsField,
+            descr: data[i].descrField,
+            matnr: data[i].matnrField,
+            stock: stock_temp,
+            ccosto: data[i].ccostoField,
+            gl: data[i].glField,
+            punit: data[i].punitField,
+            totsinigv: data[i].totSinigvField
+          });
+          // this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+          console.log(this.dataSourceModificarSolpe.data)
+        }
+        this.dataSourceModificarSolpe.paginator = this.paginator;
+        this.dataSourceModificarSolpe.sort = this.sort;
   }
 
   modificarSolpe(req:any){
@@ -264,6 +294,25 @@ export class ModificarSolpeComponent implements OnInit {
         this.dataSourceModificarSolpe.data = [];
         this.cabeceraModificarSolpeForm.reset();
         this.agregarPosicionButton = false;
+
+        this.detalleJson.ParaSerusado = "";
+        this.detalleJson.Locacion = "";
+        this.detalleJson.FechaReque = "";
+        this.detalleJson.ProveSuge = "";
+        this.detalleJson.Ocotiza = "";
+        this.detalleJson.SoNomb = "";
+        this.detalleJson.SoCargo = "";
+        this.detalleJson.SoAsigna = ""; 
+        this.detalleJson.SoFecha = "";
+        this.detalleJson.CoNomb = "";
+        this.detalleJson.CoCargo = "";
+        this.detalleJson.CoAsigna = "";
+        this.detalleJson.CoFecha = "";
+        this.detalleJson.AuNomb = "";
+        this.detalleJson.AuCargo = "";
+        this.detalleJson.AuAsigna = "";
+        this.detalleJson.AuFecha = "";
+
       }
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
         duration:5*1000
@@ -398,6 +447,15 @@ export class ModificarSolpeComponent implements OnInit {
         }
         if(this.dataSourceModificarSolpe.data.length - 1 == ind){
           this.idSeleccionadoEditarPosicion = 0;
+          let json_req_info_extra = {
+            IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
+            IsMaterial: req.matnr,
+            IsValor: "STOCK"
+          }
+          this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+            this.dataSourceModificarSolpe.data[ind].stock = data.esCantidadField;
+            this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+          })
         }
       }
     }
@@ -565,6 +623,23 @@ export class ModificarSolpeComponent implements OnInit {
   acortarDescripcion(valor:string){
     let result = valor;
     return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
+  }
+
+  calcularStock(matnr:string){
+    let return_data:string="";
+    let json_req_info_extra = {
+      IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
+      IsMaterial: matnr,
+      IsValor: "STOCK"
+    }
+    return new Promise(resolve => {
+      this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+        console.log(data.esCantidadField.trim())
+        return_data = data.esCantidadField.trim();
+        resolve(return_data);
+      })
+    });
+    
   }
 
 }

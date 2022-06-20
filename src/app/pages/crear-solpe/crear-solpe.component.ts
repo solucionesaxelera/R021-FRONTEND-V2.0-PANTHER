@@ -13,6 +13,7 @@ import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 import { MatchcodeComponent } from 'src/app/components/matchcode/matchcode.component';
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
+import { UsuariosService } from 'src/app/services/administrador/usuarios/usuarios.service';
 
 @Component({
   selector: 'app-crear-solpe',
@@ -40,7 +41,8 @@ export class CrearSolpeComponent implements OnInit {
     private _crearSolpeS : CrearSolpeService,
     private _auditoriaS : AuditoriaService,
     private _cd:ChangeDetectorRef,
-    private _matchcodeS: MatchcodeService
+    private _matchcodeS: MatchcodeService,
+    private _usuariosS: UsuariosService
   ) { }
 
   displayedColumns: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'stock', 'ccosto','gl', 'punit', 'totsinigv','accion'];
@@ -82,6 +84,37 @@ export class CrearSolpeComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this._usuariosS.getUsuarioById(this.helper.decodeToken(this.token).id).subscribe(data=>{
+      this.detalleJson.SoNomb = data.body[0].nombres + " " + data.body[0].ape_pat + " " + data.body[0].ape_mat;
+      this.detalleJson.SoCargo = data.body[0].cargo;
+
+      let req_json_sap = {
+        IsAccion: "L",
+        IsAprobador1: "",
+        IsAprobador2: "",
+        IsCreador: data.body[0].usuario
+      }
+      this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(dataAprobadores=>{
+        if(dataAprobadores.esSolpeUsersField.aprobador2Field == ""){
+          this._usuariosS.getUsuarioByUsuario(dataAprobadores.esSolpeUsersField.aprobador1Field).subscribe(dataUsuario=>{
+            this.detalleJson.CoNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
+            this.detalleJson.CoCargo = dataUsuario.body[0].cargo;
+            this.detalleJson.AuNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
+            this.detalleJson.AuCargo = dataUsuario.body[0].cargo;
+          });
+        }else{
+          this._usuariosS.getUsuarioByUsuario(dataAprobadores.esSolpeUsersField.aprobador1Field).subscribe(dataUsuario=>{
+            this.detalleJson.CoNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
+            this.detalleJson.CoCargo = dataUsuario.body[0].cargo;
+          });
+          this._usuariosS.getUsuarioByUsuario(dataAprobadores.esSolpeUsersField.aprobador2Field).subscribe(dataUsuario=>{
+            this.detalleJson.AuNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
+            this.detalleJson.AuCargo = dataUsuario.body[0].cargo;
+          });
+        }
+
+      });
+    });
   }
 
   ngAfterViewInit() {
@@ -315,8 +348,7 @@ export class CrearSolpeComponent implements OnInit {
             IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
             IsMaterial: req.matnr,
             IsValor: "STOCK"
-          } 
-          console.log(json_req_info_extra);
+          }
           this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
             this.dataSourceCrearSolpe.data[ind].stock = data.esCantidadField;
             this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];

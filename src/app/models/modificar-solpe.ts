@@ -5,6 +5,7 @@ export interface tableModificarPosicionI {
     meins:string
     descr:string
     matnr:string
+    stock:string
     ccosto:string
     gl:string
     punit:string

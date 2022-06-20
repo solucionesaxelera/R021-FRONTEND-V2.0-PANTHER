@@ -15,6 +15,7 @@ export class UsuariosService {
   private _usuariosS = this.url + 'Usuario';
   private _crearUsuarioS = this.url + 'Usuario';
   private _usuarioByIdS = this.url + 'Usuario/';
+  private _usuarioByUsernameS = this.url + 'Usuario/ByUser/';
   private _modificarUsuarioS = this.url + 'Usuario/';
   private _modificarRolUsuarioS = this.url + 'Usuario/UpdateRol?id=';
   private _modificarEstadoUsuarioS = this.url + 'Usuario/UpdateStatus?id=';
@@ -48,6 +49,15 @@ export class UsuariosService {
 
   getUsuarioById(id:number):Observable<usuarioByIdO> {
     return this._http.get<usuarioByIdO>(this._usuarioByIdS+id, { 
+      headers: new HttpHeaders({
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem('data_current')
+      })
+    })
+  }
+
+  getUsuarioByUsuario(id:string):Observable<usuarioByIdO> {
+    return this._http.get<usuarioByIdO>(this._usuarioByUsernameS+id, { 
       headers: new HttpHeaders({
         "Content-Type": "application/json",
         "Authorization": "Bearer " + localStorage.getItem('data_current')
