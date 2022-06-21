@@ -43,6 +43,8 @@
             <th mat-header-cell *matHeaderCellDef> ESTADO </th>
             <td mat-cell *matCellDef="let element"> 
                <div *ngIf="element.estadoField == 'P'"> POR LIBERAR </div>
+               <div *ngIf="element.estadoField == 'P1'"> POR LIBERAR </div>
+               <div *ngIf="element.estadoField == 'P2'"> POR LIBERAR </div>
                <div *ngIf="element.estadoField == 'L'"> LIBERADO </div>
                <div *ngIf="element.estadoField == 'R'"> RECHAZADO </div>
             </td>

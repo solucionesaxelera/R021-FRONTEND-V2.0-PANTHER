@@ -183,7 +183,7 @@ export class CrearSolpeComponent implements OnInit {
         Centro:req.Centro,
         DescrSolpe: req.DescrSolpe,
         Estado: "",
-        Usuario:this.helper.decodeToken(this.token).usuario,
+        Usuario:this.helper.decodeToken(this.token).usuario.trim(),
         Detalle: this.dataSourceCrearSolpe.data,
         ParaSerusado: this.detalleJson.ParaSerusado,
         Locacion:  this.detalleJson.Locacion,
@@ -201,7 +201,8 @@ export class CrearSolpeComponent implements OnInit {
         AuNomb: this.detalleJson.AuNomb,
         AuCargo: this.detalleJson.AuCargo,
         AuAsigna: this.detalleJson.AuAsigna,
-        AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD")
+        AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD"),
+        Sociedad: this.helper.decodeToken(this.token).sociedad.trim()
       }
     }
     this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
@@ -215,6 +216,27 @@ export class CrearSolpeComponent implements OnInit {
         });
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = [];
+        this.indicadorCarga=false;
+
+        this.detalleJson.ParaSerusado = "";
+        this.detalleJson.Locacion = "";
+        this.detalleJson.FechaReque = "";
+        this.detalleJson.ProveSuge = "";
+        this.detalleJson.Ocotiza = "";
+        this.detalleJson.SoNomb = "";
+        this.detalleJson.SoCargo = "";
+        this.detalleJson.SoAsigna = ""; 
+        this.detalleJson.SoFecha = "";
+        this.detalleJson.CoNomb = "";
+        this.detalleJson.CoCargo = "";
+        this.detalleJson.CoAsigna = "";
+        this.detalleJson.CoFecha = "";
+        this.detalleJson.AuNomb = "";
+        this.detalleJson.AuCargo = "";
+        this.detalleJson.AuAsigna = "";
+        this.detalleJson.AuFecha = "";
+
+      }else{
         this.indicadorCarga=false;
       }
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{

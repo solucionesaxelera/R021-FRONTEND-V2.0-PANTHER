@@ -277,7 +277,8 @@ export class ModificarSolpeComponent implements OnInit {
         AuNomb: this.detalleJson.AuNomb,
         AuCargo: this.detalleJson.AuCargo,
         AuAsigna: this.detalleJson.AuAsigna,
-        AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD")
+        AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD"),
+        Sociedad: this.helper.decodeToken(this.token).sociedad.trim()
       }
     }
     this._SolpeOptionPrelimS.postSolpeOptionsPrelim(json_req).subscribe(data=>{

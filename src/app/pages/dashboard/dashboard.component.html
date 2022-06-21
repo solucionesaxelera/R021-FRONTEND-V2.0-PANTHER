@@ -1,1 +1,5 @@
-ESTE ES EL DASHBOARD INICIO
+<div  class="content-grid">
+    <div *ngFor="let modulo of listModulos" class="item-grid" routerLink={{modulo.url}}>
+        <div class="modulo">{{modulo.modulo}}</div>
+    </div>
+</div>

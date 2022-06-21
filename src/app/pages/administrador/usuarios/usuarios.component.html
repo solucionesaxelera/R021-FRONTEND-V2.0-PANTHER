@@ -145,7 +145,7 @@
           </section>
           <mat-form-field class="full-width col-md-4" appearance="fill">
             <mat-label>Aprobador 1</mat-label>
-            <mat-select formControlName="IsAprobador">
+            <mat-select formControlName="isPrimerAprobador">
               <mat-option *ngFor="let aprobador of dataSourceUsuarios.data" [value]="aprobador.usuario">
                 {{aprobador.nombres}} {{aprobador.ape_pat}} {{aprobador.ape_mat}}
               </mat-option>
@@ -153,7 +153,7 @@
           </mat-form-field>
           <mat-form-field class="full-width col-md-4" appearance="fill">
             <mat-label>Aprobador 2</mat-label>
-            <mat-select formControlName="IsAprobador" [disabled]="segundoAprobadorDisabled">
+            <mat-select formControlName="isSegundoAprobador" [disabled]="segundoAprobadorDisabled">
               <mat-option *ngFor="let aprobador of dataSourceUsuarios.data" [value]="aprobador.usuario">
                 {{aprobador.nombres}} {{aprobador.ape_pat}} {{aprobador.ape_mat}}
               </mat-option>

@@ -102,6 +102,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   openDialogModificarUsuario(id:number,usuario:string) {
+    this.checked= false;
     this.segundoAprobadorDisabled = true;
     this.idUsuarioSeleccionado = id;
     this.usuarioSeleccionado = usuario;
@@ -112,10 +113,12 @@ export class UsuariosComponent implements OnInit {
       IsCreador: usuario
     }
     this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
-      console.log(data.esSolpeUsersField.aprobador1Field);
+      console.log(data.esSolpeUsersField);
       if(data.esSolpeUsersField.aprobador2Field != ""){
         this.segundoAprobadorDisabled = false;
         this.checked= true;
+      }else {
+        this.checked= false;
       }
       this.modificarUsuarioForm.controls['isPrimerAprobador'].setValue(data.esSolpeUsersField.aprobador1Field);
       this.modificarUsuarioForm.controls['isSegundoAprobador'].setValue(data.esSolpeUsersField.aprobador2Field);
