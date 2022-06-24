@@ -4,7 +4,7 @@
 <div class="header-crear-solpe">
     <div class="row">
         <div class="button-header col-md-2">
-            <button  mat-flat-button color="primary" class="full-width btn-cabecera " (click)="openAgregarPosicion()" [disabled]="idSeleccionadoEditarPosicion!=0">
+            <button  mat-flat-button color="primary" class="full-width btn-cabecera " (click)="openAgregarPosicion()" [disabled]="idSeleccionadoEditarPosicion!=0 || cabeceraCrearSolpeForm.invalid">
                 Agregar Posición
             </button>
         </div>
@@ -81,6 +81,7 @@
                     placeholder="Ingrese Cantidad"
                     type="text"
                     [(ngModel)]="element.menge"
+                    (keypress)="validacionCrearSolpeInputCantidad($event)"
                     required
                 />
                 </mat-form-field>
@@ -90,10 +91,10 @@
         <ng-container matColumnDef="meins">
             <th mat-header-cell *matHeaderCellDef> UNIDAD </th>
             <td mat-cell *matCellDef="let element; let i = index">
-                <div *ngIf="element.item!=idSeleccionadoEditarPosicion">
+                <!-- <div *ngIf="element.item!=idSeleccionadoEditarPosicion"> -->
                     {{element.meins}}
-                </div>
-                <mat-form-field *ngIf="element.item==idSeleccionadoEditarPosicion" class="form-input mat-form-field-table" style="margin-top:5px;">
+                <!-- </div> -->
+                <!-- <mat-form-field *ngIf="element.item==idSeleccionadoEditarPosicion" class="form-input mat-form-field-table" style="margin-top:5px;">
                     <input
                     matInput
                     placeholder="Ingrese Unidad"
@@ -101,8 +102,8 @@
                     [(ngModel)]="element.meins"
                     required
                 />
-                <mat-icon class="matchcode-icon" *ngIf="element.item==idSeleccionadoEditarPosicion" (click)="matchcodeAgregarPosicion('MSEHI',element.meins,element.item)" matSuffix>filter_none</mat-icon>
-                </mat-form-field>
+                <mat-icon class="matchcode-icon" *ngIf="element.item==idSeleccionadoEditarPosicion" (click)="matchcodeAgregarPosicion('MSEHI',element.meins,element.item)" matSuffix>filter_none</mat-icon> -->
+                <!-- </mat-form-field> -->
             </td>
         </ng-container>
 
@@ -144,7 +145,7 @@
         </ng-container>
         
         <ng-container matColumnDef="stock">
-            <th mat-header-cell *matHeaderCellDef> STOCK </th>
+            <th mat-header-cell *matHeaderCellDef class="stock-form-filed"> STOCK </th>
             <td mat-cell *matCellDef="let element; let i = index">
                     {{element.stock}}
             </td>
@@ -201,6 +202,7 @@
                     type="text"
                     [(ngModel)]="element.punit"
                     required
+                    (keypress)="validacionCrearSolpeInputPrecioUnitario($event)"
                 />
                 </mat-form-field>
             </td>
@@ -218,6 +220,7 @@
                     placeholder="Ingrese Total"
                     type="text"
                     [(ngModel)]="element.totsinigv"
+                    (keypress)="validacionCrearSolpeInputTotalSinIgv($event)"
                     required
                 />
                 </mat-form-field>
@@ -255,28 +258,28 @@
             <div class="col-md-6">
                 <mat-form-field class="full-width item-input" appearance="fill">
                     <mat-label>Para ser usado en ...</mat-label>
-                    <textarea type="text" style="height: 100%;" matInput placeholder="Para ser usado en ..." [(ngModel)]="detalleJson.ParaSerusado"></textarea>
+                    <textarea type="text" style="height: 100%;" matInput placeholder="Para ser usado en ..." [(ngModel)]="detalleJson.ParaSerusado" required></textarea>
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="full-width item-input" appearance="fill">
                     <mat-label>Locación</mat-label>
-                    <input type="text" matInput placeholder="Locación" [(ngModel)]="detalleJson.Locacion">
+                    <input type="text" matInput placeholder="Locación" [(ngModel)]="detalleJson.Locacion" required>
                 </mat-form-field>
                 <mat-form-field class="full-width item-input" appearance="fill">
                     <mat-label>Fecha requerida</mat-label>
-                    <input type="date" matInput placeholder="Fecha requerida" [(ngModel)]="detalleJson.FechaReque">
+                    <input type="date" matInput placeholder="Fecha requerida" [(ngModel)]="detalleJson.FechaReque" required>
                 </mat-form-field>
             </div>
         </div>
         <div class="col-md-6 row">
             <mat-form-field class="full-width item-input col-md-12" appearance="fill">
                 <mat-label>Proveedor sugerido</mat-label>
-                <input type="text" matInput placeholder="Proveedor sugerido" [(ngModel)]="detalleJson.ProveSuge">
+                <input type="text" matInput placeholder="Proveedor sugerido" [(ngModel)]="detalleJson.ProveSuge" required>
             </mat-form-field>
             <mat-form-field class="full-width item-input col-md-12" appearance="fill">
                 <mat-label>Otras cotizaciones</mat-label>
-                <input type="text" matInput placeholder="Otras cotizaciones" [(ngModel)]="detalleJson.Ocotiza">
+                <input type="text" matInput placeholder="Otras cotizaciones" [(ngModel)]="detalleJson.Ocotiza" required>
             </mat-form-field>
         </div>
     </section>

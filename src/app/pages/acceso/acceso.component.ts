@@ -1,5 +1,5 @@
 import { accesoI } from './../../models/acceso';
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccesoService } from 'src/app/services/acceso/acceso.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,15 +14,23 @@ import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 export class AccesoComponent implements OnInit {
   selectedValue: string="";
   sociedades: any[] = [];
+
+  cargaSociedades:boolean=false;
+  sociedadesNull:boolean = false;
+
   constructor(
     private _accesoS: AccesoService,
     private _snackBar: MatSnackBar,
     private _matchcodeS: MatchcodeService,
     private _router: Router
     ) { }
- 
+
+  cambioUsuario(){
+    this.sociedades=[];
+    this.accesoForm.controls['sociedad'].setValue("");
+  }
+
   ngOnInit(): void {
-    this.cargarSociedades();
   }
 
   accesoForm = new FormGroup({
@@ -32,9 +40,34 @@ export class AccesoComponent implements OnInit {
   });
 
   cargarSociedades(){
-    this._matchcodeS.getSolpeOptionsMatchcodeSociedades().subscribe(data=>{
-      this.sociedades = data.etSocieField
+    this.sociedades=[];
+    this.sociedadesNull= false;
+    this.cargaSociedades = true;
+    let json_req_info_extra = {
+      IsCentro: "",
+      IsMaterial: "",
+      IsValor: "SOCIEDADES",
+      IsUsuario: this.accesoForm.controls['usuario'].value.trim()
+    }
+    
+    this._matchcodeS.getSolpeOptionsMatchcodeSociedades(json_req_info_extra).subscribe(data=>{
+      this.sociedades = data.etSociedadesField;
+      this.cargaSociedades = false;
+      this.sociedadesNull = false;
+      
+      if(data.etMsgReturnField[0].successField != "X"){
+        this.sociedadesNull = true;
+      }
+    },err=>{
+      this.sociedades=[];
+      this.sociedadesNull= true;
+      this.cargaSociedades = false;
     });
+  }
+
+  ListarSociedades(){
+    this.cargarSociedades();
+    console.log("prueba")
   }
 
   acceder(req:accesoI) {

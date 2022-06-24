@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot,UrlSegment, UrlTree } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { first, map, Observable, Subject } from 'rxjs';
-import { environment } from 'src/environments/environment';
+// import { environment } from 'src/environments/environment';
 import { accesoO } from '../models/acceso';
 import { ModulosService } from '../services/administrador/modulos/modulos.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +51,7 @@ export class AutorizacionGuard implements CanActivate {
     let isRefreshSuccess: boolean = false;
     // isRefreshSuccess = true;
     const refreshRes = await new Promise<any>((resolve, reject) => {
-      this._http.post<any>("http://localhost:9021/api/RefreshToken", credentials, {
+      this._http.post<any>(environment.url+"RefreshToken", credentials, {
         headers: new HttpHeaders({
           "Content-Type": "application/json"
         })

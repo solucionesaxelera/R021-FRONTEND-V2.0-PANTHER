@@ -7,7 +7,7 @@
     <form [formGroup]="accesoForm" (submit)="acceder(accesoForm.value)">
         <mat-form-field class="full-width" appearance="fill">
             <mat-label>Usuario</mat-label>
-            <input matInput placeholder="Ingrese nombre de usuario" formControlName="usuario">
+            <input matInput placeholder="Ingrese nombre de usuario" formControlName="usuario" id="usuario" (keypress)="cambioUsuario()">
         </mat-form-field>
         <mat-form-field class="full-width" appearance="fill">
             <mat-label>Contraseña</mat-label>
@@ -23,9 +23,17 @@
         </mat-form-field>
         <mat-form-field class="full-width" appearance="fill">
             <mat-label>Seleccione una sociedad</mat-label>
-            <mat-select  [(ngModel)]="selectedValue" name="sociedad" formControlName="sociedad">
+            <mat-select  [(ngModel)]="selectedValue" name="sociedad" formControlName="sociedad"  (click)="ListarSociedades()">
+                <mat-option *ngIf="cargaSociedades">
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <mat-spinner [diameter]="20"></mat-spinner>
+                    </div>
+                </mat-option>
+                <mat-option *ngIf="sociedadesNull">
+                    No tiene sociedades asignadas.
+                </mat-option>
                 <mat-option *ngFor="let sociedad of sociedades" [value]="sociedad.bukrsField">
-                    {{sociedad.butxtField}}
+                    {{sociedad.bukrsField}} - {{sociedad.butxtField}}
                   </mat-option>
             </mat-select>
         </mat-form-field>

@@ -26,8 +26,8 @@ export class MatchcodeService {
     })
   }
 
-  getSolpeOptionsMatchcodeSociedades(): Observable<any> {
-    return this._http.get<any>(this._SolpeOptionsMatchcodeSociedades)
+  getSolpeOptionsMatchcodeSociedades(req:any): Observable<any> {
+    return this._http.post<any>(this._SolpeOptionsMatchcodeSociedades,req)
   }
 
   postInfoExtra(req:any) {

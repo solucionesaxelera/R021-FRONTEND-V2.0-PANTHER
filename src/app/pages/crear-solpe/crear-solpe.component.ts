@@ -169,80 +169,91 @@ export class CrearSolpeComponent implements OnInit {
 
   crearSolpe(req:any){
 
-    this.indicadorCarga=true;
-    let json_req={
-      IsAccion: "C",
-      IsIdSolpe: "",
-      IsItem: "",
-      IsSolpePrelimCab: {
-        Id: "",
-        Nroreq: req.Nroreq,
-        Area: req.Area,
-        Fecha: moment(req.Fecha).format("YYYYMMDD"),
-        Moneda:req.Moneda,
-        Centro:req.Centro,
-        DescrSolpe: req.DescrSolpe,
-        Estado: "",
-        Usuario:this.helper.decodeToken(this.token).usuario.trim(),
-        Detalle: this.dataSourceCrearSolpe.data,
-        ParaSerusado: this.detalleJson.ParaSerusado,
-        Locacion:  this.detalleJson.Locacion,
-        FechaReque:  moment(this.detalleJson.FechaReque).format("YYYYMMDD"),
-        ProveSuge:  this.detalleJson.ProveSuge,
-        Ocotiza:  this.detalleJson.Ocotiza,
-        SoNomb:  this.detalleJson.SoNomb,
-        SoCargo:  this.detalleJson.SoCargo,
-        SoAsigna: this.detalleJson.SoAsigna,
-        SoFecha: moment(this.detalleJson.SoFecha).format("YYYYMMDD"),
-        CoNomb: this.detalleJson.CoNomb,
-        CoCargo: this.detalleJson.CoCargo,
-        CoAsigna: this.detalleJson.CoAsigna,
-        CoFecha: moment(this.detalleJson.CoFecha).format("YYYYMMDD"),
-        AuNomb: this.detalleJson.AuNomb,
-        AuCargo: this.detalleJson.AuCargo,
-        AuAsigna: this.detalleJson.AuAsigna,
-        AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD"),
-        Sociedad: this.helper.decodeToken(this.token).sociedad.trim()
-      }
-    }
-    this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
-      if(data.etMsgReturnField[0].successField == 'X'){
-        let json_req_auditoria = {
-          id_solpe:data.esSolpePrelimCabField.idField,
-          usuario:this.helper.decodeToken(this.token).usuario,
-          accion:"C"
-        }
-        this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
-        });
-        this.cabeceraCrearSolpeForm.reset();
-        this.dataSourceCrearSolpe.data = [];
-        this.indicadorCarga=false;
-
-        this.detalleJson.ParaSerusado = "";
-        this.detalleJson.Locacion = "";
-        this.detalleJson.FechaReque = "";
-        this.detalleJson.ProveSuge = "";
-        this.detalleJson.Ocotiza = "";
-        this.detalleJson.SoNomb = "";
-        this.detalleJson.SoCargo = "";
-        this.detalleJson.SoAsigna = ""; 
-        this.detalleJson.SoFecha = "";
-        this.detalleJson.CoNomb = "";
-        this.detalleJson.CoCargo = "";
-        this.detalleJson.CoAsigna = "";
-        this.detalleJson.CoFecha = "";
-        this.detalleJson.AuNomb = "";
-        this.detalleJson.AuCargo = "";
-        this.detalleJson.AuAsigna = "";
-        this.detalleJson.AuFecha = "";
-
-      }else{
-        this.indicadorCarga=false;
-      }
-      this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
+    if(this.detalleJson.ParaSerusado.trim() == "" &&
+    this.detalleJson.Locacion.trim() == "" &&
+    this.detalleJson.FechaReque.trim() == "" &&
+    this.detalleJson.ProveSuge.trim() == "" &&
+    this.detalleJson.Ocotiza.trim() == ""){
+      this._snackBar.open("Por favor complete todos los campos obligatorios.", 'cerrar',{
         duration:5*1000
       });
-    })
+    }else{
+      this.indicadorCarga=true;
+      let json_req={
+        IsAccion: "C",
+        IsIdSolpe: "",
+        IsItem: "",
+        IsSolpePrelimCab: {
+          Id: "",
+          Nroreq: req.Nroreq,
+          Area: req.Area,
+          Fecha: moment(req.Fecha).format("YYYYMMDD"),
+          Moneda:req.Moneda,
+          Centro:req.Centro,
+          DescrSolpe: req.DescrSolpe,
+          Estado: "",
+          Usuario:this.helper.decodeToken(this.token).usuario.trim(),
+          Detalle: this.dataSourceCrearSolpe.data,
+          ParaSerusado: this.detalleJson.ParaSerusado,
+          Locacion:  this.detalleJson.Locacion,
+          FechaReque:  moment(this.detalleJson.FechaReque).format("YYYYMMDD"),
+          ProveSuge:  this.detalleJson.ProveSuge,
+          Ocotiza:  this.detalleJson.Ocotiza,
+          SoNomb:  this.detalleJson.SoNomb,
+          SoCargo:  this.detalleJson.SoCargo,
+          SoAsigna: this.detalleJson.SoAsigna,
+          SoFecha: moment(this.detalleJson.SoFecha).format("YYYYMMDD"),
+          CoNomb: this.detalleJson.CoNomb,
+          CoCargo: this.detalleJson.CoCargo,
+          CoAsigna: this.detalleJson.CoAsigna,
+          CoFecha: moment(this.detalleJson.CoFecha).format("YYYYMMDD"),
+          AuNomb: this.detalleJson.AuNomb,
+          AuCargo: this.detalleJson.AuCargo,
+          AuAsigna: this.detalleJson.AuAsigna,
+          AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD"),
+          Sociedad: this.helper.decodeToken(this.token).sociedad.trim()
+        }
+      }
+      this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
+        if(data.etMsgReturnField[0].successField == 'X'){
+          let json_req_auditoria = {
+            id_solpe:data.esSolpePrelimCabField.idField,
+            usuario:this.helper.decodeToken(this.token).usuario,
+            accion:"C"
+          }
+          this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
+          });
+          this.cabeceraCrearSolpeForm.reset();
+          this.dataSourceCrearSolpe.data = [];
+          this.indicadorCarga=false;
+  
+          this.detalleJson.ParaSerusado = "";
+          this.detalleJson.Locacion = "";
+          this.detalleJson.FechaReque = "";
+          this.detalleJson.ProveSuge = "";
+          this.detalleJson.Ocotiza = "";
+          this.detalleJson.SoNomb = "";
+          this.detalleJson.SoCargo = "";
+          this.detalleJson.SoAsigna = ""; 
+          this.detalleJson.SoFecha = "";
+          this.detalleJson.CoNomb = "";
+          this.detalleJson.CoCargo = "";
+          this.detalleJson.CoAsigna = "";
+          this.detalleJson.CoFecha = "";
+          this.detalleJson.AuNomb = "";
+          this.detalleJson.AuCargo = "";
+          this.detalleJson.AuAsigna = "";
+          this.detalleJson.AuFecha = "";
+  
+        }else{
+          this.indicadorCarga=false;
+        }
+        this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
+          duration:5*1000
+        });
+      })
+    }
+
   }
 
 
@@ -293,7 +304,8 @@ export class CrearSolpeComponent implements OnInit {
     let code = valor.keyCode;
     if(code>=48 && code<=57){
       return true;
-    }else{
+    }
+    else{
       return false;
     }
   }
@@ -337,7 +349,6 @@ export class CrearSolpeComponent implements OnInit {
     if(
       req.presu.trim()=="" ||
       req.menge.trim()=="" ||
-      req.meins.trim()=="" ||
       req.descr.trim()=="" ||
       req.matnr.trim()=="" ||
       req.ccosto.trim()=="" ||
@@ -351,32 +362,89 @@ export class CrearSolpeComponent implements OnInit {
       });
     }else{
       
-      for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
-        if(this.dataSourceCrearSolpe.data[ind].item == item){
-          this.dataSourceCrearSolpe.data[ind].presu = req.presu;
-          this.dataSourceCrearSolpe.data[ind].menge = req.menge;
-          this.dataSourceCrearSolpe.data[ind].meins = req.meins;
-          this.dataSourceCrearSolpe.data[ind].descr = req.descr;
-          this.dataSourceCrearSolpe.data[ind].matnr = req.matnr;
-          this.dataSourceCrearSolpe.data[ind].ccosto = req.ccosto;
-          this.dataSourceCrearSolpe.data[ind].gl = req.gl;
-          this.dataSourceCrearSolpe.data[ind].punit = req.punit;
-          this.dataSourceCrearSolpe.data[ind].totsinigv = req.totsinigv;
-          this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
-        }
-        if(this.dataSourceCrearSolpe.data.length - 1 == ind){
-          this.idSeleccionadoEditarPosicion = 0;
-          let json_req_info_extra = {
-            IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
-            IsMaterial: req.matnr,
-            IsValor: "STOCK"
-          }
-          this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
-            this.dataSourceCrearSolpe.data[ind].stock = data.esCantidadField;
-            this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
-          })
+      let json_req={
+        IsAccion: "V",
+        IsIdSolpe: "",
+        IsItem: "",
+        IsSolpePrelimCab: {
+          Id: "",
+          Nroreq: this.cabeceraCrearSolpeForm.controls['Nroreq'].value,
+          Area: this.cabeceraCrearSolpeForm.controls['Area'].value,
+          Fecha:this.cabeceraCrearSolpeForm.controls['Moneda'].value ,
+          Moneda:this.cabeceraCrearSolpeForm.controls['Moneda'].value,
+          Centro:this.cabeceraCrearSolpeForm.controls['Centro'].value,
+          DescrSolpe: this.cabeceraCrearSolpeForm.controls['DescrSolpe'].value,
+          Estado: "",
+          Usuario:this.helper.decodeToken(this.token).usuario.trim(),
+          Detalle: this.dataSourceCrearSolpe.data,
+          ParaSerusado: "",
+          Locacion:  "",
+          FechaReque:  "",
+          ProveSuge:  "",
+          Ocotiza:  "",
+          SoNomb:  "",
+          SoCargo: "",
+          SoAsigna: "",
+          SoFecha: "",
+          CoNomb: "",
+          CoCargo: "",
+          CoAsigna: "",
+          CoFecha: "",
+          AuNomb: "",
+          AuCargo: "",
+          AuAsigna: "",
+          AuFecha: "",
+          Sociedad: "",
         }
       }
+      console.log(json_req);
+      this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
+        if(data.etMsgReturnField[0].successField == 'X'){
+          for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
+            if(this.dataSourceCrearSolpe.data[ind].item == item){
+              this.dataSourceCrearSolpe.data[ind].presu = req.presu;
+              this.dataSourceCrearSolpe.data[ind].menge = req.menge;
+              this.dataSourceCrearSolpe.data[ind].meins = req.meins;
+              this.dataSourceCrearSolpe.data[ind].descr = req.descr;
+              this.dataSourceCrearSolpe.data[ind].matnr = req.matnr;
+              this.dataSourceCrearSolpe.data[ind].ccosto = req.ccosto;
+              this.dataSourceCrearSolpe.data[ind].gl = req.gl;
+              this.dataSourceCrearSolpe.data[ind].punit = req.punit;
+              this.dataSourceCrearSolpe.data[ind].totsinigv = req.totsinigv;
+              this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+            }
+            if(this.dataSourceCrearSolpe.data.length - 1 == ind){
+              this.idSeleccionadoEditarPosicion = 0;
+              let json_req_info_extra = {
+                IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
+                IsMaterial: req.matnr,
+                IsValor: "STOCK"
+              }
+              this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+                this.dataSourceCrearSolpe.data[ind].stock = data.esCantidadField;
+                this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+              });
+              let json_req_info_extra_und = {
+                IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
+                IsMaterial: req.matnr,
+                IsValor: "UNIDAD"
+              }
+              this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(data=>{
+                this.dataSourceCrearSolpe.data[ind].meins = data.esUnitField;
+                this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+              })
+            }
+          }
+        }else{
+          this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
+            duration:5*1000
+          });
+        }
+      },err=>{
+        this._snackBar.open("Ocurrió un error con el servicio SAP.", 'cerrar',{
+          duration:5*1000
+        });
+      });
     }
   }
 
