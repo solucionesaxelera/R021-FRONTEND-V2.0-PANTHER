@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>CENTRO DE COSTOS</h2>
+<form [formGroup]="CentroCostoForm" (submit)="filtrarCentroCosto(CentroCostoForm.value)">
+    <div class="row">
+        <div class="col-md-6">
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>IsCeco</mat-label>
+                <input matInput placeholder="Ingrese IsCeco" formControlName="IsCeco">
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field class="full-width" appearance="fill">
+                <mat-label>IsNameCeco</mat-label>
+                <input matInput placeholder="Ingrese IsNameCeco " formControlName="IsNameCeco">
+            </mat-form-field>
+        </div>
+    </div>
+    <button mat-flat-button color="primary" class="full-width btn-filter">Filtrar</button>
+</form>
+<div mat-dialog-content>
+    <mat-dialog-content class="mat-typography">
+        <mat-selection-list [(ngModel)]="seleccionarCentroCostos" [compareWith]="compareFunction">
+            <mat-list-option *ngFor="let centro of centrocostos" [value]="centro">
+              {{centro.item}} - {{centro.name}}
+            </mat-list-option>
+        </mat-selection-list>              
+    </mat-dialog-content>
+</div>
+<div mat-dialog-actions>
+    <button color="primary" mat-flat-button (click)="guardarCentroCostos()">Guardar</button>
+    <button color="primary" mat-flat-button (click)="cerrarDialog()">Cerrar</button>
+</div>

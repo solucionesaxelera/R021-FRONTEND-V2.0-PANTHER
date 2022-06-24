@@ -9,6 +9,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { bodyUsuarioO, crearUsuarioI, modificarEstadoUsuarioI, modificarRolUsuarioI, modificarUsuarioI, usuariosO } from 'src/app/models/administrador/usuarios';
 import { RolesService } from 'src/app/services/administrador/roles/roles.service';
 import { UsuariosService } from 'src/app/services/administrador/usuarios/usuarios.service';
+import { DialogCentrocostosComponent } from '../dialog-centrocostos/dialog-centrocostos.component';
+import { DialogSociedadesComponent } from '../dialog-sociedades/dialog-sociedades.component';
 
 @Component({
   selector: 'app-usuarios',
@@ -22,6 +24,9 @@ export class UsuariosComponent implements OnInit {
 
   checked = false;
   segundoAprobadorDisabled: boolean = true;
+
+  ItCcosto:any=[];
+  ItSociedad:any=[];
 
   idUsuarioSesion = this.helper.decodeToken(localStorage.getItem('data_current')?.toString());
   
@@ -97,6 +102,29 @@ export class UsuariosComponent implements OnInit {
     this.listarRoles();
   }
 
+  openDialogSociedades(): void{
+    const dialogRefSociedades =this.dialog.open(DialogSociedadesComponent, {
+      width: '500px',
+      disableClose:true,
+      data: this.ItSociedad,
+    });
+
+    dialogRefSociedades.afterClosed().subscribe(result => {
+      this.ItSociedad = result;
+    });
+  }
+  openDialogCentroCostos(): void{
+    const dialogRefCentroCostos =this.dialog.open(DialogCentrocostosComponent, {
+      width: '500px',
+      disableClose:true,
+      data: this.ItCcosto,
+    });
+
+    dialogRefCentroCostos.afterClosed().subscribe(result => {
+      this.ItCcosto = result;
+    });
+  }
+
   openDialogCrearUsuario() {
     return this.dialog.open(this.dialogTemplateCrearUsuario, this.config);
   }
@@ -110,10 +138,24 @@ export class UsuariosComponent implements OnInit {
       IsAccion: "L",
       IsAprobador1: "",
       IsAprobador2: "",
-      IsCreador: usuario
+      IsCreador: usuario,
+      ItCcosto: [],
+      ItSociedad: []
     }
     this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
-      console.log(data.esSolpeUsersField);
+      console.log(data);
+      for (let i = 0; i < data.etCcostoField.length; i++) {
+        this.ItCcosto.push({
+          item: data.etCcostoField[i].itemField
+        })
+      }
+
+      for (let i = 0; i < data.etSociedadField.length; i++) {
+        this.ItSociedad.push({
+          item: data.etSociedadField[i].itemField
+        })
+      }
+
       if(data.esSolpeUsersField.aprobador2Field != ""){
         this.segundoAprobadorDisabled = false;
         this.checked= true;
@@ -124,12 +166,16 @@ export class UsuariosComponent implements OnInit {
       this.modificarUsuarioForm.controls['isSegundoAprobador'].setValue(data.esSolpeUsersField.aprobador2Field);
     });
     this._usuariosS.getUsuarioById(id).subscribe(data=>{
-      this.modificarUsuarioForm.controls['nombres'].setValue(data.body[0].nombres);
-      this.modificarUsuarioForm.controls['ape_pat'].setValue(data.body[0].ape_pat);
-      this.modificarUsuarioForm.controls['ape_mat'].setValue(data.body[0].ape_mat);
-      this.modificarUsuarioForm.controls['correo'].setValue(data.body[0].correo.trim());
-      this.modificarUsuarioForm.controls['telefono'].setValue(data.body[0].telefono.trim());
-      this.modificarUsuarioForm.controls['cargo'].setValue(data.body[0].cargo);
+      console.log(data)
+      if(data.status == 1){
+        this.modificarUsuarioForm.controls['nombres'].setValue(data.body[0].nombres);
+        this.modificarUsuarioForm.controls['ape_pat'].setValue(data.body[0].ape_pat);
+        this.modificarUsuarioForm.controls['ape_mat'].setValue(data.body[0].ape_mat);
+        this.modificarUsuarioForm.controls['correo'].setValue(data.body[0].correo.trim());
+        this.modificarUsuarioForm.controls['telefono'].setValue(data.body[0].telefono.trim());
+        this.modificarUsuarioForm.controls['cargo'].setValue(data.body[0].cargo);
+      }
+     
       return this.dialog.open(this.dialogTemplateModificarUsuario, this.config);
     });
   }
@@ -170,24 +216,46 @@ export class UsuariosComponent implements OnInit {
       IsAccion: "C",
       IsAprobador1: req.isPrimerAprobador,
       IsAprobador2: req.isSegundoAprobador,
-      IsCreador: req.usuario
+      IsCreador: req.usuario,
+      ItCcosto: this.ItCcosto,
+      ItSociedad: this.ItSociedad
     }
-    this._usuariosS.postCrearUsuario(req).subscribe(data=>{
-      
-      if(data.status == 1){
-        this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
-          console.log(data);
-        });
-        this.listarUsuarios();
-        this.crearUsuarioForm.reset();
-        this.dialog.closeAll();
-      }
-      
-      this._snackBar.open(data.message, 'cerrar',{
-        duration:5*1000,
-        panelClass:['background-snackbar']
-      });
-    })
+    console.log(req_json_sap);
+
+    this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
+      console.log(data);
+      if(
+          data.etMsgReturnField[0].successField == "X" &&
+          data.etMsgReturnField[1].successField == "X" &&
+          data.etMsgReturnField[2].successField == "X"
+        ){
+          this._usuariosS.postCrearUsuario(req).subscribe(data=>{
+            if(data.status == 1){
+              this.listarUsuarios();
+              this.crearUsuarioForm.reset();
+              this.dialog.closeAll();
+            }
+            this._snackBar.open(data.message, 'cerrar',{
+              duration:5*1000,
+              panelClass:['background-snackbar']
+            });
+          });
+        }else{
+          this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
+            duration:5*1000,
+            panelClass:['background-snackbar']
+          });
+          this._snackBar.open(data.etMsgReturnField[1].messageField, 'cerrar',{
+            duration:5*1000,
+            panelClass:['background-snackbar']
+          });
+          this._snackBar.open(data.etMsgReturnField[2].messageField, 'cerrar',{
+            duration:5*1000,
+            panelClass:['background-snackbar']
+          });
+        }
+    });
+
   }
 
   modificarUsuario(req:modificarUsuarioI) {
@@ -195,7 +263,9 @@ export class UsuariosComponent implements OnInit {
       IsAccion: "M",
       IsAprobador1: "",
       IsAprobador2: "",
-      IsCreador: this.usuarioSeleccionado
+      IsCreador: this.usuarioSeleccionado,
+      ItCcosto: this.ItCcosto,
+      ItSociedad: this.ItSociedad
     }
     if(this.segundoAprobadorDisabled == false){
       req_json_sap.IsAprobador1 = req.isPrimerAprobador;
@@ -207,16 +277,38 @@ export class UsuariosComponent implements OnInit {
 
     this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
       console.log(data);
+      if(
+        data.etMsgReturnField[0].successField == "X" &&
+        data.etMsgReturnField[1].successField == "X" &&
+        data.etMsgReturnField[2].successField == "X"
+      ){
+        this._usuariosS.putModificarUsuario(this.idUsuarioSeleccionado,req).subscribe(data=>{
+          if(data.status == 1){
+            this.listarUsuarios();
+            this.modificarUsuarioForm.reset();
+            this.dialog.closeAll();
+          }
+          this._snackBar.open(data.message, 'cerrar',{
+            duration:5*1000,
+            panelClass:['background-snackbar']
+          });
+        })
+      }else{
+        this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
+          duration:5*1000,
+          panelClass:['background-snackbar']
+        });
+        this._snackBar.open(data.etMsgReturnField[1].messageField, 'cerrar',{
+          duration:5*1000,
+          panelClass:['background-snackbar']
+        });
+        this._snackBar.open(data.etMsgReturnField[2].messageField, 'cerrar',{
+          duration:5*1000,
+          panelClass:['background-snackbar']
+        });
+      }
     });
-    this._usuariosS.putModificarUsuario(this.idUsuarioSeleccionado,req).subscribe(data=>{
-      this.listarUsuarios();
-      this.modificarUsuarioForm.reset();
-      this.dialog.closeAll();
-      this._snackBar.open(data.message, 'cerrar',{
-        duration:5*1000,
-        panelClass:['background-snackbar']
-      });
-    })
+    
   }
 
   modificarRolUsuario(req:modificarRolUsuarioI) {

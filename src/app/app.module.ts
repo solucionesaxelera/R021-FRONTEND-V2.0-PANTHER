@@ -42,6 +42,8 @@ import { ConfiguracionComponent } from './pages/administrador/configuracion/conf
 import { LiberarSolpeComponent } from './pages/liberar-solpe/liberar-solpe.component';
 import { AuditoriaComponent } from './pages/auditoria/auditoria.component';
 import { MatchcodeComponent } from './components/matchcode/matchcode.component';
+import { DialogSociedadesComponent } from './pages/administrador/dialog-sociedades/dialog-sociedades.component';
+import { DialogCentrocostosComponent } from './pages/administrador/dialog-centrocostos/dialog-centrocostos.component';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { MatchcodeComponent } from './components/matchcode/matchcode.component';
     ConfiguracionComponent,
     LiberarSolpeComponent,
     AuditoriaComponent,
-    MatchcodeComponent
+    MatchcodeComponent,
+    DialogSociedadesComponent,
+    DialogCentrocostosComponent
   ],
   imports: [
     BrowserModule,

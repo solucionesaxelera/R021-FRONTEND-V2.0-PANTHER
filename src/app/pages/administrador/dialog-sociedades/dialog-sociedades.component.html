@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>SOCIEDADES</h2>
+<div mat-dialog-content>
+    <mat-dialog-content class="mat-typography">
+        <mat-selection-list [(ngModel)]="seleccionarSociedades" [compareWith]="compareFunction">
+            <mat-list-option *ngFor="let sociedad of sociedades" [value]="sociedad">
+              {{sociedad.item}} - {{sociedad.name}}
+            </mat-list-option>
+        </mat-selection-list>              
+    </mat-dialog-content>
+</div>
+<div mat-dialog-actions>
+    <button color="primary" mat-flat-button (click)="guardarSociedades()">Guardar</button>
+    <button color="primary" mat-flat-button (click)="cerrarDialog()">Cerrar</button>
+</div>
