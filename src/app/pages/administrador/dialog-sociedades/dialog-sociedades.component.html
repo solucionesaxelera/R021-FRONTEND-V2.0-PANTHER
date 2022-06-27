@@ -1,4 +1,12 @@
 <h2 mat-dialog-title>SOCIEDADES</h2>
+<div class="row">
+    <div class="col-sm-6 mtb-5">
+        <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">Seleccionar todo</button>
+    </div>
+    <div class="col-sm-6 mtb-5">
+        <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">Deseleccionar todo</button>
+    </div>
+</div>
 <div mat-dialog-content>
     <mat-dialog-content class="mat-typography">
         <mat-selection-list [(ngModel)]="seleccionarSociedades" [compareWith]="compareFunction">

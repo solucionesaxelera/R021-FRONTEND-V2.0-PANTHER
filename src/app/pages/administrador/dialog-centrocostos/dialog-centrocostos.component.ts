@@ -39,6 +39,7 @@ export class DialogCentrocostosComponent implements OnInit {
   }
 
   filtrarCentroCosto(req:any){
+    let seleccionTemporal = this.seleccionarCentroCostos;
     this.centrocostos=[];
     let req_json = {
       IsBukrs: "",
@@ -58,7 +59,8 @@ export class DialogCentrocostosComponent implements OnInit {
           name: data.etCecoField[i].ktextField
         });
         if(data.etCecoField.length - 1 == i){
-          this.seleccionarCentroCostos = this.data;
+          // this.seleccionarCentroCostos = this.data;
+          this.seleccionarCentroCostos = [...seleccionTemporal]
         }
       }
     });
@@ -83,6 +85,7 @@ export class DialogCentrocostosComponent implements OnInit {
           name: data.etCecoField[i].ktextField
         })
         if(data.etCecoField.length - 1 == i){
+          this.centrocostos=[...this.centrocostos];
           this.seleccionarCentroCostos = this.data;
         }
       }
@@ -100,4 +103,16 @@ export class DialogCentrocostosComponent implements OnInit {
       this.dialogRef.close();
     }
   }
+
+  seleccionarTodo(){
+    this.seleccionarCentroCostos = [];
+    for (let i = 0; i < this.centrocostos.length; i++) {
+      this.seleccionarCentroCostos.push({item:this.centrocostos[i].item,name:this.centrocostos[i].name})
+    }
+  }
+
+  deseleccionarTodo(){
+    this.seleccionarCentroCostos = [];
+  }
+
 }

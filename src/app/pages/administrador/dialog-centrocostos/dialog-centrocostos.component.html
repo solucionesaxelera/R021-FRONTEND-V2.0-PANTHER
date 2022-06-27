@@ -2,19 +2,31 @@
 <form [formGroup]="CentroCostoForm" (submit)="filtrarCentroCosto(CentroCostoForm.value)">
     <div class="row">
         <div class="col-md-6">
-            <mat-form-field class="full-width" appearance="fill">
+            <mat-form-field class="full-width" appearance="outline">
                 <mat-label>IsCeco</mat-label>
                 <input matInput placeholder="Ingrese IsCeco" formControlName="IsCeco">
             </mat-form-field>
         </div>
         <div class="col-md-6">
-            <mat-form-field class="full-width" appearance="fill">
+            <mat-form-field class="full-width" appearance="outline">
                 <mat-label>IsNameCeco</mat-label>
                 <input matInput placeholder="Ingrese IsNameCeco " formControlName="IsNameCeco">
             </mat-form-field>
         </div>
     </div>
-    <button mat-flat-button color="primary" class="full-width btn-filter">Filtrar</button>
+    <div class="row">
+        <div class="col-sm-12 mtb-5">
+            <button mat-flat-button color="primary" class="full-width">Filtrar</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 mtb-5">
+            <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">Seleccionar todo</button>
+        </div>
+        <div class="col-sm-6 mtb-5">
+            <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">Deseleccionar todo</button>
+        </div>
+    </div>
 </form>
 <div mat-dialog-content>
     <mat-dialog-content class="mat-typography">

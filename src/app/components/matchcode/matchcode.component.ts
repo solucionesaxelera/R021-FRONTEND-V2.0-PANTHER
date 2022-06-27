@@ -73,7 +73,7 @@ export class MatchcodeComponent implements OnInit {
       IsNameMatnr: "",
       IsParametro: this.data.name,
       IsSaknr: "",
-      IsUsuario: "",
+      IsUsuario: "user01",
       IsWerks: ""
     }
     this._matchcodeS.postSolpeOptionsMatchcode(req_json).subscribe(data=>{
@@ -135,7 +135,7 @@ export class MatchcodeComponent implements OnInit {
       IsNameMatnr: "",
       IsParametro: this.data.name,
       IsSaknr: "",
-      IsUsuario: "",
+      IsUsuario: "user01",
       IsWerks: ""
     }
     this._matchcodeS.postSolpeOptionsMatchcode(req_json).subscribe(data=>{

@@ -1,5 +1,5 @@
 <h2>LIBERAR SOLPE</h2>
-<hr>
+<div class="separator"></div>
 <div class="header-crear-solpe">
     <div class="button-header">
         <button mat-flat-button color="primary" (click)="buscarSolpe()">
@@ -9,11 +9,11 @@
     <div>
         <form id="cabecera-crear-solped" [formGroup]="cabeceraCrearSolpeForm">
             <div class="inputs-header">
-                <mat-form-field class="full-width item-input" appearance="fill">
+                <mat-form-field class="full-width item-input" appearance="outline">
                     <mat-label>Usuario</mat-label>
                     <input type="text" matInput placeholder="Ingrese nombre de usuario" formControlName="Usuario">
                 </mat-form-field>
-                <mat-form-field class="full-width item-input" appearance="fill">
+                <mat-form-field class="full-width item-input" appearance="outline">
                     <mat-label>Fecha</mat-label>
                     <input type="date" matInput formControlName="Fecha">
                 </mat-form-field>
@@ -23,7 +23,7 @@
     </div>
 </div>
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8-custom" style="overflow-x:auto;">
     <table mat-table [dataSource]="dataSourceCrearSolpe">
 
         <ng-container matColumnDef="id">

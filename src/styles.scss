@@ -4,6 +4,7 @@ html, body { height: 100%; }
 body { margin: 0; }
 * {
     font-family: 'Roboto', sans-serif;
+    
 }
 
 ::-webkit-scrollbar {
@@ -15,12 +16,13 @@ body { margin: 0; }
 }
 
 ::-webkit-scrollbar-track{
-  border-radius: 10px;
+  // border-radius: 10px;
+  background-color: #333333;
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(184, 170, 131);
-  border-radius: 15px;
+  background-color: #777777;
+  border-radius: 10px;
 }
 
 .header-module {
@@ -79,3 +81,24 @@ body { margin: 0; }
   }
 }
 
+.mtb-5 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+
+mat-card {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px!important;
+  border-radius: 15px!important;
+}
+
+.mat-elevation-z8-custom {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px!important;
+  border-radius: 15px!important;
+}
+
+.separator {
+  content: "";
+  border-top: 2px solid #D29E0E;
+  padding: 5px 0;
+}

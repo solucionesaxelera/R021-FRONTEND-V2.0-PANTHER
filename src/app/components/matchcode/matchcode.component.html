@@ -11,11 +11,11 @@
 <!-- fILTRO MATERIAL -->
 <div *ngIf="data.name == 'MATNR'">
     <form [formGroup]="matchcodeMaterialForm" (submit)="filtrarMatchcodeMaterial(matchcodeMaterialForm.value)">
-        <mat-form-field class="filter-matchcode" appearance="fill">
+        <mat-form-field class="filter-matchcode" appearance="outline">
             <mat-label>IsMatnr</mat-label>
             <input matInput placeholder="Ingrese IsMatnr" formControlName="IsMatnr">
         </mat-form-field>
-        <mat-form-field class="filter-matchcode" appearance="fill">
+        <mat-form-field class="filter-matchcode" appearance="outline">
             <mat-label>IsNameMatnr</mat-label>
             <input matInput placeholder="Ingrese IsNameMatnr " formControlName="IsNameMatnr">
         </mat-form-field>
@@ -26,11 +26,11 @@
 <!-- FILTRO CENTRO DE COSTO -->
 <div *ngIf="data.name == 'KOSTL'">
     <form [formGroup]="matchcodeCentroCostoForm" (submit)="filtrarMatchcodeCentroCosto(matchcodeCentroCostoForm.value)">
-        <mat-form-field class="filter-matchcode" appearance="fill">
+        <mat-form-field class="filter-matchcode" appearance="outline">
             <mat-label>IsCeco</mat-label>
             <input matInput placeholder="Ingrese IsCeco" formControlName="IsCeco">
         </mat-form-field>
-        <mat-form-field class="filter-matchcode" appearance="fill">
+        <mat-form-field class="filter-matchcode" appearance="outline">
             <mat-label>IsNameCeco</mat-label>
             <input matInput placeholder="Ingrese IsNameCeco " formControlName="IsNameCeco">
         </mat-form-field>
@@ -41,11 +41,11 @@
 <!-- FILTRO GL -->
 <div *ngIf="data.name == 'SAKNR'">
     <form [formGroup]="matchcodeGLForm" (submit)="filtrarMatchcodeGL(matchcodeGLForm.value)">
-        <mat-form-field class="filter-matchcode" appearance="fill">
+        <mat-form-field class="filter-matchcode" appearance="outline">
             <mat-label>IsBukrs</mat-label>
             <input matInput placeholder="Ingrese IsBukrs" formControlName="IsBukrs">
         </mat-form-field>
-        <mat-form-field class="filter-matchcode" appearance="fill">
+        <mat-form-field class="filter-matchcode" appearance="outline">
             <mat-label>IsSaknr</mat-label>
             <input matInput placeholder="Ingrese IsSaknr " formControlName="IsSaknr">
         </mat-form-field>

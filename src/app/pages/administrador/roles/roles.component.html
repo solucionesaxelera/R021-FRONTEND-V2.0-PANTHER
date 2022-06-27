@@ -1,9 +1,9 @@
 <h2>ROLES</h2>
-<hr>
+<div class="separator"></div>
 <div class="header-module">
     <button mat-flat-button color="primary" (click)="openDialogCrearRol()">Crear Rol</button>
 </div>
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8-custom" style="overflow-x:auto;">
     <table mat-table [dataSource]="dataSourceRoles">
   
       <!-- Nombres Column -->
@@ -51,7 +51,7 @@
   <h2 mat-dialog-title>Crear Rol</h2>
   <mat-dialog-content class="mat-typography">
     <form id="crearRol" [formGroup]="crearRolForm" (ngSubmit)="crearRol(crearRolForm.value)">
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class="full-width" appearance="outline">
         <mat-label>Nombre</mat-label>
         <input matInput placeholder="Ingrese nombre de rol" formControlName="nombre">
       </mat-form-field>
@@ -69,7 +69,7 @@
   <h2 mat-dialog-title>Modificar Rol</h2>
   <mat-dialog-content class="mat-typography">
     <form id="modificarRol" [formGroup]="modificarRolForm" (ngSubmit)="modificarRol(modificarRolForm.value)">
-      <mat-form-field class="full-width" appearance="fill">
+      <mat-form-field class="full-width" appearance="outline">
         <mat-label>Nombre</mat-label>
         <input matInput placeholder="Ingrese nombre de rol" formControlName="nombre">
       </mat-form-field>

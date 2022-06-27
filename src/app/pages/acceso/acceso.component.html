@@ -1,27 +1,27 @@
 <mat-card>
-    <p>Acceso</p>
+    <!-- <p>Acceso</p> -->
     <div class="div-img">
-        <img src="../../../assets/images/great-panther-logo.png" alt="Great Panther" width="150">
+        <img src="../../../assets/images/great-panther-logo.png" alt="Great Panther" width="230">
     </div>
     
     <form [formGroup]="accesoForm" (submit)="acceder(accesoForm.value)">
-        <mat-form-field class="full-width" appearance="fill">
+        <mat-form-field class="full-width" appearance="outline">
             <mat-label>Usuario</mat-label>
             <input matInput placeholder="Ingrese nombre de usuario" formControlName="usuario" id="usuario" (keypress)="cambioUsuario()">
         </mat-form-field>
-        <mat-form-field class="full-width" appearance="fill">
+        <mat-form-field class="full-width" appearance="outline">
             <mat-label>Contraseña</mat-label>
             <input matInput placeholder="Ingrese contraseña" type="password" formControlName="clave">
         </mat-form-field>
         <!-- <span>seleccione un idioma</span> -->
-        <mat-form-field class="full-width" appearance="fill">
+        <mat-form-field class="full-width" appearance="outline">
         <mat-label>Seleccione un idioma</mat-label>
         <mat-select>
             <mat-option value="option1"><div class="option"><img src="../../../assets/images/espana.png" width="25" /> Español</div></mat-option>
             <mat-option value="option2"><div class="option"><img src="../../../assets/images/estados-unidos-de-america.png" width="25" /> Inglés</div></mat-option>
         </mat-select>
         </mat-form-field>
-        <mat-form-field class="full-width" appearance="fill">
+        <mat-form-field class="full-width" appearance="outline">
             <mat-label>Seleccione una sociedad</mat-label>
             <mat-select  [(ngModel)]="selectedValue" name="sociedad" formControlName="sociedad"  (click)="ListarSociedades()">
                 <mat-option *ngIf="cargaSociedades">

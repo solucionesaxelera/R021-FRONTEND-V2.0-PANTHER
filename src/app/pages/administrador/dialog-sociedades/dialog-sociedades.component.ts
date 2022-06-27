@@ -66,4 +66,15 @@ export class DialogSociedadesComponent implements OnInit {
     }
   }
 
+  seleccionarTodo(){
+    this.seleccionarSociedades = [];
+    for (let i = 0; i < this.sociedades.length; i++) {
+      this.seleccionarSociedades.push({item:this.sociedades[i].item,name:this.sociedades[i].name})
+    }
+  }
+
+  deseleccionarTodo(){
+    this.seleccionarSociedades = [];
+  }
+
 }

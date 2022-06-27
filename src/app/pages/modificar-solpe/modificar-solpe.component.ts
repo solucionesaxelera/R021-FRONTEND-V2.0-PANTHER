@@ -451,7 +451,7 @@ export class ModificarSolpeComponent implements OnInit {
           Id: "",
           Nroreq: this.cabeceraModificarSolpeForm.controls['Nroreq'].value,
           Area: this.cabeceraModificarSolpeForm.controls['Area'].value,
-          Fecha:this.cabeceraModificarSolpeForm.controls['Moneda'].value ,
+          Fecha:moment(this.cabeceraModificarSolpeForm.controls['Fecha'].value).format("YYYYMMDD"),
           Moneda:this.cabeceraModificarSolpeForm.controls['Moneda'].value,
           Centro:this.cabeceraModificarSolpeForm.controls['Centro'].value,
           DescrSolpe: this.cabeceraModificarSolpeForm.controls['DescrSolpe'].value,
@@ -521,7 +521,7 @@ export class ModificarSolpeComponent implements OnInit {
           });
         }
       },err=>{
-        this._snackBar.open("Ocurrió un error con el servicio SAP.", 'cerrar',{
+        this._snackBar.open("Ocurrió un error con el servicio.", 'cerrar',{
           duration:5*1000
         });
       });

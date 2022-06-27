@@ -1,5 +1,5 @@
 <h2>AUDITORÍA</h2>
-<hr>
+<div class="separator"></div>
 <div class="header-crear-solpe">
     <div class="button-header">
         <button mat-flat-button color="primary" (click)="buscarAuditoria()">
@@ -9,11 +9,11 @@
     <div>
         <form id="cabecera-crear-solped" [formGroup]="cabeceraAuditoriaForm">
             <div class="inputs-header">
-                <!-- <mat-form-field class="full-width item-input" appearance="fill">
+                <!-- <mat-form-field class="full-width item-input" appearance="outline">
                     <mat-label>Acción</mat-label>
                     <input id="nroreq" type="text" matInput placeholder="Ingrese la acción" formControlName="Accion">
                 </mat-form-field> -->
-                <mat-form-field appearance="fill">
+                <mat-form-field appearance="outline">
                     <mat-label>Acción</mat-label>
                     <mat-select formControlName="Accion">
                         <mat-option value="C">CREÓ SOLPE</mat-option>
@@ -23,11 +23,11 @@
                         <mat-option value="R">RECHAZÓ SOLPE</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field class="full-width item-input" appearance="fill">
+                <mat-form-field class="full-width item-input" appearance="outline">
                     <mat-label>Usuario</mat-label>
                     <input type="text" matInput placeholder="Ingrese el usuario" formControlName="Usuario">
                 </mat-form-field>
-                <mat-form-field class="full-width item-input" appearance="fill">
+                <mat-form-field class="full-width item-input" appearance="outline">
                     <mat-label>Fecha</mat-label>
                     <input type="date" matInput formControlName="Fecha">
                 </mat-form-field>
@@ -37,7 +37,7 @@
     </div>
 </div>
 
-<div class="mat-elevation-z8">
+<div class="mat-elevation-z8-custom" style="overflow-x:auto;">
     <table mat-table [dataSource]="dataSourceAuditoria">
 
         <ng-container matColumnDef="id">

@@ -92,7 +92,9 @@ export class CrearSolpeComponent implements OnInit {
         IsAccion: "L",
         IsAprobador1: "",
         IsAprobador2: "",
-        IsCreador: data.body[0].usuario
+        IsCreador: data.body[0].usuario,
+        ItCcosto: [],
+        ItSociedad: []
       }
       this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(dataAprobadores=>{
         if(dataAprobadores.esSolpeUsersField.aprobador2Field == ""){
@@ -258,10 +260,14 @@ export class CrearSolpeComponent implements OnInit {
 
 
   validacionInputNroRequisicion(valor:any){
-    let texto = document.getElementById('nroreq') as HTMLInputElement;
-    this.nro_requisicion += valor.target.value + '|';
-    if(this.nro_requisicion.split('|').length == 5){
-      texto.value += "-";
+    let code = valor.keyCode;
+    if(code>=48 && code<=57){
+      if(valor.target.value.length == 4){
+        valor.target.value += "-"
+      }
+      return true;
+    }else{
+      return false;
     }
   }
 
@@ -361,7 +367,6 @@ export class CrearSolpeComponent implements OnInit {
         duration:5*1000
       });
     }else{
-      
       let json_req={
         IsAccion: "V",
         IsIdSolpe: "",
@@ -370,13 +375,13 @@ export class CrearSolpeComponent implements OnInit {
           Id: "",
           Nroreq: this.cabeceraCrearSolpeForm.controls['Nroreq'].value,
           Area: this.cabeceraCrearSolpeForm.controls['Area'].value,
-          Fecha:this.cabeceraCrearSolpeForm.controls['Moneda'].value ,
+          Fecha:moment(this.cabeceraCrearSolpeForm.controls['Fecha'].value).format("YYYYMMDD"),
           Moneda:this.cabeceraCrearSolpeForm.controls['Moneda'].value,
           Centro:this.cabeceraCrearSolpeForm.controls['Centro'].value,
           DescrSolpe: this.cabeceraCrearSolpeForm.controls['DescrSolpe'].value,
           Estado: "",
           Usuario:this.helper.decodeToken(this.token).usuario.trim(),
-          Detalle: this.dataSourceCrearSolpe.data,
+          Detalle: [this.dataSourceCrearSolpe.data[this.dataSourceCrearSolpe.data.length - 1]],
           ParaSerusado: "",
           Locacion:  "",
           FechaReque:  "",
@@ -397,14 +402,18 @@ export class CrearSolpeComponent implements OnInit {
           Sociedad: "",
         }
       }
-      console.log(json_req);
-      this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
-        if(data.etMsgReturnField[0].successField == 'X'){
+      let json_req_info_extra_und = {
+        IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
+        IsMaterial: req.matnr,
+        IsValor: "UNIDAD"
+      }
+      this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(dataextra=>{
+        if(dataextra.etMsgReturnField[0].successField == 'X'){
           for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
             if(this.dataSourceCrearSolpe.data[ind].item == item){
               this.dataSourceCrearSolpe.data[ind].presu = req.presu;
               this.dataSourceCrearSolpe.data[ind].menge = req.menge;
-              this.dataSourceCrearSolpe.data[ind].meins = req.meins;
+              this.dataSourceCrearSolpe.data[ind].meins = dataextra.esUnitField;
               this.dataSourceCrearSolpe.data[ind].descr = req.descr;
               this.dataSourceCrearSolpe.data[ind].matnr = req.matnr;
               this.dataSourceCrearSolpe.data[ind].ccosto = req.ccosto;
@@ -414,37 +423,45 @@ export class CrearSolpeComponent implements OnInit {
               this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
             }
             if(this.dataSourceCrearSolpe.data.length - 1 == ind){
-              this.idSeleccionadoEditarPosicion = 0;
               let json_req_info_extra = {
                 IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
                 IsMaterial: req.matnr,
                 IsValor: "STOCK"
               }
-              this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
-                this.dataSourceCrearSolpe.data[ind].stock = data.esCantidadField;
+              this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(dataStock=>{
+                this.dataSourceCrearSolpe.data[ind].stock = dataStock.esCantidadField;
                 this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+                if(dataStock.etMsgReturnField[0].successField == 'X'){
+                  this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
+                    if(data.etMsgReturnField[0].successField == 'X'){
+                          this.idSeleccionadoEditarPosicion = 0;
+                    }else{
+                      this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
+                        duration:5*1000
+                      });
+                    }
+                  },err=>{
+                    this._snackBar.open("Ocurrió un error con el servicio.", 'cerrar',{
+                      duration:5*1000
+                    });
+                  });
+                }else{
+                  this._snackBar.open(dataStock.etMsgReturnField[0].messageField, 'cerrar',{
+                    duration:5*1000
+                  });
+                }
               });
-              let json_req_info_extra_und = {
-                IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
-                IsMaterial: req.matnr,
-                IsValor: "UNIDAD"
-              }
-              this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(data=>{
-                this.dataSourceCrearSolpe.data[ind].meins = data.esUnitField;
-                this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
-              })
+  
             }
           }
         }else{
-          this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
+          this._snackBar.open(dataextra.etMsgReturnField[0].messageField, 'cerrar',{
             duration:5*1000
           });
         }
-      },err=>{
-        this._snackBar.open("Ocurrió un error con el servicio SAP.", 'cerrar',{
-          duration:5*1000
-        });
-      });
+      })
+
+
     }
   }
 
@@ -492,8 +509,9 @@ export class CrearSolpeComponent implements OnInit {
   }
 
   acortarDescripcion(valor:string){
-    let result = valor;
-    return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
+    // let result = valor;
+    // return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
+    return valor;
   }
 
 }
