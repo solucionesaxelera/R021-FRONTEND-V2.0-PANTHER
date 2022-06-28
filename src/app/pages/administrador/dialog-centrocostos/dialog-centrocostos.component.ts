@@ -12,6 +12,7 @@ export class DialogCentrocostosComponent implements OnInit {
 
   centrocostos: any =[];
   seleccionarCentroCostos:any=[];
+  listSociedades:any=[];
 
   CentroCostoForm = new FormGroup({
     IsCeco: new FormControl(''),
@@ -25,7 +26,12 @@ export class DialogCentrocostosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.seleccionarCentroCostos = this.data;
+    for (let i = 0; i < this.data.sociedades.length; i++) {
+      this.listSociedades.push({
+        Item:this.data.sociedades[i].item
+      })
+    }
+    this.seleccionarCentroCostos = this.data.cecos;
     this.listarCentroCostos();
   }
 
@@ -50,7 +56,8 @@ export class DialogCentrocostosComponent implements OnInit {
       IsParametro: "KOSTL",
       IsSaknr: "",
       IsUsuario: "",
-      IsWerks: ""
+      IsWerks: "",
+      ItBukrs:this.listSociedades
     }
     this._matchcodeS.postSolpeOptionsMatchcode(req_json).subscribe(data=>{
       for (let i = 0; i < data.etCecoField.length; i++) {
@@ -76,7 +83,8 @@ export class DialogCentrocostosComponent implements OnInit {
       IsParametro: "KOSTL",
       IsSaknr: "",
       IsUsuario: "",
-      IsWerks: ""
+      IsWerks: "",
+      ItBukrs:this.listSociedades
   }
     this._matchcodeS.postSolpeOptionsMatchcode(req).subscribe(data=>{
       for (let i = 0; i < data.etCecoField.length; i++) {
@@ -86,7 +94,7 @@ export class DialogCentrocostosComponent implements OnInit {
         })
         if(data.etCecoField.length - 1 == i){
           this.centrocostos=[...this.centrocostos];
-          this.seleccionarCentroCostos = this.data;
+          this.seleccionarCentroCostos = this.data.cecos;
         }
       }
     });
@@ -97,10 +105,11 @@ export class DialogCentrocostosComponent implements OnInit {
   }
 
   cerrarDialog(): void {
-    if(this.data.length >= 1){
-      this.dialogRef.close(this.data);
+    console.log(this.data)
+    if(this.data.cecos.length >= 1){
+      this.dialogRef.close(this.data.cecos);
     }else{
-      this.dialogRef.close();
+      this.dialogRef.close([]);
     }
   }
 

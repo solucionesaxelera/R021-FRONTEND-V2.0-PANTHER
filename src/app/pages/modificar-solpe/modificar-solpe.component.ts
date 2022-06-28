@@ -332,6 +332,18 @@ export class ModificarSolpeComponent implements OnInit {
     }
   }
 
+  validacionInputNroRequisicion(valor:any){
+    let code = valor.keyCode;
+    if(code>=48 && code<=57){
+      if(valor.target.value.length == 4){
+        valor.target.value += "-"
+      }
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   validacionCrearSolpeInputTotalSinIgv(valor:any){
     let code = valor.keyCode;
     if(code>=48 && code<=57){
@@ -457,7 +469,7 @@ export class ModificarSolpeComponent implements OnInit {
           DescrSolpe: this.cabeceraModificarSolpeForm.controls['DescrSolpe'].value,
           Estado: "",
           Usuario:this.helper.decodeToken(this.token).usuario.trim(),
-          Detalle: this.dataSourceModificarSolpe.data,
+          Detalle: [this.dataSourceModificarSolpe.data[this.dataSourceModificarSolpe.data.length - 1]],
           ParaSerusado: "",
           Locacion:  "",
           FechaReque:  "",
@@ -478,13 +490,21 @@ export class ModificarSolpeComponent implements OnInit {
           Sociedad: "",
         }
       }
-      this._SolpeOptionPrelimS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
-        if(data.etMsgReturnField[0].successField == 'X'){
+
+      let json_req_info_extra_und = {
+        IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
+        IsMaterial: req.matnr,
+        IsValor: "UNIDAD"
+      }
+      this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(dataextra=>{
+        // this.dataSourceModificarSolpe.data[ind].meins = data.esUnitField;
+        // this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+        if(dataextra.etMsgReturnField[0].successField == 'X'){
           for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
             if(this.dataSourceModificarSolpe.data[ind].item == item){
               this.dataSourceModificarSolpe.data[ind].presu = req.presu;
               this.dataSourceModificarSolpe.data[ind].menge = req.menge;
-              this.dataSourceModificarSolpe.data[ind].meins = req.meins;
+              this.dataSourceModificarSolpe.data[ind].meins = dataextra.esUnitField;
               this.dataSourceModificarSolpe.data[ind].descr = req.descr;
               this.dataSourceModificarSolpe.data[ind].matnr = req.matnr;
               this.dataSourceModificarSolpe.data[ind].ccosto = req.ccosto;
@@ -494,54 +514,44 @@ export class ModificarSolpeComponent implements OnInit {
               this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
             }
             if(this.dataSourceModificarSolpe.data.length - 1 == ind){
-              this.idSeleccionadoEditarPosicion = 0;
+              
               let json_req_info_extra = {
                 IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
                 IsMaterial: req.matnr,
                 IsValor: "STOCK"
               }
-              this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
-                this.dataSourceModificarSolpe.data[ind].stock = data.esCantidadField;
+              this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(dataStock=>{
+                this.dataSourceModificarSolpe.data[ind].stock = dataStock.esCantidadField;
                 this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
-              })
-              let json_req_info_extra_und = {
-                IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
-                IsMaterial: req.matnr,
-                IsValor: "UNIDAD"
-              }
-              this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(data=>{
-                this.dataSourceModificarSolpe.data[ind].meins = data.esUnitField;
-                this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
-              })
+                if(dataStock.etMsgReturnField[0].successField == 'X'){
+                  this._SolpeOptionPrelimS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
+                    if(data.etMsgReturnField[0].successField == 'X'){
+                      this.idSeleccionadoEditarPosicion = 0;
+                    }else{
+                      this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
+                        duration:5*1000
+                      });
+                    }
+                  },err=>{
+                    this._snackBar.open("Ocurrió un error con el servicio.", 'cerrar',{
+                      duration:5*1000
+                    });
+                  });
+                }else{
+                  this._snackBar.open(dataStock.etMsgReturnField[0].messageField, 'cerrar',{
+                    duration:5*1000
+                  });
+                }
+              })  
             }
           }
         }else{
-          this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
+          this._snackBar.open(dataextra.etMsgReturnField[0].messageField, 'cerrar',{
             duration:5*1000
           });
         }
-      },err=>{
-        this._snackBar.open("Ocurrió un error con el servicio.", 'cerrar',{
-          duration:5*1000
-        });
-      });
+      })
     }
-
-    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].presu = req.presu;
-    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].menge = req.menge;
-    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].meins = req.meins;
-    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].descr = req.descr;
-    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].matnr = req.matnr;
-    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].ccosto = req.ccosto;
-    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].gl = req.gl;
-    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].punit = req.punit;
-    // this.dataSourceModificarSolpe.data[this.idSeleccionadoEditarPosicion].totsinigv = req.totsinigv;
-
-    // this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
-    // if(this.editarPosicionForm.valid){
-    //   this.editarPosicionForm.reset();
-    //   this.dialog.closeAll();
-    // }
   }
 
   abrirEliminarSolpe(){
@@ -619,21 +629,6 @@ export class ModificarSolpeComponent implements OnInit {
       }
     });
   }
-  
-  // matchcodeAgregarPosicion(name:string){
-  //   const dialogRef = this.dialog.open(MatchcodeComponent, {
-  //     width: '40%',
-  //     data: {name: name},
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if(name == "MATNR"){
-  //       this.agregarPosicionForm.controls['matnr'].setValue(result);
-  //     }
-  //     if(name == "KOSTL"){
-  //       this.agregarPosicionForm.controls['ccosto'].setValue(result);
-  //     }
-  //   });
-  // }
 
   matchcodeEditarPosicion(name:string,value:string){
     const dialogRef = this.dialog.open(MatchcodeComponent, {
@@ -688,8 +683,9 @@ export class ModificarSolpeComponent implements OnInit {
   }
 
   acortarDescripcion(valor:string){
-    let result = valor;
-    return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
+    // let result = valor;
+    // return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
+    return valor;
   }
 
   calcularStock(matnr:string){

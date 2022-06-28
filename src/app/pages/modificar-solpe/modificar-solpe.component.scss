@@ -33,7 +33,7 @@ table {
 
 .mat-column-descr {
     flex: none;
-    width: 150px;
+    width: 250px;
 }
 
 .mat-column-stock{
@@ -44,4 +44,28 @@ table {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.descrip-form-filed{
+    width: 250px;
+}
+
+.menge-form-filed {
+    width: 80px;
+}
+.mat-column-stock{
+    padding: 0 15px;
+}
+
+.mat-column-meins{
+    padding: 0 15px;
+}
+
+
+textarea{
+    height: 17px;
+}
+
+mat-form-field {
+    padding: 5px;
 }

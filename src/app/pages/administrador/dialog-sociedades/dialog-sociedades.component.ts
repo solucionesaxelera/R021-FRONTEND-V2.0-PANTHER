@@ -42,7 +42,8 @@ export class DialogSociedadesComponent implements OnInit {
       IsParametro: "BUKRS",
       IsSaknr: "",
       IsUsuario: "",
-      IsWerks: ""
+      IsWerks: "",
+      ItBukrs:[]
   }
     this._matchcodeS.postSolpeOptionsMatchcode(req).subscribe(data=>{
       for (let i = 0; i < data.etSocieField.length; i++) {
@@ -62,7 +63,7 @@ export class DialogSociedadesComponent implements OnInit {
     if(this.data.length >= 1){
       this.dialogRef.close(this.data);
     }else{
-      this.dialogRef.close();
+      this.dialogRef.close([]);
     }
   }
 

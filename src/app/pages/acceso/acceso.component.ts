@@ -49,20 +49,23 @@ export class AccesoComponent implements OnInit {
       IsValor: "SOCIEDADES",
       IsUsuario: this.accesoForm.controls['usuario'].value.trim()
     }
-    
-    this._matchcodeS.getSolpeOptionsMatchcodeSociedades(json_req_info_extra).subscribe(data=>{
-      this.sociedades = data.etSociedadesField;
+    if(this.accesoForm.controls['usuario'].value.trim() != "") {
+      this._matchcodeS.getSolpeOptionsMatchcodeSociedades(json_req_info_extra).subscribe(data=>{
+        this.sociedades = data.etSociedadesField;
+        this.cargaSociedades = false;
+        this.sociedadesNull = false;
+        if(data.etMsgReturnField[0].successField != "X"){
+          this.sociedadesNull = true;
+        }
+      },err=>{
+        this.sociedades=[];
+        this.sociedadesNull= true;
+        this.cargaSociedades = false;
+      });
+    }else{
       this.cargaSociedades = false;
-      this.sociedadesNull = false;
-      
-      if(data.etMsgReturnField[0].successField != "X"){
-        this.sociedadesNull = true;
-      }
-    },err=>{
-      this.sociedades=[];
-      this.sociedadesNull= true;
-      this.cargaSociedades = false;
-    });
+      this.sociedadesNull = true;
+    }
   }
 
   ListarSociedades(){

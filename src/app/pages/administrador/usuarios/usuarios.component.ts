@@ -28,6 +28,8 @@ export class UsuariosComponent implements OnInit {
   ItCcosto:any=[];
   ItSociedad:any=[];
 
+  disabledBtnCeco:boolean = true;
+
   idUsuarioSesion = this.helper.decodeToken(localStorage.getItem('data_current')?.toString());
   
   @ViewChild(MatPaginator) paginator: any;
@@ -103,6 +105,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   openDialogSociedades(): void{
+
     const dialogRefSociedades =this.dialog.open(DialogSociedadesComponent, {
       width: '500px',
       disableClose:true,
@@ -111,13 +114,19 @@ export class UsuariosComponent implements OnInit {
 
     dialogRefSociedades.afterClosed().subscribe(result => {
       this.ItSociedad = result;
+      if(this.ItSociedad.length >= 1){
+        this.disabledBtnCeco = false;
+      }else{
+        this.disabledBtnCeco = true;
+      }
     });
   }
   openDialogCentroCostos(): void{
+    
     const dialogRefCentroCostos =this.dialog.open(DialogCentrocostosComponent, {
       width: '500px',
       disableClose:true,
-      data: this.ItCcosto,
+      data: {cecos: this.ItCcosto, sociedades:this.ItSociedad},
     });
 
     dialogRefCentroCostos.afterClosed().subscribe(result => {
@@ -126,10 +135,15 @@ export class UsuariosComponent implements OnInit {
   }
 
   openDialogCrearUsuario() {
+    this.ItSociedad = [];
+    this.ItCcosto = [];
+    this.disabledBtnCeco = true;
     return this.dialog.open(this.dialogTemplateCrearUsuario, this.config);
   }
 
   openDialogModificarUsuario(id:number,usuario:string) {
+    this.ItSociedad = [];
+    this.ItCcosto = [];
     this.checked= false;
     this.segundoAprobadorDisabled = true;
     this.idUsuarioSeleccionado = id;
@@ -143,8 +157,8 @@ export class UsuariosComponent implements OnInit {
       ItSociedad: []
     }
     this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
-      console.log(data);
       for (let i = 0; i < data.etCcostoField.length; i++) {
+        this.disabledBtnCeco = false;
         this.ItCcosto.push({
           item: data.etCcostoField[i].itemField
         })
@@ -166,7 +180,6 @@ export class UsuariosComponent implements OnInit {
       this.modificarUsuarioForm.controls['isSegundoAprobador'].setValue(data.esSolpeUsersField.aprobador2Field);
     });
     this._usuariosS.getUsuarioById(id).subscribe(data=>{
-      console.log(data)
       if(data.status == 1){
         this.modificarUsuarioForm.controls['nombres'].setValue(data.body[0].nombres);
         this.modificarUsuarioForm.controls['ape_pat'].setValue(data.body[0].ape_pat);
@@ -220,10 +233,7 @@ export class UsuariosComponent implements OnInit {
       ItCcosto: this.ItCcosto,
       ItSociedad: this.ItSociedad
     }
-    console.log(req_json_sap);
-
     this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
-      console.log(data);
       if(
           data.etMsgReturnField[0].successField == "X" &&
           data.etMsgReturnField[1].successField == "X" &&
@@ -276,7 +286,6 @@ export class UsuariosComponent implements OnInit {
     }
 
     this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
-      console.log(data);
       if(
         data.etMsgReturnField[0].successField == "X" &&
         data.etMsgReturnField[1].successField == "X" &&

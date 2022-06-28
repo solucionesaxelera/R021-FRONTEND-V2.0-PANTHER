@@ -27,7 +27,7 @@
             <div class="inputs-header row">
                 <mat-form-field class="full-width item-input col-md-2" appearance="outline">
                     <mat-label>N° Requisición</mat-label>
-                    <input id="nroreq" type="text" matInput placeholder="YYYY-00000" maxlength="10" formControlName="Nroreq">
+                    <input id="nroreq" type="text" matInput placeholder="YYYY-00000" maxlength="10" (keyup)="validacionInputNroRequisicion($event)" (paste)="validacionInputNroRequisicion($event)" (keypress)="validacionInputNroRequisicion($event)" formControlName="Nroreq">
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-2" appearance="outline">
                     <mat-label>Área</mat-label>
@@ -209,7 +209,7 @@
         </ng-container>
 
         <ng-container matColumnDef="totsinigv">
-            <th mat-header-cell *matHeaderCellDef>TOTAL<div class="separator"></div>(SIN IGV)</th>
+            <th mat-header-cell *matHeaderCellDef>TOTAL<br>(SIN IGV)</th>
             <td mat-cell *matCellDef="let element">
                 <div *ngIf="element.item!=idSeleccionadoEditarPosicion">
                     {{element.totsinigv}}

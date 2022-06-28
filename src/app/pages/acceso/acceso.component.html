@@ -34,7 +34,7 @@
                 </mat-option>
                 <mat-option *ngFor="let sociedad of sociedades" [value]="sociedad.bukrsField">
                     {{sociedad.bukrsField}} - {{sociedad.butxtField}}
-                  </mat-option>
+                </mat-option>
             </mat-select>
         </mat-form-field>
         <button mat-flat-button color="primary" class="full-width" [disabled]="!accesoForm.valid">Ingresar</button>

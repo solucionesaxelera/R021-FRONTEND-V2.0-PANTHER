@@ -20,6 +20,7 @@ export interface DialogData {
 export class MatchcodeComponent implements OnInit {
 
   public helper = new JwtHelperService();
+  token = localStorage.getItem('data_current')?.toString();
 
   indicadorCarga:boolean = false;
   ELEMENT_DATA: any[]=[];
@@ -73,8 +74,9 @@ export class MatchcodeComponent implements OnInit {
       IsNameMatnr: "",
       IsParametro: this.data.name,
       IsSaknr: "",
-      IsUsuario: "user01",
-      IsWerks: ""
+      IsUsuario: this.helper.decodeToken(this.token).usuario.trim(),
+      IsWerks: "",
+      ItBukrs:[]
     }
     this._matchcodeS.postSolpeOptionsMatchcode(req_json).subscribe(data=>{
       if(this.data.name == "MATNR"){
@@ -114,7 +116,8 @@ export class MatchcodeComponent implements OnInit {
       IsParametro: this.data.name,
       IsSaknr: "",
       IsUsuario: "",
-      IsWerks: ""
+      IsWerks: "",
+      ItBukrs:[]
     }
     this._matchcodeS.postSolpeOptionsMatchcode(req_json).subscribe(data=>{
       this.dataSourceMATNR.data =data.etMatnrField;
@@ -135,8 +138,9 @@ export class MatchcodeComponent implements OnInit {
       IsNameMatnr: "",
       IsParametro: this.data.name,
       IsSaknr: "",
-      IsUsuario: "user01",
-      IsWerks: ""
+      IsUsuario: this.helper.decodeToken(this.token).usuario.trim(),
+      IsWerks: "",
+      ItBukrs:[]
     }
     this._matchcodeS.postSolpeOptionsMatchcode(req_json).subscribe(data=>{
       this.dataSourceKOSTL.data =data.etCecoField;
@@ -158,7 +162,8 @@ export class MatchcodeComponent implements OnInit {
       IsParametro: this.data.name,
       IsSaknr: req.IsSaknr,
       IsUsuario: "",
-      IsWerks: ""
+      IsWerks: "",
+      ItBukrs:[]
     }
     this._matchcodeS.postSolpeOptionsMatchcode(req_json).subscribe(data=>{
       this.dataSourceSAKNR.data =data.etGlField;
@@ -169,8 +174,8 @@ export class MatchcodeComponent implements OnInit {
 
   sociedad(){
     if(this.data.name == "KOSTL" || this.data.name == "WERKS" || this.data.name == "SAKNR" ) {
-      const token = localStorage.getItem('data_current')?.toString();
-      return this.helper.decodeToken(token).sociedad;
+      // const token = localStorage.getItem('data_current')?.toString();
+      return this.helper.decodeToken(this.token).sociedad;
     }else{
       return "";
     }
