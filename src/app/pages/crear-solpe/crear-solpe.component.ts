@@ -234,18 +234,18 @@ export class CrearSolpeComponent implements OnInit {
           this.detalleJson.FechaReque = "";
           this.detalleJson.ProveSuge = "";
           this.detalleJson.Ocotiza = "";
-          this.detalleJson.SoNomb = "";
-          this.detalleJson.SoCargo = "";
-          this.detalleJson.SoAsigna = ""; 
-          this.detalleJson.SoFecha = "";
-          this.detalleJson.CoNomb = "";
-          this.detalleJson.CoCargo = "";
-          this.detalleJson.CoAsigna = "";
-          this.detalleJson.CoFecha = "";
-          this.detalleJson.AuNomb = "";
-          this.detalleJson.AuCargo = "";
-          this.detalleJson.AuAsigna = "";
-          this.detalleJson.AuFecha = "";
+          // this.detalleJson.SoNomb = "";
+          // this.detalleJson.SoCargo = "";
+          // this.detalleJson.SoAsigna = ""; 
+          // this.detalleJson.SoFecha = "";
+          // this.detalleJson.CoNomb = "";
+          // this.detalleJson.CoCargo = "";
+          // this.detalleJson.CoAsigna = "";
+          // this.detalleJson.CoFecha = "";
+          // this.detalleJson.AuNomb = "";
+          // this.detalleJson.AuCargo = "";
+          // this.detalleJson.AuAsigna = "";
+          // this.detalleJson.AuFecha = "";
   
         }else{
           this.indicadorCarga=false;

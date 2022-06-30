@@ -41,10 +41,10 @@
 <!-- FILTRO GL -->
 <div *ngIf="data.name == 'SAKNR'">
     <form [formGroup]="matchcodeGLForm" (submit)="filtrarMatchcodeGL(matchcodeGLForm.value)">
-        <mat-form-field class="filter-matchcode" appearance="outline">
+        <!-- <mat-form-field class="filter-matchcode" appearance="outline">
             <mat-label>IsBukrs</mat-label>
             <input matInput placeholder="Ingrese IsBukrs" formControlName="IsBukrs">
-        </mat-form-field>
+        </mat-form-field> -->
         <mat-form-field class="filter-matchcode" appearance="outline">
             <mat-label>IsSaknr</mat-label>
             <input matInput placeholder="Ingrese IsSaknr " formControlName="IsSaknr">
