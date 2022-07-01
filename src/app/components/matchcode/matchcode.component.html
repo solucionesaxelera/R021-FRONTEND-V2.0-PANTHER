@@ -12,12 +12,12 @@
 <div *ngIf="data.name == 'MATNR'">
     <form [formGroup]="matchcodeMaterialForm" (submit)="filtrarMatchcodeMaterial(matchcodeMaterialForm.value)">
         <mat-form-field class="filter-matchcode" appearance="outline">
-            <mat-label>IsMatnr</mat-label>
-            <input matInput placeholder="Ingrese IsMatnr" formControlName="IsMatnr">
+            <mat-label>Material</mat-label>
+            <input matInput placeholder="Ingrese material" formControlName="IsMatnr">
         </mat-form-field>
         <mat-form-field class="filter-matchcode" appearance="outline">
-            <mat-label>IsNameMatnr</mat-label>
-            <input matInput placeholder="Ingrese IsNameMatnr " formControlName="IsNameMatnr">
+            <mat-label>Descripción</mat-label>
+            <input matInput placeholder="Ingrese descripción" formControlName="IsNameMatnr">
         </mat-form-field>
         <button mat-flat-button color="primary" class="full-width btn-filter">Filtrar</button>
     </form>
@@ -27,12 +27,12 @@
 <div *ngIf="data.name == 'KOSTL'">
     <form [formGroup]="matchcodeCentroCostoForm" (submit)="filtrarMatchcodeCentroCosto(matchcodeCentroCostoForm.value)">
         <mat-form-field class="filter-matchcode" appearance="outline">
-            <mat-label>IsCeco</mat-label>
-            <input matInput placeholder="Ingrese IsCeco" formControlName="IsCeco">
+            <mat-label>Centro de costo</mat-label>
+            <input matInput placeholder="Ingrese centro de costo" formControlName="IsCeco">
         </mat-form-field>
         <mat-form-field class="filter-matchcode" appearance="outline">
-            <mat-label>IsNameCeco</mat-label>
-            <input matInput placeholder="Ingrese IsNameCeco " formControlName="IsNameCeco">
+            <mat-label>Descripción</mat-label>
+            <input matInput placeholder="Ingrese descripción" formControlName="IsNameCeco">
         </mat-form-field>
         <button mat-flat-button color="primary" class="full-width btn-filter">Filtrar</button>
     </form>
@@ -46,8 +46,8 @@
             <input matInput placeholder="Ingrese IsBukrs" formControlName="IsBukrs">
         </mat-form-field> -->
         <mat-form-field class="filter-matchcode" appearance="outline">
-            <mat-label>IsSaknr</mat-label>
-            <input matInput placeholder="Ingrese IsSaknr " formControlName="IsSaknr">
+            <mat-label>Cuenta mayor</mat-label>
+            <input matInput placeholder="Ingrese cuenta mayor" formControlName="IsSaknr">
         </mat-form-field>
         <button mat-flat-button color="primary" class="full-width btn-filter">Filtrar</button>
     </form>
@@ -134,7 +134,7 @@
         <table mat-table [dataSource]="dataSourceMSEHI" >
                 <!-- msehiField Column -->
                 <ng-container matColumnDef="msehiField">
-                    <th mat-header-cell *matHeaderCellDef> UNIDAD MEDIDA </th>
+                    <th mat-header-cell *matHeaderCellDef> Unidad de medida </th>
                     <td mat-cell *matCellDef="let element"> {{element.msehiField}} </td>
                 </ng-container>
                 <!-- msehlField Column -->
@@ -160,17 +160,17 @@
     <table mat-table [dataSource]="dataSourceSAKNR" >
             <!-- saknrField Column -->
             <ng-container matColumnDef="saknrField">
-                <th mat-header-cell *matHeaderCellDef> saknrField </th>
+                <th mat-header-cell *matHeaderCellDef> Cuenta mayor </th>
                 <td mat-cell *matCellDef="let element"> {{element.saknrField}} </td>
             </ng-container>
             <!-- ktoplField Column -->
             <ng-container matColumnDef="ktoplField">
-                <th mat-header-cell *matHeaderCellDef> ktoplField </th>
+                <th mat-header-cell *matHeaderCellDef> Plan de cuentas </th>
                 <td mat-cell *matCellDef="let element"> {{element.ktoplField}} </td>
             </ng-container>
             <!-- txt50Field Column -->
             <ng-container matColumnDef="txt50Field">
-                <th mat-header-cell *matHeaderCellDef> txt50Field </th>
+                <th mat-header-cell *matHeaderCellDef> texto de cuenta mayor </th>
                 <td mat-cell *matCellDef="let element"> {{element.txt50Field}} </td>
             </ng-container>
             

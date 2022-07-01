@@ -27,6 +27,8 @@ export class ModificarSolpeComponent implements OnInit {
 
   indicadorCarga:Boolean=false;
 
+  totalSinIgv:any=0;
+
   public helper = new JwtHelperService();
   token = localStorage.getItem('data_current')?.toString();
 
@@ -144,9 +146,28 @@ export class ModificarSolpeComponent implements OnInit {
     this.idSeleccionadoEditarPosicion=0;
     this.indicadorCarga = true;
     this.dataSourceModificarSolpe.data = [];
+    this.cabeceraModificarSolpeForm.reset();
+    this.detalleJson.ParaSerusado = "";
+        this.detalleJson.Locacion = "";
+        this.detalleJson.FechaReque = "";
+        this.detalleJson.ProveSuge = "";
+        this.detalleJson.Ocotiza = "";
+        this.detalleJson.SoNomb = "";
+        this.detalleJson.SoCargo = "";
+        this.detalleJson.SoAsigna = ""; 
+        this.detalleJson.SoFecha = "";
+        this.detalleJson.CoNomb = "";
+        this.detalleJson.CoCargo = "";
+        this.detalleJson.CoAsigna = "";
+        this.detalleJson.CoFecha = "";
+        this.detalleJson.AuNomb = "";
+        this.detalleJson.AuCargo = "";
+        this.detalleJson.AuAsigna = "";
+        this.detalleJson.AuFecha = "";
+        this.totalSinIgv = 0;
     let json_req={
       IsAccion: "B",
-      IsIdSolpe: this.idSolpe,
+      IsIdSolpe: this.idSolpe.trim(),
       IsItem: "",
       IsSolpePrelimCab: {
         Id: "",
@@ -190,26 +211,6 @@ export class ModificarSolpeComponent implements OnInit {
         this.detalleJson.AuFecha = moment(data.esSolpePrelimCabField.auFechaField).format("YYYY-MM-DD");
   
         this.metodoPushTabla(data.esSolpePrelimCabField.detalleField);
-        // for (let i = 0; i < data.esSolpePrelimCabField.detalleField.length; i++) {
-        //   this.agregarPosicionButton = true;
-        //   this.dataSourceModificarSolpe.data.push({
-        //     item: data.esSolpePrelimCabField.detalleField[i].itemField,
-        //     presu: data.esSolpePrelimCabField.detalleField[i].presuField,
-        //     menge: data.esSolpePrelimCabField.detalleField[i].mengeField,
-        //     meins: data.esSolpePrelimCabField.detalleField[i].meinsField,
-        //     descr: data.esSolpePrelimCabField.detalleField[i].descrField,
-        //     matnr: data.esSolpePrelimCabField.detalleField[i].matnrField,
-        //     stock: this.calcularStock(data.esSolpePrelimCabField.detalleField[i].matnrField),
-        //     ccosto: data.esSolpePrelimCabField.detalleField[i].ccostoField,
-        //     gl: data.esSolpePrelimCabField.detalleField[i].glField,
-        //     punit: data.esSolpePrelimCabField.detalleField[i].punitField,
-        //     totsinigv: data.esSolpePrelimCabField.detalleField[i].totSinigvField
-        //   });
-        //   this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
-        //   console.log(this.dataSourceModificarSolpe.data)
-        // }
-        // this.dataSourceModificarSolpe.paginator = this.paginator;
-        // this.dataSourceModificarSolpe.sort = this.sort;
       }
       else{
         this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
@@ -236,8 +237,14 @@ export class ModificarSolpeComponent implements OnInit {
             ccosto: data[i].ccostoField,
             gl: data[i].glField,
             punit: data[i].punitField,
-            totsinigv: data[i].totSinigvField
+            // totsinigv: data[i].totSinigvField
+            totsinigv: (data[i].mengeField * data[i].punitField).toFixed(2)
           });
+          if(i>=1){
+            this.totalSinIgv = parseFloat((data[i].mengeField * data[i].punitField).toFixed(2)) + parseFloat((data[i-1].mengeField * data[i-1].punitField).toFixed(2));
+          }else{
+            this.totalSinIgv = parseFloat((data[i].mengeField * data[i].punitField).toFixed(2));
+          }
           // this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
           console.log(this.dataSourceModificarSolpe.data)
         }
@@ -323,6 +330,8 @@ export class ModificarSolpeComponent implements OnInit {
           this.detalleJson.AuCargo = "";
           this.detalleJson.AuAsigna = "";
           this.detalleJson.AuFecha = "";
+
+          this.totalSinIgv = 0;
   
         }
         this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
@@ -412,10 +421,13 @@ export class ModificarSolpeComponent implements OnInit {
     if(this.dataSourceModificarSolpe.data.length>=2)
     for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
       if(this.dataSourceModificarSolpe.data[ind].item == item){
-        this.dataSourceModificarSolpe.data.splice(ind,1)
+        this.totalSinIgv = parseFloat(this.totalSinIgv) - parseFloat(this.dataSourceModificarSolpe.data[ind].totsinigv);
+        this.dataSourceModificarSolpe.data.splice(ind,1);
+      
       }
     }else{
       this.dataSourceModificarSolpe.data=[];
+      this.totalSinIgv = 0;
     }
     this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
     this.idSeleccionadoEditarPosicion = 0;
@@ -446,8 +458,7 @@ export class ModificarSolpeComponent implements OnInit {
       req.matnr.trim()=="" ||
       req.ccosto.trim()=="" ||
       req.gl.trim()=="" ||
-      req.punit.trim()=="" ||
-      req.totsinigv.trim()==""
+      req.punit.trim()==""
       ){
         
       this._snackBar.open("Complete todos los campos", 'cerrar',{
@@ -499,6 +510,7 @@ export class ModificarSolpeComponent implements OnInit {
       this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(dataextra=>{
         // this.dataSourceModificarSolpe.data[ind].meins = data.esUnitField;
         // this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+        this.totalSinIgv = 0;
         if(dataextra.etMsgReturnField[0].successField == 'X'){
           for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
             if(this.dataSourceModificarSolpe.data[ind].item == item){
@@ -510,9 +522,18 @@ export class ModificarSolpeComponent implements OnInit {
               this.dataSourceModificarSolpe.data[ind].ccosto = req.ccosto;
               this.dataSourceModificarSolpe.data[ind].gl = req.gl;
               this.dataSourceModificarSolpe.data[ind].punit = req.punit;
-              this.dataSourceModificarSolpe.data[ind].totsinigv = req.totsinigv;
+              // this.dataSourceModificarSolpe.data[ind].totsinigv = req.totsinigv;
+              this.dataSourceModificarSolpe.data[ind].totsinigv = (req.menge * req.punit).toFixed(2);
               this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+              // this.totalSinIgv = parseFloat(this.totalSinIgv) + parseFloat(this.dataSourceModificarSolpe.data[ind].totsinigv);
+              
+              // if(ind>=1){
+               
+              // }else{
+              //   this.totalSinIgv = parseFloat(this.dataSourceModificarSolpe.data[ind].totsinigv);
+              // }
             }
+            this.totalSinIgv = parseFloat(this.totalSinIgv) + parseFloat(this.dataSourceModificarSolpe.data[ind].totsinigv);
             if(this.dataSourceModificarSolpe.data.length - 1 == ind){
               
               let json_req_info_extra = {
@@ -607,7 +628,7 @@ export class ModificarSolpeComponent implements OnInit {
         this.detalleJson.AuCargo = "";
         this.detalleJson.AuAsigna = "";
         this.detalleJson.AuFecha = "";
-
+        this.totalSinIgv = 0;
         this.dialog.closeAll();
       }
       this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
@@ -703,6 +724,10 @@ export class ModificarSolpeComponent implements OnInit {
       })
     });
     
+  }
+
+  calcularTotalSinIgv(data:any){
+    return data.toFixed(2)
   }
 
 }

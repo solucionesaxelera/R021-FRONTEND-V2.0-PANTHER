@@ -26,6 +26,7 @@ export class CrearSolpeComponent implements OnInit {
   @ViewChild(MatSort) sort: any;
 
   indicadorCarga:Boolean=false;
+  totalSinIgv:any=0;
 
   public helper = new JwtHelperService();
   token = localStorage.getItem('data_current')?.toString();
@@ -234,6 +235,7 @@ export class CrearSolpeComponent implements OnInit {
           this.detalleJson.FechaReque = "";
           this.detalleJson.ProveSuge = "";
           this.detalleJson.Ocotiza = "";
+          this.totalSinIgv = 0;
           // this.detalleJson.SoNomb = "";
           // this.detalleJson.SoCargo = "";
           // this.detalleJson.SoAsigna = ""; 
@@ -338,6 +340,7 @@ export class CrearSolpeComponent implements OnInit {
     if(this.dataSourceCrearSolpe.data.length>=2)
     for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
       if(this.dataSourceCrearSolpe.data[ind].item == item){
+        this.totalSinIgv = parseFloat(this.totalSinIgv) - parseFloat(this.dataSourceCrearSolpe.data[ind].totsinigv);
         this.dataSourceCrearSolpe.data.splice(ind,1)
       }
     }else{
@@ -359,8 +362,7 @@ export class CrearSolpeComponent implements OnInit {
       req.matnr.trim()=="" ||
       req.ccosto.trim()=="" ||
       req.gl.trim()=="" ||
-      req.punit.trim()=="" ||
-      req.totsinigv.trim()==""
+      req.punit.trim()==""
       ){
         
       this._snackBar.open("Complete todos los campos", 'cerrar',{
@@ -408,6 +410,7 @@ export class CrearSolpeComponent implements OnInit {
         IsValor: "UNIDAD"
       }
       this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(dataextra=>{
+        this.totalSinIgv = 0;
         if(dataextra.etMsgReturnField[0].successField == 'X'){
           for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
             if(this.dataSourceCrearSolpe.data[ind].item == item){
@@ -419,9 +422,19 @@ export class CrearSolpeComponent implements OnInit {
               this.dataSourceCrearSolpe.data[ind].ccosto = req.ccosto;
               this.dataSourceCrearSolpe.data[ind].gl = req.gl;
               this.dataSourceCrearSolpe.data[ind].punit = req.punit;
-              this.dataSourceCrearSolpe.data[ind].totsinigv = req.totsinigv;
+              // this.dataSourceCrearSolpe.data[ind].totsinigv = req.totsinigv;
+              this.dataSourceCrearSolpe.data[ind].totsinigv = (req.menge * req.punit).toFixed(2);
               this.dataSourceCrearSolpe.data = [...this.dataSourceCrearSolpe.data];
+             
+              // if(ind>=1){
+                
+              // }else{
+              //   this.totalSinIgv = parseFloat(this.dataSourceCrearSolpe.data[ind].totsinigv);
+              // }
+
+              // this.totalSinIgv = parseFloat(this.totalSinIgv) + parseFloat(this.dataSourceCrearSolpe.data[ind].totsinigv);
             }
+            this.totalSinIgv = parseFloat(this.totalSinIgv) + parseFloat(this.dataSourceCrearSolpe.data[ind].totsinigv);
             if(this.dataSourceCrearSolpe.data.length - 1 == ind){
               let json_req_info_extra = {
                 IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
@@ -512,6 +525,10 @@ export class CrearSolpeComponent implements OnInit {
     // let result = valor;
     // return (result.length > 80) ? ((result).slice(0, 80) + '...') : result
     return valor;
+  }
+
+  calcularTotalSinIgv(data:any){
+    return data.toFixed(2)
   }
 
 }
