@@ -1,8 +1,8 @@
 <mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
 <h2>MODIFICAR SOLPE</h2>
 <div class="separator"></div>
-<div class="header-modificar-solpe">
-    <div class="busqueda-header row">
+
+    <div class="row">
         <div class="col-lg-4">
             <mat-form-field class="full-width" appearance="outline">
                 <mat-label>N° Solpe</mat-label>
@@ -22,6 +22,7 @@
             </button>
         </div>
     </div>
+    
     <div>
         <form  id="cabecera-modificar-solped" [formGroup]="cabeceraModificarSolpeForm" (ngSubmit)="modificarSolpe(cabeceraModificarSolpeForm.value)">
             <div class="inputs-header row">
@@ -57,7 +58,7 @@
             
         </form>
     </div>
-</div>
+
 
 
 <div class="mat-elevation-z8-custom" style="overflow-x:auto;">

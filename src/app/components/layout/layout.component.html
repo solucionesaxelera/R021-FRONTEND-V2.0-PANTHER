@@ -29,12 +29,19 @@
             </mat-expansion-panel>
         </mat-accordion>
     </mat-drawer>
-  
+
     <div class="sidenav-content">
       <button mat-icon-button (click)="drawer.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <button mat-flat-button color="primary" (click)="openConsultarCerrarSesion()">Salir</button>
+      <div>
+        {{usersesion}}
+        <!-- <button mat-flat-button color="primary" (click)="openConsultarCerrarSesion()">Salir</button> -->
+
+        <button mat-icon-button (click)="openConsultarCerrarSesion()">
+            <mat-icon matTooltip="Salir de sesión">exit_to_app</mat-icon>
+        </button>
+      </div>
     </div>
     <main>
         <mat-card>
@@ -46,7 +53,7 @@
 
     <!-- CERRAR SESIÓN -->
     <ng-template #dialogConsultarCerrarSesion>
-        <h2 mat-dialog-title>Está seguro que desea cerrar sesión?</h2>
+        <h2 mat-dialog-title>Está seguro(a) que desea cerrar sesión?</h2>
         <mat-dialog-actions align="end">
           <button mat-button cdkFocusInitial mat-dialog-close>No</button>
           <button mat-button form="modificarRolUsuario" type="submit" (click)="cerrarSesion()">Si</button>

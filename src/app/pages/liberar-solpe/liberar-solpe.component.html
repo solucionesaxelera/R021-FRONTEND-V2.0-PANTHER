@@ -1,38 +1,59 @@
 <h2>LIBERAR SOLPE</h2>
 <div class="separator"></div>
 <div class="header-crear-solpe">
-    <div class="button-header">
-        <button mat-flat-button color="primary" (click)="buscarSolpe()">
-            Buscar Solpe
-        </button>
-    </div>
-    <div>
-        <form id="cabecera-crear-solped" [formGroup]="cabeceraCrearSolpeForm">
-            <div class="inputs-header">
-                <mat-form-field class="full-width item-input" appearance="outline">
+
+        <form id="cabecera-crear-solped" [formGroup]="cabeceraCrearSolpeForm" class="row">
+
+                <mat-form-field class="full-width item-input col-md-6 full-width" appearance="outline">
                     <mat-label>Usuario</mat-label>
                     <input type="text" matInput placeholder="Ingrese nombre de usuario" formControlName="Usuario">
                 </mat-form-field>
-                <mat-form-field class="full-width item-input" appearance="outline">
+                <mat-form-field class="full-width item-input col-md-6 full-width" appearance="outline">
                     <mat-label>Fecha</mat-label>
                     <input type="date" matInput formControlName="Fecha">
                 </mat-form-field>
-            </div>
 
         </form>
+    <!-- <div class="button-header row">
+        <div style="padding: 10px 15px ; " class="full-width">
+            <div class="col-md-6">
+                <button mat-flat-button class="full-width" color="primary" (click)="buscarSolpe()">
+                    Buscar Solpe
+                </button>
+            </div>
+            <div class="col-md-6">
+                <button mat-flat-button class="full-width" color="primary" (click)="obtenerListadoSolpes()" >
+                    Limpiar Filtros
+                </button>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="row" style="margin-bottom: 30px;">
+        <div class="col-lg-6">
+            <button mat-flat-button class="full-width" color="primary" (click)="buscarSolpe()">
+                Buscar Solpe
+            </button>
+        </div>
+        <div class="col-lg-6">
+            <button mat-flat-button class="full-width" color="primary" (click)="obtenerListadoSolpes()" >
+                Limpiar Filtros
+            </button>
+        </div>
     </div>
+
 </div>
 
 <div class="mat-elevation-z8-custom" style="overflow-x:auto;">
     <table mat-table [dataSource]="dataSourceCrearSolpe">
 
         <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> ID</th>
+            <th mat-header-cell *matHeaderCellDef> ID SOLPE</th>
             <td mat-cell *matCellDef="let element"> {{element.idField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="nroreq">
-            <th mat-header-cell *matHeaderCellDef> NROREQ </th>
+            <th mat-header-cell *matHeaderCellDef> 	N° REQUISICIÓN </th>
             <td mat-cell *matCellDef="let element"> {{element.nroreqField}} </td>
         </ng-container>
 
@@ -47,12 +68,12 @@
         </ng-container>
 
         <ng-container matColumnDef="descr">
-            <th mat-header-cell *matHeaderCellDef> DESCR SOLPE </th>
+            <th mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </th>
             <td mat-cell *matCellDef="let element"> {{element.descrSolpeField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="usuario">
-            <th mat-header-cell *matHeaderCellDef> USUARIO </th>
+            <th mat-header-cell *matHeaderCellDef> USUARIO CREADOR </th>
             <td mat-cell *matCellDef="let element"> {{element.usuarioField}} </td>
         </ng-container>
 
@@ -72,14 +93,14 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons aria-label="Select page of periodic elements">
     </mat-paginator>
 
 </div>
 
 <!-- APROBAR SOLPED -->
 <ng-template #dialogAprobarSolped>
-    <h2 mat-dialog-title>¿Seguro de aprobar la solicitud de pedido?</h2>
+    <h2 mat-dialog-title>¿Seguro(a) que desea aprobar la solicitud de pedido?</h2>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>Cancelar</button>
         <button mat-button cdkFocusInitial (click)="aprobarSolpe()" type="submit">Aceptar</button>
@@ -88,16 +109,24 @@
 
 <!-- RECHAZAR SOLPED -->
 <ng-template #dialogRechazarSolped>
-    <h2 mat-dialog-title>¿Seguro de rechazar la solicitud de pedido?</h2>
+    <h2 mat-dialog-title>¿Seguro(a) que desea rechazar la solicitud de pedido?</h2>
+    <mat-dialog-content class="mat-typography">
+        <form>
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Ingrese un motivo</mat-label>
+                <textarea matInput placeholder="Ingrese motivo" rows="2"></textarea>
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close>Cancelar</button>
-        <button mat-button cdkFocusInitial (click)="rechazarSolpe()" type="submit">Aceptar</button>
+        <button mat-button cdkFocusInitial mat-dialog-close>Cancelar</button>
+        <button mat-button (click)="rechazarSolpe()" type="submit">Aceptar</button>
     </mat-dialog-actions>
 </ng-template>
 
 <!-- BOTON PARA OBTENER LISTADO DE SOLPES - SE LIMPIA FILTROS -->
-<div class="button-footer" >
+<!-- <div class="button-footer" >
     <button mat-flat-button color="primary" (click)="obtenerListadoSolpes()" >
         Limpiar Filtros
     </button>
-</div>
+</div> -->

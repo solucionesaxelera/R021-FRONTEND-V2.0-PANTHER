@@ -1,19 +1,19 @@
 <h2>AUDITORÍA</h2>
 <div class="separator"></div>
 <div class="header-crear-solpe">
-    <div class="button-header">
+    <!-- <div class="button-header">
         <button mat-flat-button color="primary" (click)="buscarAuditoria()">
             Buscar Auditoría
         </button>
-    </div>
-    <div>
-        <form id="cabecera-crear-solped" [formGroup]="cabeceraAuditoriaForm">
-            <div class="inputs-header">
+    </div> -->
+    <!-- <div> -->
+        <form id="cabecera-crear-solped" [formGroup]="cabeceraAuditoriaForm" class="row">
+            <!-- <div class="inputs-header"> -->
                 <!-- <mat-form-field class="full-width item-input" appearance="outline">
                     <mat-label>Acción</mat-label>
                     <input id="nroreq" type="text" matInput placeholder="Ingrese la acción" formControlName="Accion">
                 </mat-form-field> -->
-                <mat-form-field appearance="outline">
+                <mat-form-field class="full-width col-md-2" appearance="outline">
                     <mat-label>Acción</mat-label>
                     <mat-select formControlName="Accion">
                         <mat-option value="C">CREÓ SOLPE</mat-option>
@@ -23,18 +23,27 @@
                         <mat-option value="R">RECHAZÓ SOLPE</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field class="full-width item-input" appearance="outline">
+                <mat-form-field class="full-width item-input col-md-5" appearance="outline">
                     <mat-label>Usuario</mat-label>
                     <input type="text" matInput placeholder="Ingrese el usuario" formControlName="Usuario">
                 </mat-form-field>
-                <mat-form-field class="full-width item-input" appearance="outline">
+                <mat-form-field class="full-width item-input col-md-5" appearance="outline">
                     <mat-label>Fecha</mat-label>
                     <input type="date" matInput formControlName="Fecha">
                 </mat-form-field>
-            </div>
+            <!-- </div> -->
 
         </form>
+    <!-- </div> -->
+
+    <div class="row" style="margin-bottom: 30px;">
+        <div class="col-lg-12"> 
+            <button mat-flat-button class="full-width" color="primary" (click)="buscarAuditoria()">
+                Buscar Auditoría
+            </button>
+        </div>
     </div>
+
 </div>
 
 <div class="mat-elevation-z8-custom" style="overflow-x:auto;">
@@ -92,6 +101,6 @@
     </button>
     <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit" (click)="exportar()"
         [disabled]="this.dataSourceAuditoria.data.length == 0">
-        Exportar Excel
+        <mat-icon>cloud_download</mat-icon> Exportar Excel
     </button>
 </div>

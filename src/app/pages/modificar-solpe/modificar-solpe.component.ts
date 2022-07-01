@@ -178,7 +178,7 @@ export class ModificarSolpeComponent implements OnInit {
         Centro: "",
         DescrSolpe: "",
         Estado: "",
-        Usuario: "",
+        Usuario: this.helper.decodeToken(this.token).usuario.trim(),
         Detalle: []
       }
     }

@@ -16,6 +16,7 @@ export class LayoutComponent implements OnInit {
   public helper = new JwtHelperService();
   token = localStorage.getItem('data_current')?.toString();
   config?: MatDialogConfig;
+  usersesion:any=this.helper.decodeToken(this.token).usuario.trim();
 
   modulosAdministracion:any=[];
   modulosSolpe:any =[];
