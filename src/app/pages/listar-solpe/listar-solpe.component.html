@@ -1,24 +1,29 @@
 <mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
 <h2>VISUALIZAR SOLPE</h2>
 <div class="separator"></div>
-<div class="row">
+<form id="cabecera-listar-solpe" [formGroup]="cabeceraListarSolpeForm" (ngSubmit)="filtrarSolpe(cabeceraListarSolpeForm.value)" class="row">
     <div class="col-md-6">
         <mat-form-field class="full-width" appearance="outline">
             <mat-label>N° Solpe</mat-label>
-            <input type="text" matInput maxlength="8">
+            <input type="text" matInput maxlength="8" formControlName="Id">
         </mat-form-field>
     </div>
     <div class="col-md-6">
         <mat-form-field class="full-width" appearance="outline">
             <mat-label>Fecha</mat-label>
-            <input type="date" matInput>
+            <input type="date" matInput formControlName="Fecha">
         </mat-form-field>
     </div>
-</div>
+</form>
 <div class="row" style="margin-bottom: 30px;">
-    <div class="col-lg-12">
-        <button mat-flat-button color="primary" class="full-width">
+    <div class="col-lg-6">
+        <button mat-flat-button color="primary" class="full-width" form="cabecera-listar-solpe">
             Buscar
+        </button>
+    </div>
+    <div class="col-lg-6">
+        <button mat-flat-button color="primary" class="full-width" (click)="limpiarFiltros()">
+            Limpiar Filtros
         </button>
     </div>
 </div>
@@ -80,9 +85,12 @@
         <ng-container matColumnDef="detalle">
             <th mat-header-cell *matHeaderCellDef> DETALLE </th>
             <td mat-cell *matCellDef="let element; let i = index;"> 
-                <button mat-icon-button color="primary" (click)="listarDetalleSolpe(element.detalleField,element.idField)">
+                <button mat-icon-button color="primary" matTooltip="Visualizar detalle" (click)="listarDetalleSolpe(element.detalleField,element.idField)">
                     <mat-icon>assignment</mat-icon>
-                </button>    
+                </button>
+                <button mat-icon-button matTooltip="Visualizar motivo de rechazo" *ngIf="element.estadoField == 'R'" color="primary" (click)="listarComentario(element.comentarioField,element.idField)">
+                    <mat-icon>message</mat-icon>
+                </button> 
             </td>
         </ng-container>
 
@@ -163,4 +171,15 @@
         </mat-paginator>
 </mat-dialog-content>
 
+</ng-template>
+
+<!-- COMENTARIO RECHAZO SOLPE -->
+<ng-template #dialogComentarioSolpe>
+    <h2 mat-dialog-title>MOTIVO DE RECHAZO DE SOLPE N° {{idSolpeSeleccionada}}</h2>
+    <mat-dialog-content>
+        <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Motivo de rechazo</mat-label>
+            <textarea matInput placeholder="Motivo de rechazo" rows="2" maxlength="250" [(ngModel)]="IsComentario" [ngModelOptions]="{standalone: true}" disabled class="text-area-comentario"></textarea>
+        </mat-form-field>
+    </mat-dialog-content>
 </ng-template>

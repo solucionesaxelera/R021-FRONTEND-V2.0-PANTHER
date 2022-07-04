@@ -28,6 +28,7 @@ export class LiberarSolpeComponent implements OnInit {
   id_fila_solped: any = "";
   usuario: any = "";
   fecha: any = "";
+  IsComentario:any="";
 
   constructor(
     public dialog: MatDialog,
@@ -72,7 +73,8 @@ export class LiberarSolpeComponent implements OnInit {
       IsId: "",
       IsUsuario: this.helper.decodeToken(this.token).usuario,
       IsFechaf: "",
-      IsUsuariof: ""
+      IsUsuariof: "",
+      IsComentario:""
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
@@ -95,7 +97,8 @@ export class LiberarSolpeComponent implements OnInit {
       IsId: this.id_fila_solped,
       IsUsuario: "",
       IsFechaf: "",
-      IsUsuariof: ""
+      IsUsuariof: "",
+      IsComentario:""
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
@@ -120,23 +123,27 @@ export class LiberarSolpeComponent implements OnInit {
   }
 
   rechazarSolpe() {
+    
     let json_req = {
       IsAccion: "R",
       IsId: this.id_fila_solped,
       IsUsuario: "",
       IsFechaf: "",
-      IsUsuariof: ""
+      IsUsuariof: "",
+      IsComentario:this.IsComentario
     }
-
+    console.log(json_req)
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
       if (data.etMsgReturnField[0].successField == 'X') {
+        this.IsComentario = ""
         let json_req_auditoria = {
           id_solpe:this.id_fila_solped,
           usuario:this.helper.decodeToken(this.token).usuario,
           accion:"R"
         }
         this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
-          console.log(data)
+          console.log(data);
+
         });
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = data.etSolpePrelimCabField;
@@ -159,7 +166,8 @@ export class LiberarSolpeComponent implements OnInit {
       IsId: "",
       IsUsuario: this.helper.decodeToken(this.token).usuario,
       IsFechaf: this.fecha == null ? "" : this.formatearFecha(this.fecha, 2),
-      IsUsuariof: this.usuario
+      IsUsuariof: this.usuario,
+      IsComentario:""
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {

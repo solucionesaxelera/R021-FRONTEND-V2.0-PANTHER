@@ -214,7 +214,8 @@ export class CrearSolpeComponent implements OnInit {
           AuCargo: this.detalleJson.AuCargo,
           AuAsigna: this.detalleJson.AuAsigna,
           AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD"),
-          Sociedad: this.helper.decodeToken(this.token).sociedad.trim()
+          Sociedad: this.helper.decodeToken(this.token).sociedad.trim(),
+          Comentario:""
         }
       }
       this._crearSolpeS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
@@ -402,6 +403,7 @@ export class CrearSolpeComponent implements OnInit {
           AuAsigna: "",
           AuFecha: "",
           Sociedad: "",
+          Comentario:""
         }
       }
       let json_req_info_extra_und = {
