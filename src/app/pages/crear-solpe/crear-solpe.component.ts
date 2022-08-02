@@ -357,10 +357,10 @@ export class CrearSolpeComponent implements OnInit {
 
   editarPosicion(req:any,item:any){
     if(
-      req.presu.trim()=="" ||
+      // req.presu.trim()=="" ||
       req.menge.trim()=="" ||
       req.descr.trim()=="" ||
-      req.matnr.trim()=="" ||
+      // req.matnr.trim()=="" ||
       req.ccosto.trim()=="" ||
       req.gl.trim()=="" ||
       req.punit.trim()==""
@@ -504,7 +504,9 @@ export class CrearSolpeComponent implements OnInit {
         if(this.dataSourceCrearSolpe.data[ind].item == item){
           switch (name) {
             case  "MATNR":
-              this.dataSourceCrearSolpe.data[ind].matnr = result;
+              this.dataSourceCrearSolpe.data[ind].matnr = result.matnrField;
+              this.dataSourceCrearSolpe.data[ind].maktgField = result.maktgField;
+              this.calcularStockDesdeMatchcode(result.matnrField,item)
               break;
             case  "KOSTL":
               this.dataSourceCrearSolpe.data[ind].ccosto = result;
@@ -532,5 +534,40 @@ export class CrearSolpeComponent implements OnInit {
   calcularTotalSinIgv(data:any){
     return data.toFixed(2)
   }
+
+  calcularStockDesdeMatchcode(value:any,item:any){
+    let json_req_info_extra = {
+      IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
+      IsMaterial: value,
+      IsValor: "STOCK"
+    }
+    this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+      console.log(data);
+      for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
+        if(this.dataSourceCrearSolpe.data[ind].item == item){
+          this.dataSourceCrearSolpe.data[ind].stock = data.esCantidadField;
+        }
+      }
+    });
+  }
+
+  calcularStockInput(value:any,e:any,item:any){
+    console.log("...CARGANDO")
+    if(e.key=='Enter'){
+      let json_req_info_extra = {
+        IsCentro: this.cabeceraCrearSolpeForm.controls['Centro'].value,
+        IsMaterial: value,
+        IsValor: "STOCK"
+      }
+      this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+        console.log(data);
+        for (let ind = 0; ind < this.dataSourceCrearSolpe.data.length; ind++) {
+          if(this.dataSourceCrearSolpe.data[ind].item == item){
+            this.dataSourceCrearSolpe.data[ind].stock = data.esCantidadField;
+          }
+        }
+      });
+    }
+  } 
 
 }

@@ -1,42 +1,56 @@
-<h2 mat-dialog-title>CENTRO DE COSTOS</h2>
-<form [formGroup]="CentroCostoForm" (submit)="filtrarCentroCosto(CentroCostoForm.value)">
-    <div class="row">
-        <div class="col-md-6">
-            <mat-form-field class="full-width" appearance="outline">
-                <mat-label>IsCeco</mat-label>
-                <input matInput placeholder="Ingrese IsCeco" formControlName="IsCeco">
-            </mat-form-field>
-        </div>
-        <div class="col-md-6">
-            <mat-form-field class="full-width" appearance="outline">
-                <mat-label>IsNameCeco</mat-label>
-                <input matInput placeholder="Ingrese IsNameCeco " formControlName="IsNameCeco">
-            </mat-form-field>
-        </div>
+<h2 mat-dialog-title>
+    <div>
+        CENTRO DE COSTOS
     </div>
-    <div class="row">
-        <div class="col-sm-12 mtb-5">
-            <button mat-flat-button color="primary" class="full-width">Filtrar</button>
+</h2>
+
+
+
+
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="CentroCostoForm" (submit)="filtrarCentroCosto(CentroCostoForm.value)">
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>IsCeco</mat-label>
+                    <input matInput placeholder="Ingrese IsCeco" formControlName="IsCeco">
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>IsNameCeco</mat-label>
+                    <input matInput placeholder="Ingrese IsNameCeco " formControlName="IsNameCeco">
+                </mat-form-field>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-6 mtb-5">
-            <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">Seleccionar todo</button>
+        <div class="row">
+            <div class="col-sm-12 mtb-5">
+                <button mat-flat-button color="primary" class="full-width">Filtrar</button>
+            </div>
         </div>
-        <div class="col-sm-6 mtb-5">
-            <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">Deseleccionar todo</button>
+        <div class="row">
+            <div class="col-sm-6 mtb-5">
+                <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">Seleccionar todo</button>
+            </div>
+            <div class="col-sm-6 mtb-5">
+                <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">Deseleccionar todo</button>
+            </div>
         </div>
-    </div>
-</form>
-<div mat-dialog-content>
-    <mat-dialog-content class="mat-typography">
+    </form>
         <mat-selection-list [(ngModel)]="seleccionarCentroCostos" [compareWith]="compareFunction">
             <mat-list-option *ngFor="let centro of centrocostos" [value]="centro">
-              {{centro.item}} - {{centro.name}}
+                <div style="display: flex; align-items: center; flex-direction: row;">
+                    <div style="width: 300px;">
+                        {{centro.item}} - {{centro.name}}
+                    </div>
+                    <div>
+                         {{centro.sociedad}}
+                    </div>
+                </div>
             </mat-list-option>
         </mat-selection-list>              
     </mat-dialog-content>
-</div>
+
 <div mat-dialog-actions>
     <button color="primary" mat-flat-button (click)="guardarCentroCostos()">Guardar</button>
     <button color="primary" mat-flat-button (click)="cerrarDialog()">Cerrar</button>

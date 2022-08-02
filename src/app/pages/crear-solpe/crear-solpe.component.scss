@@ -60,3 +60,11 @@ textarea{
 mat-form-field {
     padding: 5px;
 }
+
+.total {
+    font-weight: bold;
+    & input, mat-label {
+        color: #000;
+        font-size: 18px;
+    }
+}

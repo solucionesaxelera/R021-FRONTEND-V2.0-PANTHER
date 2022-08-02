@@ -69,10 +69,10 @@
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumnsMATNR"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumnsMATNR;" class="row-table" [mat-dialog-close]="row.matnrField"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsMATNR;" class="row-table" [mat-dialog-close]="row"></tr>
         </table>
     </div>
-<mat-paginator [pageSizeOptions]="[10, 20, 30]"
+<mat-paginator [pageSizeOptions]="[20, 50, 100]"
                  showFirstLastButtons 
                  aria-label="Select page of periodic elements">
 </mat-paginator>
@@ -97,7 +97,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsKOSTL;" class="row-table" [mat-dialog-close]="row.kostlField"></tr>
         </table>
     </div>
-<mat-paginator [pageSizeOptions]="[10, 20, 30]"
+<mat-paginator [pageSizeOptions]="[20, 50, 100]"
                  showFirstLastButtons 
                  aria-label="Select page of periodic elements">
 </mat-paginator>
@@ -122,7 +122,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsWERKS;" class="row-table" [mat-dialog-close]="row.werksField"></tr>
         </table>
     </div>
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+    <mat-paginator [pageSizeOptions]="[20, 50, 100]"
                      showFirstLastButtons 
                      aria-label="Select page of periodic elements">
     </mat-paginator>
@@ -147,7 +147,7 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumnsMSEHI;" class="row-table" [mat-dialog-close]="row.msehiField"></tr>
         </table>
     </div>
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+    <mat-paginator [pageSizeOptions]="[20, 50, 100]"
                      showFirstLastButtons 
                      aria-label="Select page of periodic elements">
     </mat-paginator>
@@ -178,7 +178,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumnsSAKNR;" class="row-table" [mat-dialog-close]="row.saknrField"></tr>
     </table>
 </div>
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+    <mat-paginator [pageSizeOptions]="[20, 50, 100]"
                      showFirstLastButtons 
                      aria-label="Select page of periodic elements">
     </mat-paginator>

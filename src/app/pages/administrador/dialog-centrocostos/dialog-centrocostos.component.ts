@@ -63,7 +63,8 @@ export class DialogCentrocostosComponent implements OnInit {
       for (let i = 0; i < data.etCecoField.length; i++) {
         this.centrocostos.push({
           item: data.etCecoField[i].kostlField,
-          name: data.etCecoField[i].ktextField
+          name: data.etCecoField[i].ktextField,
+          sociedad: data.etCecoField[i].butxtField
         });
         if(data.etCecoField.length - 1 == i){
           // this.seleccionarCentroCostos = this.data;
@@ -90,7 +91,8 @@ export class DialogCentrocostosComponent implements OnInit {
       for (let i = 0; i < data.etCecoField.length; i++) {
         this.centrocostos.push({
           item: data.etCecoField[i].kostlField,
-          name: data.etCecoField[i].ktextField
+          name: data.etCecoField[i].ktextField,
+          sociedad: data.etCecoField[i].butxtField
         })
         if(data.etCecoField.length - 1 == i){
           this.centrocostos=[...this.centrocostos];

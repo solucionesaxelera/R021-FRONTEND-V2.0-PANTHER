@@ -453,10 +453,10 @@ export class ModificarSolpeComponent implements OnInit {
   editarPosicion(req:any,item:any){
 
     if(
-      req.presu.trim()=="" ||
+      // req.presu.trim()=="" ||
       req.menge.trim()=="" ||
       req.descr.trim()=="" ||
-      req.matnr.trim()=="" ||
+      // req.matnr.trim()=="" ||
       req.ccosto.trim()=="" ||
       req.gl.trim()=="" ||
       req.punit.trim()==""
@@ -687,6 +687,8 @@ export class ModificarSolpeComponent implements OnInit {
           switch (name) {
             case  "MATNR":
               this.dataSourceModificarSolpe.data[ind].matnr = result;
+              this.dataSourceModificarSolpe.data[ind].maktgField = result.maktgField;
+              this.calcularStockDesdeMatchcode(result,item);
               break;
             case  "KOSTL":
               this.dataSourceModificarSolpe.data[ind].ccosto = result;
@@ -731,5 +733,40 @@ export class ModificarSolpeComponent implements OnInit {
   calcularTotalSinIgv(data:any){
     return data.toFixed(2)
   }
+
+  calcularStockDesdeMatchcode(value:any,item:any){
+    let json_req_info_extra = {
+      IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
+      IsMaterial: value,
+      IsValor: "STOCK"
+    }
+    this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+      console.log(data);
+      for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
+        if(this.dataSourceModificarSolpe.data[ind].item == item){
+          this.dataSourceModificarSolpe.data[ind].stock = data.esCantidadField;
+        }
+      }
+    });
+  }
+
+  calcularStockInput(value:any,e:any,item:any){
+    console.log("...CARGANDO")
+    if(e.key=='Enter'){
+      let json_req_info_extra = {
+        IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
+        IsMaterial: value,
+        IsValor: "STOCK"
+      }
+      this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+        console.log(data);
+        for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
+          if(this.dataSourceModificarSolpe.data[ind].item == item){
+            this.dataSourceModificarSolpe.data[ind].stock = data.esCantidadField;
+          }
+        }
+      });
+    }
+  } 
 
 }

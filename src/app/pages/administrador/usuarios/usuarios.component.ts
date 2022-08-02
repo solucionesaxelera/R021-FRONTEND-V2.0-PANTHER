@@ -124,7 +124,7 @@ export class UsuariosComponent implements OnInit {
   openDialogCentroCostos(): void{
     
     const dialogRefCentroCostos =this.dialog.open(DialogCentrocostosComponent, {
-      width: '500px',
+      width: '630px',
       disableClose:true,
       data: {cecos: this.ItCcosto, sociedades:this.ItSociedad},
     });

@@ -1,21 +1,25 @@
-<h2 mat-dialog-title>SOCIEDADES</h2>
-<div class="row">
-    <div class="col-sm-6 mtb-5">
-        <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">Seleccionar todo</button>
+<h2 mat-dialog-title>
+    <div>SOCIEDADES</div>
+    <div class="row">
+        <div class="col-sm-6 mtb-5">
+            <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">Seleccionar todo</button>
+        </div>
+        <div class="col-sm-6 mtb-5">
+            <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">Deseleccionar todo</button>
+        </div>
     </div>
-    <div class="col-sm-6 mtb-5">
-        <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">Deseleccionar todo</button>
-    </div>
-</div>
-<div mat-dialog-content>
-    <mat-dialog-content class="mat-typography">
+</h2>
+
+
+
+<mat-dialog-content class="mat-typography">
         <mat-selection-list [(ngModel)]="seleccionarSociedades" [compareWith]="compareFunction">
             <mat-list-option *ngFor="let sociedad of sociedades" [value]="sociedad">
               {{sociedad.item}} - {{sociedad.name}}
             </mat-list-option>
         </mat-selection-list>              
     </mat-dialog-content>
-</div>
+
 <div mat-dialog-actions>
     <button color="primary" mat-flat-button (click)="guardarSociedades()">Guardar</button>
     <button color="primary" mat-flat-button (click)="cerrarDialog()">Cerrar</button>
