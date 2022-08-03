@@ -7,6 +7,7 @@ import { CrearSolpeService } from 'src/app/services/crear-solpe/crear-solpe.serv
 import * as moment from 'moment';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Component({
   selector: 'app-listar-solpe',
@@ -19,6 +20,9 @@ export class ListarSolpeComponent implements OnInit {
   @ViewChild(MatPaginator) paginatorDetalle: any;
   @ViewChild("dialogDetalleSolpe") dialogTemplateDetalleSolpe: any;
   @ViewChild("dialogComentarioSolpe") dialogTemplateComentarioSolpe: any;
+
+  public helper = new JwtHelperService();
+  token = localStorage.getItem('data_current')?.toString();
 
   indicadorCarga:boolean=false;
 
@@ -56,6 +60,7 @@ export class ListarSolpeComponent implements OnInit {
       IsAccion: "L",
       IsIdSolpe: "",
       IsItem: "",
+      IsUsuario: this.helper.decodeToken(this.token).usuario.trim(),
       IsSolpePrelimCab: {
         Id: "",
         Nroreq: "",
