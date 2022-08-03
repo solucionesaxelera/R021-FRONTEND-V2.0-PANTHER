@@ -26,8 +26,9 @@ export class ModificarSolpeComponent implements OnInit {
   @ViewChild(MatSort) sort: any;
 
   indicadorCarga:Boolean=false;
-
   totalSinIgv:any=0;
+
+  tipoMonedas:any = [];
 
   public helper = new JwtHelperService();
   token = localStorage.getItem('data_current')?.toString();
@@ -97,6 +98,7 @@ export class ModificarSolpeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.cargarTipoMonedas();
   }
 
   openAgregarPosicion(){
@@ -504,21 +506,21 @@ export class ModificarSolpeComponent implements OnInit {
         }
       }
 
-      let json_req_info_extra_und = {
-        IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
-        IsMaterial: req.matnr,
-        IsValor: "UNIDAD"
-      }
-      this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(dataextra=>{
+      // let json_req_info_extra_und = {
+      //   IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
+      //   IsMaterial: req.matnr,
+      //   IsValor: "UNIDAD"
+      // }
+      // this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(dataextra=>{
         // this.dataSourceModificarSolpe.data[ind].meins = data.esUnitField;
         // this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
         this.totalSinIgv = 0;
-        if(dataextra.etMsgReturnField[0].successField == 'X'){
+        // if(dataextra.etMsgReturnField[0].successField == 'X'){
           for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
             if(this.dataSourceModificarSolpe.data[ind].item == item){
               this.dataSourceModificarSolpe.data[ind].presu = req.presu;
               this.dataSourceModificarSolpe.data[ind].menge = req.menge;
-              this.dataSourceModificarSolpe.data[ind].meins = dataextra.esUnitField;
+              // this.dataSourceModificarSolpe.data[ind].meins = dataextra.esUnitField;
               this.dataSourceModificarSolpe.data[ind].descr = req.descr;
               this.dataSourceModificarSolpe.data[ind].matnr = req.matnr;
               this.dataSourceModificarSolpe.data[ind].ccosto = req.ccosto;
@@ -538,15 +540,15 @@ export class ModificarSolpeComponent implements OnInit {
             this.totalSinIgv = parseFloat(this.totalSinIgv) + parseFloat(this.dataSourceModificarSolpe.data[ind].totsinigv);
             if(this.dataSourceModificarSolpe.data.length - 1 == ind){
               
-              let json_req_info_extra = {
-                IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
-                IsMaterial: req.matnr,
-                IsValor: "STOCK"
-              }
-              this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(dataStock=>{
-                this.dataSourceModificarSolpe.data[ind].stock = dataStock.esCantidadField;
-                this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
-                if(dataStock.etMsgReturnField[0].successField == 'X'){
+              // let json_req_info_extra = {
+              //   IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
+              //   IsMaterial: req.matnr,
+              //   IsValor: "STOCK"
+              // }
+              // this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(dataStock=>{
+              //   this.dataSourceModificarSolpe.data[ind].stock = dataStock.esCantidadField;
+              //   this.dataSourceModificarSolpe.data = [...this.dataSourceModificarSolpe.data];
+              //   if(dataStock.etMsgReturnField[0].successField == 'X'){
                   this._SolpeOptionPrelimS.postSolpeOptionsPrelim(json_req).subscribe(data=>{
                     if(data.etMsgReturnField[0].successField == 'X'){
                       this.idSeleccionadoEditarPosicion = 0;
@@ -560,20 +562,20 @@ export class ModificarSolpeComponent implements OnInit {
                       duration:5*1000
                     });
                   });
-                }else{
-                  this._snackBar.open(dataStock.etMsgReturnField[0].messageField, 'cerrar',{
-                    duration:5*1000
-                  });
-                }
-              })  
+                // }else{
+                //   this._snackBar.open(dataStock.etMsgReturnField[0].messageField, 'cerrar',{
+                //     duration:5*1000
+                //   });
+                // }
+              // })  
             }
           }
-        }else{
-          this._snackBar.open(dataextra.etMsgReturnField[0].messageField, 'cerrar',{
-            duration:5*1000
-          });
-        }
-      })
+      //   }else{
+      //     this._snackBar.open(dataextra.etMsgReturnField[0].messageField, 'cerrar',{
+      //       duration:5*1000
+      //     });
+      //   }
+      // })
     }
   }
 
@@ -686,9 +688,9 @@ export class ModificarSolpeComponent implements OnInit {
         if(this.dataSourceModificarSolpe.data[ind].item == item){
           switch (name) {
             case  "MATNR":
-              this.dataSourceModificarSolpe.data[ind].matnr = result;
+              this.dataSourceModificarSolpe.data[ind].matnr = result.matnrField;
               this.dataSourceModificarSolpe.data[ind].maktgField = result.maktgField;
-              this.calcularStockDesdeMatchcode(result,item);
+              this.calcularStockUnidadDesdeMatchcode(result.matnrField,item);
               break;
             case  "KOSTL":
               this.dataSourceModificarSolpe.data[ind].ccosto = result;
@@ -734,13 +736,13 @@ export class ModificarSolpeComponent implements OnInit {
     return data.toFixed(2)
   }
 
-  calcularStockDesdeMatchcode(value:any,item:any){
-    let json_req_info_extra = {
+  calcularStockUnidadDesdeMatchcode(value:any,item:any){
+    let json_req_info_extra_stock = {
       IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
       IsMaterial: value,
       IsValor: "STOCK"
     }
-    this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+    this._matchcodeS.postInfoExtra(json_req_info_extra_stock).subscribe(data=>{
       console.log(data);
       for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
         if(this.dataSourceModificarSolpe.data[ind].item == item){
@@ -748,17 +750,32 @@ export class ModificarSolpeComponent implements OnInit {
         }
       }
     });
+
+    let json_req_info_extra_und = {
+      IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
+      IsMaterial: value,
+      IsValor: "UNIDAD"
+    }
+    this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(data=>{
+      console.log(data);
+      for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
+        if(this.dataSourceModificarSolpe.data[ind].item == item){
+          this.dataSourceModificarSolpe.data[ind].meins = data.esUnitField;
+        }
+      }
+    });
   }
 
-  calcularStockInput(value:any,e:any,item:any){
+
+  calcularStockUnidadInput(value:any,e:any,item:any){
     console.log("...CARGANDO")
     if(e.key=='Enter'){
-      let json_req_info_extra = {
+      let json_req_info_extra_stock = {
         IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
         IsMaterial: value,
         IsValor: "STOCK"
       }
-      this._matchcodeS.postInfoExtra(json_req_info_extra).subscribe(data=>{
+      this._matchcodeS.postInfoExtra(json_req_info_extra_stock).subscribe(data=>{
         console.log(data);
         for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
           if(this.dataSourceModificarSolpe.data[ind].item == item){
@@ -766,7 +783,40 @@ export class ModificarSolpeComponent implements OnInit {
           }
         }
       });
+
+      let json_req_info_extra_und = {
+        IsCentro: this.cabeceraModificarSolpeForm.controls['Centro'].value,
+        IsMaterial: value,
+        IsValor: "UNIDAD"
+      }
+      this._matchcodeS.postInfoExtra(json_req_info_extra_und).subscribe(data=>{
+        console.log(data);
+        for (let ind = 0; ind < this.dataSourceModificarSolpe.data.length; ind++) {
+          if(this.dataSourceModificarSolpe.data[ind].item == item){
+            this.dataSourceModificarSolpe.data[ind].meins = data.esUnitField;
+          }
+        }
+      });
     }
-  } 
+  }
+
+  cargarTipoMonedas(){
+    let req_json = {
+      IsBukrs: this.helper.decodeToken(this.token).sociedad,
+      IsCeco: "",
+      IsMatnr: "",
+      IsNameCeco: "",
+      IsNameMatnr: "",
+      IsParametro: "WAERS",
+      IsSaknr: "",
+      IsUsuario: "",
+      IsWerks: "",
+      ItBukrs:[]
+    }
+    this._matchcodeS.postSolpeOptionsMatchcode(req_json).subscribe(data=>{
+      console.log(data);
+      this.tipoMonedas = data.etMonedasField;
+    });
+  }
 
 }

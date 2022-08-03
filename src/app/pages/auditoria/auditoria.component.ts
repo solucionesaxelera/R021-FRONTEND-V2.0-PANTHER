@@ -20,7 +20,8 @@ export class AuditoriaComponent implements OnInit {
 
   accion: string = "";
   usuario: string = "";
-  fecha: string = "";
+  fechaDesde: string = "";
+  fechaHasta: string = "";
   nombreDescarga: string = "";
 
   constructor(
@@ -38,7 +39,8 @@ export class AuditoriaComponent implements OnInit {
   cabeceraAuditoriaForm = new FormGroup({
     Accion: new FormControl(''),
     Usuario: new FormControl(''),
-    Fecha: new FormControl(''),
+    FechaDesde: new FormControl(''),
+    FechaHasta: new FormControl(''),
   })
 
   ngOnInit(): void {
@@ -69,8 +71,9 @@ export class AuditoriaComponent implements OnInit {
   buscarAuditoria() {
     this.accion = this.cabeceraAuditoriaForm.get('Accion')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Accion')?.value;
     this.usuario = this.cabeceraAuditoriaForm.get('Usuario')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Usuario')?.value;
-    this.fecha = this.cabeceraAuditoriaForm.get('Fecha')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('Fecha')?.value, 2);
-    this._auditoriaS.filtrarAuditoria(this.accion, this.usuario, this.fecha).subscribe(data => {
+    this.fechaDesde = this.cabeceraAuditoriaForm.get('FechaDesde')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('FechaDesde')?.value, 2);
+    this.fechaHasta = this.cabeceraAuditoriaForm.get('FechaHasta')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('FechaHasta')?.value, 2);
+    this._auditoriaS.filtrarAuditoria(this.accion, this.usuario, this.fechaDesde, this.fechaHasta).subscribe(data => {
       if (data.status == 1) {
         this.dataSourceAuditoria.data = data.body.auditoria;
       }
@@ -86,10 +89,12 @@ export class AuditoriaComponent implements OnInit {
   async exportar() {
     this.accion = this.cabeceraAuditoriaForm.get('Accion')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Accion')?.value;
     this.usuario = this.cabeceraAuditoriaForm.get('Usuario')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Usuario')?.value;
-    this.fecha = this.cabeceraAuditoriaForm.get('Fecha')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('Fecha')?.value, 2);
-    this._auditoriaS.exportarAuditoria(this.accion, this.usuario, this.fecha).subscribe(data => {
+    this.fechaDesde = this.cabeceraAuditoriaForm.get('FechaDesde')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('FechaDesde')?.value, 2);
+    this.fechaHasta = this.cabeceraAuditoriaForm.get('FechaHasta')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('FechaHasta')?.value, 2);
+    this._auditoriaS.exportarAuditoria(this.accion, this.usuario, this.fechaDesde, this.fechaHasta).subscribe(data => {
       this.nombreDescarga = 'reporte_auditoria.xlsx';
       FileSaver.saveAs(data, this.nombreDescarga);
+      console.log("TERMINÓ CARGA")
     })
     this.dataSourceAuditoria.paginator = this.paginator;
   }

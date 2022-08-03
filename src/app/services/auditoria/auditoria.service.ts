@@ -25,8 +25,8 @@ export class AuditoriaService {
     })
   }
   //Exportar Auditoría
-  exportarAuditoria(accion: string, usuario: string, fecha: string): Observable<any> {
-    this.cadena_service = this._Excel + '?accion=' + accion + '&usuario=' + usuario + '&fecha=' + fecha;
+  exportarAuditoria(accion: string, usuario: string, fechadesde: string, fechahasta: string): Observable<any> {
+    this.cadena_service = this._Excel + '?accion=' + accion + '&usuario=' + usuario + '&fechadesde=' + fechadesde + '&fechahasta=' + fechahasta;;
     return this._http.post(this.cadena_service, null, {
       headers: new HttpHeaders({
         "Content-Type": "application/json",
@@ -46,8 +46,8 @@ export class AuditoriaService {
     })
   }
 
-  filtrarAuditoria(accion: string, usuario: string, fecha: string): Observable<any> {
-    this.cadena_service = this._Auditoria + '?accion=' + accion + '&usuario=' + usuario + '&fecha=' + fecha;
+  filtrarAuditoria(accion: string, usuario: string, fechadesde: string, fechahasta: string): Observable<any> {
+    this.cadena_service = this._Auditoria + '?accion=' + accion + '&usuario=' + usuario + '&fechadesde=' + fechadesde + '&fechahasta=' + fechahasta;
     return this._http.get<any>(this.cadena_service, {
       headers: new HttpHeaders({
         "Content-Type": "application/json",

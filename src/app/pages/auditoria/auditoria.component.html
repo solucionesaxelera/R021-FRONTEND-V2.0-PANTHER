@@ -23,13 +23,17 @@
                         <mat-option value="R">RECHAZÓ SOLPE</mat-option>
                     </mat-select>
                 </mat-form-field>
-                <mat-form-field class="full-width item-input col-md-5" appearance="outline">
+                <mat-form-field class="full-width item-input col-md-6" appearance="outline">
                     <mat-label>Usuario</mat-label>
                     <input type="text" matInput placeholder="Ingrese el usuario" formControlName="Usuario">
                 </mat-form-field>
-                <mat-form-field class="full-width item-input col-md-5" appearance="outline">
-                    <mat-label>Fecha</mat-label>
-                    <input type="date" matInput formControlName="Fecha">
+                <mat-form-field class="full-width item-input col-md-2" appearance="outline">
+                    <mat-label>Fecha Desde</mat-label>
+                    <input type="date" matInput formControlName="FechaDesde">
+                </mat-form-field>
+                <mat-form-field class="full-width item-input col-md-2" appearance="outline">
+                    <mat-label>Fecha Hasta</mat-label>
+                    <input type="date" matInput formControlName="FechaHasta">
                 </mat-form-field>
             <!-- </div> -->
 
@@ -96,7 +100,7 @@
 
 <div class="button-footer">
     <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit"
-        (click)="obtenerListadoAuditoria()" [disabled]="this.dataSourceAuditoria.data.length == 0">
+        (click)="obtenerListadoAuditoria()" >
         Limpiar Filtros
     </button>
     <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit" (click)="exportar()"
