@@ -9,6 +9,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import * as moment from 'moment';
 import { MatchcodeComponent } from 'src/app/components/matchcode/matchcode.component';
 import { tableModificarPosicionI } from 'src/app/models/modificar-solpe';
+import { UsuariosService } from 'src/app/services/administrador/usuarios/usuarios.service';
 import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 import { CrearSolpeService } from 'src/app/services/crear-solpe/crear-solpe.service';
 import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
@@ -45,7 +46,8 @@ export class ModificarSolpeComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _auditoriaS : AuditoriaService,
     private _cd:ChangeDetectorRef,
-    private _matchcodeS: MatchcodeService
+    private _matchcodeS: MatchcodeService,
+    private _usuariosS: UsuariosService
   ) { }
 
   displayedColumnsModificarSolpe: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'stock','ccosto', 'gl', 'punit', 'totsinigv','accion'];
@@ -90,15 +92,54 @@ export class ModificarSolpeComponent implements OnInit {
     CoNomb: "",
     CoCargo: "",
     CoAsigna: "",
+    CoCorreo:"",
     CoFecha: "",
     AuNomb: "",
     AuCargo: "",
     AuAsigna: "",
+    AuCorreo:"",
     AuFecha: ""
   }
 
   ngOnInit(): void {
     this.cargarTipoMonedas();
+    this._usuariosS.getUsuarioById(this.helper.decodeToken(this.token).id).subscribe(data=>{
+      this.detalleJson.SoNomb = data.body[0].nombres + " " + data.body[0].ape_pat + " " + data.body[0].ape_mat;
+      this.detalleJson.SoCargo = data.body[0].cargo;
+
+      let req_json_sap = {
+        IsAccion: "L",
+        IsAprobador1: "",
+        IsAprobador2: "",
+        IsCreador: data.body[0].usuario,
+        ItCcosto: [],
+        ItSociedad: []
+      }
+      this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(dataAprobadores=>{
+        if(dataAprobadores.esSolpeUsersField.aprobador2Field == ""){
+          this._usuariosS.getUsuarioByUsuario(dataAprobadores.esSolpeUsersField.aprobador1Field).subscribe(dataUsuario=>{
+            this.detalleJson.CoNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
+            this.detalleJson.CoCargo = dataUsuario.body[0].cargo;
+            this.detalleJson.CoCorreo = dataUsuario.body[0].correo;
+            this.detalleJson.AuNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
+            this.detalleJson.AuCargo = dataUsuario.body[0].cargo;
+            this.detalleJson.AuCorreo = dataUsuario.body[0].correo;
+          });
+        }else{
+          this._usuariosS.getUsuarioByUsuario(dataAprobadores.esSolpeUsersField.aprobador1Field).subscribe(dataUsuario=>{
+            this.detalleJson.CoNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
+            this.detalleJson.CoCargo = dataUsuario.body[0].cargo;
+            this.detalleJson.CoCorreo = dataUsuario.body[0].correo;
+          });
+          this._usuariosS.getUsuarioByUsuario(dataAprobadores.esSolpeUsersField.aprobador2Field).subscribe(dataUsuario=>{
+            this.detalleJson.AuNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
+            this.detalleJson.AuCargo = dataUsuario.body[0].cargo;
+            this.detalleJson.AuCorreo = dataUsuario.body[0].correo;
+          });
+        }
+
+      });
+    });
   }
 
   openAgregarPosicion(){
@@ -255,7 +296,7 @@ export class ModificarSolpeComponent implements OnInit {
   }
 
   modificarSolpe(req:any){
-
+    this.indicadorCarga=true;
     if(this.detalleJson.ParaSerusado.trim() == "" &&
     this.detalleJson.Locacion.trim() == "" &&
     this.detalleJson.FechaReque.trim() == "" &&
@@ -292,10 +333,12 @@ export class ModificarSolpeComponent implements OnInit {
           CoNomb: this.detalleJson.CoNomb,
           CoCargo: this.detalleJson.CoCargo,
           CoAsigna: this.detalleJson.CoAsigna,
+          CoCorreo: this.detalleJson.CoCorreo,
           CoFecha: moment(this.detalleJson.CoFecha).format("YYYYMMDD"),
           AuNomb: this.detalleJson.AuNomb,
           AuCargo: this.detalleJson.AuCargo,
           AuAsigna: this.detalleJson.AuAsigna,
+          AuCorreo: this.detalleJson.AuCorreo,
           AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD"),
           Sociedad: this.helper.decodeToken(this.token).sociedad.trim(),
           Comentario:""
@@ -310,6 +353,7 @@ export class ModificarSolpeComponent implements OnInit {
             accion:"M"
           }
           this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
+            this.indicadorCarga=false;
           });
           this.idSolpe="";
           this.dataSourceModificarSolpe.data = [];

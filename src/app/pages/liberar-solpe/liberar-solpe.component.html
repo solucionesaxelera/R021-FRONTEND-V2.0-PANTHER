@@ -1,3 +1,4 @@
+<mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
 <h2>LIBERAR SOLPE</h2>
 <div class="separator"></div>
 <div class="header-crear-solpe">
@@ -80,10 +81,10 @@
         <ng-container matColumnDef="accion">
             <th mat-header-cell *matHeaderCellDef> ACCIÓN </th>
             <td mat-cell *matCellDef="let element; let i = index;">
-                <button mat-icon-button color="primary" (click)="openAprobarSolpe(element.idField)">
+                <button mat-icon-button color="primary" (click)="openAprobarSolpe(element.idField, element.usuarioField)">
                     <mat-icon matTooltip="Aprobar Solpe">check_circle</mat-icon>
                 </button>
-                <button mat-icon-button color="primary" (click)="openRechazarSolpe(element.idField)">
+                <button mat-icon-button color="primary" (click)="openRechazarSolpe(element.idField, element.usuarioField)">
                     <mat-icon matTooltip="Rechazar Solpe">highlight_off</mat-icon>
                 </button>
             </td>

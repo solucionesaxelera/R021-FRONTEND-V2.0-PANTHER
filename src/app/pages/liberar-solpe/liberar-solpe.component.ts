@@ -21,11 +21,14 @@ export class LiberarSolpeComponent implements OnInit {
   @ViewChild("dialogAprobarSolped") dialogAprobarSolped: any;
   @ViewChild("dialogRechazarSolped") dialogRechazarSolped: any;
 
+  indicadorCarga:Boolean=false;
+
   public helper = new JwtHelperService();
   token = localStorage.getItem('data_current')?.toString();
 
   config?: MatDialogConfig;
   id_fila_solped: any = "";
+  usuarioCreadorFilaSolped: any = "";
   usuario: any = "";
   fecha: any = "";
   IsComentario:any="";
@@ -57,17 +60,20 @@ export class LiberarSolpeComponent implements OnInit {
     this.dataSourceCrearSolpe.paginator = this.paginator;
   }
 
-  openAprobarSolpe(id: any) {
+  openAprobarSolpe(id: any, usuarioCreador: any) {
     this.id_fila_solped = id;
+    this.usuarioCreadorFilaSolped = usuarioCreador;
     return this.dialog.open(this.dialogAprobarSolped, this.config);
   }
 
-  openRechazarSolpe(id: any) {
+  openRechazarSolpe(id: any, usuarioCreador: any) {
     this.id_fila_solped = id;
+    this.usuarioCreadorFilaSolped = usuarioCreador;
     return this.dialog.open(this.dialogRechazarSolped, this.config);
   }
 
   obtenerListadoSolpes() {
+    this.indicadorCarga=true;
     let json_req = {
       IsAccion: "L",
       IsId: "",
@@ -78,6 +84,7 @@ export class LiberarSolpeComponent implements OnInit {
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
+      this.indicadorCarga=false;
       if (data.etMsgReturnField[0].successField == 'X') {
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = data.etSolpePrelimCabField;
@@ -92,13 +99,15 @@ export class LiberarSolpeComponent implements OnInit {
   }
 
   aprobarSolpe() {
+    this.indicadorCarga=true;
     let json_req = {
       IsAccion: "C",
       IsId: this.id_fila_solped,
       IsUsuario: "",
       IsFechaf: "",
       IsUsuariof: "",
-      IsComentario:""
+      IsComentario:"",
+      IsUsuarioCreador:this.usuarioCreadorFilaSolped
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
@@ -109,7 +118,8 @@ export class LiberarSolpeComponent implements OnInit {
           accion:"A"
         }
         this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
-          console.log(data)
+          console.log(data);
+          this.indicadorCarga=false;
         });
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = data.etSolpePrelimCabField;
@@ -123,14 +133,15 @@ export class LiberarSolpeComponent implements OnInit {
   }
 
   rechazarSolpe() {
-    
+    this.indicadorCarga=true;
     let json_req = {
       IsAccion: "R",
       IsId: this.id_fila_solped,
       IsUsuario: "",
       IsFechaf: "",
       IsUsuariof: "",
-      IsComentario:this.IsComentario
+      IsComentario:this.IsComentario,
+      IsUsuarioCreador:this.usuarioCreadorFilaSolped
     }
     console.log(json_req)
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
@@ -143,7 +154,7 @@ export class LiberarSolpeComponent implements OnInit {
         }
         this._auditoriaS.postAuditoria(json_req_auditoria).subscribe(data=>{
           console.log(data);
-
+          this.indicadorCarga=false;
         });
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = data.etSolpePrelimCabField;
@@ -157,7 +168,7 @@ export class LiberarSolpeComponent implements OnInit {
   }
 
   buscarSolpe() {
-
+    this.indicadorCarga=true;
     this.usuario = this.cabeceraCrearSolpeForm.get('Usuario')?.value;
     this.fecha = this.cabeceraCrearSolpeForm.get('Fecha')?.value;
 
@@ -171,6 +182,7 @@ export class LiberarSolpeComponent implements OnInit {
     }
 
     this._liberarSolpeS.postSolpeOptionsStand(json_req).subscribe(data => {
+      this.indicadorCarga=false;
       if (data.etMsgReturnField[0].successField == 'X') {
         this.cabeceraCrearSolpeForm.reset();
         this.dataSourceCrearSolpe.data = data.etSolpePrelimCabField;

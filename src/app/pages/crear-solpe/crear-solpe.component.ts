@@ -78,10 +78,12 @@ export class CrearSolpeComponent implements OnInit {
     CoNomb: "",
     CoCargo: "",
     CoAsigna: "",
+    CoCorreo:"",
     CoFecha: moment().format("YYYY-MM-DD"),
     AuNomb: "",
     AuCargo: "",
     AuAsigna: "",
+    AuCorreo:"",
     AuFecha: moment().format("YYYY-MM-DD")
   }
 
@@ -104,17 +106,21 @@ export class CrearSolpeComponent implements OnInit {
           this._usuariosS.getUsuarioByUsuario(dataAprobadores.esSolpeUsersField.aprobador1Field).subscribe(dataUsuario=>{
             this.detalleJson.CoNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
             this.detalleJson.CoCargo = dataUsuario.body[0].cargo;
+            this.detalleJson.CoCorreo = dataUsuario.body[0].correo;
             this.detalleJson.AuNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
             this.detalleJson.AuCargo = dataUsuario.body[0].cargo;
+            this.detalleJson.AuCorreo = dataUsuario.body[0].correo;
           });
         }else{
           this._usuariosS.getUsuarioByUsuario(dataAprobadores.esSolpeUsersField.aprobador1Field).subscribe(dataUsuario=>{
             this.detalleJson.CoNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
             this.detalleJson.CoCargo = dataUsuario.body[0].cargo;
+            this.detalleJson.CoCorreo = dataUsuario.body[0].correo;
           });
           this._usuariosS.getUsuarioByUsuario(dataAprobadores.esSolpeUsersField.aprobador2Field).subscribe(dataUsuario=>{
             this.detalleJson.AuNomb = dataUsuario.body[0].nombres + " " + dataUsuario.body[0].ape_pat + " " + dataUsuario.body[0].ape_mat;
             this.detalleJson.AuCargo = dataUsuario.body[0].cargo;
+            this.detalleJson.AuCorreo = dataUsuario.body[0].correo;
           });
         }
 
@@ -212,10 +218,12 @@ export class CrearSolpeComponent implements OnInit {
           CoNomb: this.detalleJson.CoNomb,
           CoCargo: this.detalleJson.CoCargo,
           CoAsigna: this.detalleJson.CoAsigna,
+          CoCorreo: this.detalleJson.CoCorreo,
           CoFecha: moment(this.detalleJson.CoFecha).format("YYYYMMDD"),
           AuNomb: this.detalleJson.AuNomb,
           AuCargo: this.detalleJson.AuCargo,
           AuAsigna: this.detalleJson.AuAsigna,
+          AuCorreo: this.detalleJson.AuCorreo,
           AuFecha: moment(this.detalleJson.AuFecha).format("YYYYMMDD"),
           Sociedad: this.helper.decodeToken(this.token).sociedad.trim(),
           Comentario:""
