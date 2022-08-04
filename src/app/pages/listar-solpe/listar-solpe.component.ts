@@ -143,4 +143,9 @@ export class ListarSolpeComponent implements OnInit {
     this.listarSolpes();
   }
 
+  cerrarDetalle(){
+    this.dataSourceListarSolpe.paginator = this.paginator;
+    this.dialog.closeAll();
+  }
+
 }
