@@ -198,7 +198,7 @@ export class LiberarSolpeComponent implements OnInit {
 
   formatearFecha(fecha: any, indicador: any) {
     if (indicador == 1) { // FECHA PARA MOSTRAR EN TABLA
-      return moment(fecha).format("YYYY-MM-DD")
+      return moment(fecha).format("DD-MM-YYYY")
     } else { // SE ENVIA 2 PARA FORMATEAR FECHA Y ENVIAR A SAP
       return moment(fecha).format("YYYYMMDD")
     }

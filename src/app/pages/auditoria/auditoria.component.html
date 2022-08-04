@@ -1,3 +1,4 @@
+<mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
 <h2>AUDITORÍA</h2>
 <div class="separator"></div>
 <div class="header-crear-solpe">
@@ -70,7 +71,7 @@
 
         <ng-container matColumnDef="fecha">
             <th mat-header-cell *matHeaderCellDef> FECHA </th>
-            <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+            <td mat-cell *matCellDef="let element"> {{formatearFecha(element.fecha,1)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="hora">

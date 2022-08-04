@@ -18,6 +18,8 @@ export class AuditoriaComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: any;
 
+  indicadorCarga:Boolean=false;
+
   accion: string = "";
   usuario: string = "";
   fechaDesde: string = "";
@@ -53,7 +55,9 @@ export class AuditoriaComponent implements OnInit {
   }
 
   obtenerListadoAuditoria() {
+    this.indicadorCarga = true;
     this._auditoriaS.getAuditoria().subscribe(data => {
+      this.indicadorCarga = false;
       if (data.status == 1) {
         this.cabeceraAuditoriaForm.reset();
         this.dataSourceAuditoria.data = data.body.auditoria;
@@ -69,24 +73,33 @@ export class AuditoriaComponent implements OnInit {
   }
 
   buscarAuditoria() {
-    this.accion = this.cabeceraAuditoriaForm.get('Accion')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Accion')?.value;
-    this.usuario = this.cabeceraAuditoriaForm.get('Usuario')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Usuario')?.value;
-    this.fechaDesde = this.cabeceraAuditoriaForm.get('FechaDesde')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('FechaDesde')?.value, 2);
-    this.fechaHasta = this.cabeceraAuditoriaForm.get('FechaHasta')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('FechaHasta')?.value, 2);
-    this._auditoriaS.filtrarAuditoria(this.accion, this.usuario, this.fechaDesde, this.fechaHasta).subscribe(data => {
-      if (data.status == 1) {
-        this.dataSourceAuditoria.data = data.body.auditoria;
-      }
-      else {
-        this._snackBar.open(data.message, 'cerrar', {
-          duration: 5 * 1000
-        });
-      }
-    })
-    this.dataSourceAuditoria.paginator = this.paginator;
+    if(this.cabeceraAuditoriaForm.get('FechaDesde')?.value > this.cabeceraAuditoriaForm.get('FechaHasta')?.value ){
+      this._snackBar.open("La 'Fecha Desde' debe ser menor a la 'Fecha Hasta'", 'cerrar', {
+        duration: 5 * 1000
+      });
+    }else{
+      this.indicadorCarga = true;
+      this.accion = this.cabeceraAuditoriaForm.get('Accion')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Accion')?.value;
+      this.usuario = this.cabeceraAuditoriaForm.get('Usuario')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Usuario')?.value;
+      this.fechaDesde = this.cabeceraAuditoriaForm.get('FechaDesde')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('FechaDesde')?.value, 2);
+      this.fechaHasta = this.cabeceraAuditoriaForm.get('FechaHasta')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('FechaHasta')?.value, 2);
+      this._auditoriaS.filtrarAuditoria(this.accion, this.usuario, this.fechaDesde, this.fechaHasta).subscribe(data => {
+        this.indicadorCarga = false;
+        if (data.status == 1) {
+          this.dataSourceAuditoria.data = data.body.auditoria;
+        }
+        else {
+          this._snackBar.open(data.message, 'cerrar', {
+            duration: 5 * 1000
+          });
+        }
+      })
+      this.dataSourceAuditoria.paginator = this.paginator;
+    }
   }
 
   async exportar() {
+    this.indicadorCarga = true;
     this.accion = this.cabeceraAuditoriaForm.get('Accion')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Accion')?.value;
     this.usuario = this.cabeceraAuditoriaForm.get('Usuario')?.value == null ? "" : this.cabeceraAuditoriaForm.get('Usuario')?.value;
     this.fechaDesde = this.cabeceraAuditoriaForm.get('FechaDesde')?.value == null ? "" : this.formatearFecha(this.cabeceraAuditoriaForm.get('FechaDesde')?.value, 2);
@@ -95,13 +108,14 @@ export class AuditoriaComponent implements OnInit {
       this.nombreDescarga = 'reporte_auditoria.xlsx';
       FileSaver.saveAs(data, this.nombreDescarga);
       console.log("TERMINÓ CARGA")
+      this.indicadorCarga = false;
     })
     this.dataSourceAuditoria.paginator = this.paginator;
   }
 
   formatearFecha(fecha: any, indicador: any) {
     if (indicador == 1) { // FECHA PARA MOSTRAR EN TABLA
-      return moment(fecha).format("YYYY-MM-DD")
+      return moment(fecha).format("DD-MM-YYYY")
     } else { // SE ENVIA 2 PARA FORMATEAR FECHA Y ENVIAR A SAP
       return moment(fecha).format("YYYYMMDD")
     }
