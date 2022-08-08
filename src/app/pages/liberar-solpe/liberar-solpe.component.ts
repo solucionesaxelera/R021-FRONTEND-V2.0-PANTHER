@@ -17,7 +17,7 @@ import { LiberarSolpeService } from 'src/app/services/liberar-solpe/liberar-solp
 })
 export class LiberarSolpeComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: any;
+  @ViewChild(MatPaginator,{static : true}) paginator: any;
   @ViewChild("dialogAprobarSolped") dialogAprobarSolped: any;
   @ViewChild("dialogRechazarSolped") dialogRechazarSolped: any;
 
@@ -53,6 +53,7 @@ export class LiberarSolpeComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
     this.obtenerListadoSolpes();
   }
 

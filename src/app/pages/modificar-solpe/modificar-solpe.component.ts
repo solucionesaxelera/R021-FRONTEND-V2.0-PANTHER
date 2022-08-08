@@ -21,7 +21,7 @@ import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 })
 export class ModificarSolpeComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: any;
+  @ViewChild(MatPaginator,{static : true}) paginator: any;
   // @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
   @ViewChild("dialogEliminarSolpe") dialogTemplateEliminarSolpe: any;
   @ViewChild(MatSort) sort: any;
@@ -102,6 +102,7 @@ export class ModificarSolpeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
     this.cargarTipoMonedas();
     this._usuariosS.getUsuarioById(this.helper.decodeToken(this.token).id).subscribe(data=>{
       this.detalleJson.SoNomb = data.body[0].nombres + " " + data.body[0].ape_pat + " " + data.body[0].ape_mat;
@@ -519,7 +520,7 @@ export class ModificarSolpeComponent implements OnInit {
         IsItem: "",
         IsSolpePrelimCab: {
           Id: "",
-          Nroreq: this.cabeceraModificarSolpeForm.controls['Nroreq'].value,
+          Nroreq: "",
           Area: this.cabeceraModificarSolpeForm.controls['Area'].value,
           Fecha:moment(this.cabeceraModificarSolpeForm.controls['Fecha'].value).format("YYYYMMDD"),
           Moneda:this.cabeceraModificarSolpeForm.controls['Moneda'].value,

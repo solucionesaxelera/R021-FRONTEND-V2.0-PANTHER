@@ -32,7 +32,7 @@ export class UsuariosComponent implements OnInit {
 
   idUsuarioSesion = this.helper.decodeToken(localStorage.getItem('data_current')?.toString());
   
-  @ViewChild(MatPaginator) paginator: any;
+  @ViewChild(MatPaginator,{static : true}) paginator: any;
   @ViewChild('dialogCrearUsuario') dialogTemplateCrearUsuario: any;
   @ViewChild('dialogModificarUsuario') dialogTemplateModificarUsuario: any;
   @ViewChild('dialogModificarRolUsuario') dialogTemplateModificarRolUsuario: any;
@@ -61,7 +61,7 @@ export class UsuariosComponent implements OnInit {
   crearUsuarioForm = new FormGroup({
     nombres: new FormControl('',[Validators.required]),
     ape_pat: new FormControl('',[Validators.required]),
-    ape_mat: new FormControl('',[Validators.required]),
+    ape_mat: new FormControl(''),
     correo: new FormControl('',[Validators.required]),
     telefono: new FormControl('',[Validators.required]),
     cargo: new FormControl('',[Validators.required]),
@@ -75,7 +75,7 @@ export class UsuariosComponent implements OnInit {
   modificarUsuarioForm = new FormGroup({
     nombres: new FormControl('',[Validators.required]),
     ape_pat: new FormControl('',[Validators.required]),
-    ape_mat: new FormControl('',[Validators.required]),
+    ape_mat: new FormControl(''),
     correo: new FormControl('',[Validators.required]),
     telefono: new FormControl('',[Validators.required]),
     cargo: new FormControl('',[Validators.required]),
@@ -100,6 +100,7 @@ export class UsuariosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
     this.listarUsuarios();
     this.listarRoles();
   }
@@ -233,10 +234,16 @@ export class UsuariosComponent implements OnInit {
       ItCcosto: this.ItCcosto,
       ItSociedad: this.ItSociedad
     }
-    this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
-      if(
-          data.etMsgReturnField[0].successField == "X" &&
-          data.etMsgReturnField[1].successField == "X" &&
+    if(this.ItCcosto.length == 0 || this.ItSociedad.length == 0){
+      this._snackBar.open("Elija Sociedad y Centro de Costo.", 'cerrar',{
+        duration:5*1000,
+        panelClass:['background-snackbar']
+      });
+    }else{
+      this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
+        if(
+          data.etMsgReturnField[0].successField == "X" ||
+          data.etMsgReturnField[1].successField == "X" ||
           data.etMsgReturnField[2].successField == "X"
         ){
           this._usuariosS.postCrearUsuario(req).subscribe(data=>{
@@ -265,7 +272,7 @@ export class UsuariosComponent implements OnInit {
           });
         }
     });
-
+    }
   }
 
   modificarUsuario(req:modificarUsuarioI) {
@@ -284,39 +291,45 @@ export class UsuariosComponent implements OnInit {
       req_json_sap.IsAprobador1 = req.isPrimerAprobador;
       req_json_sap.IsAprobador2 = "";
     }
-
-    this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
-      if(
-        data.etMsgReturnField[0].successField == "X" &&
-        data.etMsgReturnField[1].successField == "X" &&
-        data.etMsgReturnField[2].successField == "X"
-      ){
-        this._usuariosS.putModificarUsuario(this.idUsuarioSeleccionado,req).subscribe(data=>{
-          if(data.status == 1){
-            this.listarUsuarios();
-            this.modificarUsuarioForm.reset();
-            this.dialog.closeAll();
-          }
-          this._snackBar.open(data.message, 'cerrar',{
+    if(this.ItCcosto.length == 0 || this.ItSociedad.length == 0){
+      this._snackBar.open("Elija Sociedad y Centro de Costo.", 'cerrar',{
+        duration:5*1000,
+        panelClass:['background-snackbar']
+      });
+    }else{
+      this._usuariosS.postAprobadoresSAP(req_json_sap).subscribe(data=>{
+        if(
+          data.etMsgReturnField[0].successField == "X" &&
+          data.etMsgReturnField[1].successField == "X" &&
+          data.etMsgReturnField[2].successField == "X"
+        ){
+          this._usuariosS.putModificarUsuario(this.idUsuarioSeleccionado,req).subscribe(data=>{
+            if(data.status == 1){
+              this.listarUsuarios();
+              this.modificarUsuarioForm.reset();
+              this.dialog.closeAll();
+            }
+            this._snackBar.open(data.message, 'cerrar',{
+              duration:5*1000,
+              panelClass:['background-snackbar']
+            });
+          })
+        }else{
+          this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
             duration:5*1000,
             panelClass:['background-snackbar']
           });
-        })
-      }else{
-        this._snackBar.open(data.etMsgReturnField[0].messageField, 'cerrar',{
-          duration:5*1000,
-          panelClass:['background-snackbar']
-        });
-        this._snackBar.open(data.etMsgReturnField[1].messageField, 'cerrar',{
-          duration:5*1000,
-          panelClass:['background-snackbar']
-        });
-        this._snackBar.open(data.etMsgReturnField[2].messageField, 'cerrar',{
-          duration:5*1000,
-          panelClass:['background-snackbar']
-        });
-      }
-    });
+          this._snackBar.open(data.etMsgReturnField[1].messageField, 'cerrar',{
+            duration:5*1000,
+            panelClass:['background-snackbar']
+          });
+          this._snackBar.open(data.etMsgReturnField[2].messageField, 'cerrar',{
+            duration:5*1000,
+            panelClass:['background-snackbar']
+          });
+        }
+      });
+    }
     
   }
 

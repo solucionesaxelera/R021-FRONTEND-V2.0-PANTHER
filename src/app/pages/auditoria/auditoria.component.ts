@@ -16,7 +16,7 @@ import * as moment from 'moment';
 })
 export class AuditoriaComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: any;
+  @ViewChild(MatPaginator,{static : true}) paginator: any;
 
   indicadorCarga:Boolean=false;
 
@@ -46,6 +46,7 @@ export class AuditoriaComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
     this.obtenerListadoAuditoria();
   }
 

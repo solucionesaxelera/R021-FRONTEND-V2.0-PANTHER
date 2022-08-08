@@ -21,6 +21,7 @@
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/router": "~13.1.0",
     "@auth0/angular-jwt": "^5.0.2",
+    "@rxweb/translate": "^1.0.15",
     "file-saver": "^2.0.5",
     "moment": "^2.29.3",
     "rxjs": "~7.4.0",

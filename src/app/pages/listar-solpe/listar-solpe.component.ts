@@ -16,8 +16,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 })
 export class ListarSolpeComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: any;
-  @ViewChild(MatPaginator) paginatorDetalle: any;
+  @ViewChild(MatPaginator,{static : true}) paginator: any;
+  @ViewChild(MatPaginator,{static : true}) paginatorDetalle: any;
   @ViewChild("dialogDetalleSolpe") dialogTemplateDetalleSolpe: any;
   @ViewChild("dialogComentarioSolpe") dialogTemplateComentarioSolpe: any;
 
@@ -51,6 +51,7 @@ export class ListarSolpeComponent implements OnInit {
   })
 
   ngOnInit(): void {
+    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
     this.listarSolpes();
   }
 

@@ -22,7 +22,7 @@ import { UsuariosService } from 'src/app/services/administrador/usuarios/usuario
 })
 export class CrearSolpeComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: any;
+  @ViewChild(MatPaginator,{static : true}) paginator: any;
   @ViewChild(MatSort) sort: any;
 
   indicadorCarga:Boolean=false;
@@ -46,7 +46,9 @@ export class CrearSolpeComponent implements OnInit {
     private _cd:ChangeDetectorRef,
     private _matchcodeS: MatchcodeService,
     private _usuariosS: UsuariosService
-  ) { }
+  ) { 
+    
+  }
 
   displayedColumns: string[] = ['presu', 'menge', 'meins', 'descr', 'matnr', 'stock', 'ccosto','gl', 'punit', 'totsinigv','accion'];
   
@@ -56,7 +58,7 @@ export class CrearSolpeComponent implements OnInit {
 
   cabeceraCrearSolpeForm = new FormGroup({
     Id:  new FormControl(''),
-    Nroreq: new FormControl('',[Validators.required]),
+    // Nroreq: new FormControl(''),
     Area: new FormControl('',[Validators.required]),
     Fecha: new FormControl('',[Validators.required]),
     Moneda: new FormControl('',[Validators.required]),
@@ -88,7 +90,7 @@ export class CrearSolpeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
     this._usuariosS.getUsuarioById(this.helper.decodeToken(this.token).id).subscribe(data=>{
       this.detalleJson.SoNomb = data.body[0].nombres + " " + data.body[0].ape_pat + " " + data.body[0].ape_mat;
       this.detalleJson.SoCargo = data.body[0].cargo;
@@ -387,7 +389,7 @@ export class CrearSolpeComponent implements OnInit {
         IsItem: "",
         IsSolpePrelimCab: {
           Id: "",
-          Nroreq: this.cabeceraCrearSolpeForm.controls['Nroreq'].value,
+          Nroreq: "",
           Area: this.cabeceraCrearSolpeForm.controls['Area'].value,
           Fecha:moment(this.cabeceraCrearSolpeForm.controls['Fecha'].value).format("YYYYMMDD"),
           Moneda:this.cabeceraCrearSolpeForm.controls['Moneda'].value,

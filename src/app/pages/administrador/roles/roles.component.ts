@@ -15,7 +15,7 @@ import { RolesService } from 'src/app/services/administrador/roles/roles.service
 })
 export class RolesComponent implements OnInit {
 
-  @ViewChild(MatPaginator) paginator: any;
+  @ViewChild(MatPaginator,{static : true}) paginator: any;
   @ViewChild('dialogCrearRol') dialogTemplateCrearRol: any;
   @ViewChild('dialogModificarRol') dialogTemplateModificarRol: any;
   @ViewChild('dialogAsignarModuloRol') dialogTemplateAsignarModuloRol: any;
@@ -50,6 +50,7 @@ export class RolesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
     this.listarRoles();
     this.listarModulos();
   }

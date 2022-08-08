@@ -6,10 +6,10 @@
         <div class="col-md-12" style="padding: 0 27px;">
             <form  id="cabecera-crear-solped" [formGroup]="cabeceraCrearSolpeForm" (ngSubmit)="crearSolpe(cabeceraCrearSolpeForm.value)">
                 <div class="inputs-header row">
-                    <mat-form-field class="full-width item-input col-md-2" appearance="outline">
+                    <!-- <mat-form-field class="full-width item-input col-md-2" appearance="outline">
                         <mat-label>N° Requisición</mat-label>
                         <input id="nroreq" type="text" matInput placeholder="YYYY-0000000000" maxlength="15" (keyup)="validacionInputNroRequisicion($event)" (paste)="validacionInputNroRequisicion($event)" (keypress)="validacionInputNroRequisicion($event)" formControlName="Nroreq">
-                    </mat-form-field>
+                    </mat-form-field> -->
                     <mat-form-field class="full-width item-input col-md-2" appearance="outline" >
                         <mat-label>Área</mat-label>
                         <input type="text" matInput placeholder="Ingrese el área" maxlength="10" formControlName="Area">
@@ -112,7 +112,7 @@
                     placeholder="Ingrese Descripción"
                     type="text"
                     [(ngModel)]="element.descr"
-                    maxlength="30"
+                    maxlength="140"
                     required
                 ></textarea>
                 </mat-form-field>
