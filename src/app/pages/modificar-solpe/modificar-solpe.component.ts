@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { translate } from '@rxweb/translate';
 import * as moment from 'moment';
 import { MatchcodeComponent } from 'src/app/components/matchcode/matchcode.component';
 import { tableModificarPosicionI } from 'src/app/models/modificar-solpe';
@@ -20,6 +21,8 @@ import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
   styleUrls: ['./modificar-solpe.component.scss']
 })
 export class ModificarSolpeComponent implements OnInit {
+
+  @translate({translationName:'modificarsolpe'}) modificarsolpe: any;
 
   @ViewChild(MatPaginator,{static : true}) paginator: any;
   // @ViewChild("dialogEditarPosicion") dialogTemplateEditarPosicion: any;
@@ -58,7 +61,7 @@ export class ModificarSolpeComponent implements OnInit {
 
   cabeceraModificarSolpeForm = new FormGroup({
     Id:  new FormControl(''),
-    Nroreq: new FormControl('',[Validators.required]),
+    Nroreq: new FormControl({value:"",disabled:true}),
     Area: new FormControl('',[Validators.required]),
     Fecha: new FormControl('',[Validators.required]),
     Moneda: new FormControl('',[Validators.required]),
@@ -102,7 +105,7 @@ export class ModificarSolpeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
+    this.paginator._intl.itemsPerPageLabel = '';
     this.cargarTipoMonedas();
     this._usuariosS.getUsuarioById(this.helper.decodeToken(this.token).id).subscribe(data=>{
       this.detalleJson.SoNomb = data.body[0].nombres + " " + data.body[0].ape_pat + " " + data.body[0].ape_mat;

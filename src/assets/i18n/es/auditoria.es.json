@@ -1,0 +1,20 @@
+{
+    "titleHeader":"AUDITORÍA",
+    "accionLabelOption":"Acción",
+    "creoSolpeOption":"CREÓ SOLPE",
+    "modificoSolpeOption":"MODIFICÓ SOLPE",
+    "eliminoSolpeOption":"ELIMINÓ SOLPE",
+    "aproboSolpeOption":"APROBÓ SOLPE",
+    "rechazoSolpeOption":"RECHAZÓ SOLPE",
+    "usuarioLabel":"Usuario",
+    "fechaDesdeLabel":"Fecha Desde",
+    "fechaHastaLabel":"Fecha Hasta",
+    "buscarAuditoriaButton":"Buscar Auditoría",
+    "idColumnTable":"ID",
+    "idSolpeColumnTable":"ID SOLPE",
+    "usuarioColumnTable":"USUARIO",
+    "fechaColumnTable":"FECHA",
+    "horaColumnTable":"HORA",
+    "limparFiltrosButton":"Limpiar Filtros",
+    "exportarExcelButton":"Exportar Excel"
+}

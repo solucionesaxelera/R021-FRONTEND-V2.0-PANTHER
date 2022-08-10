@@ -1,0 +1,10 @@
+{
+    "usuarioLabel":"Usuario",
+    "usuarioPlaceHolder":"Ingrese nombre de usuario",
+    "contraseniaLabel":"Contraseña",
+    "contraseniaPlaceholder":"Ingrese contraseña",
+    "idiomaSelectLabel":"Seleccione un idioma",
+    "sociedadSelectLabel":"Seleccione una sociedad",
+    "socidadNullOption":"No tiene sociedades asignadas.",
+    "ingresarButton":"Ingresar"
+}

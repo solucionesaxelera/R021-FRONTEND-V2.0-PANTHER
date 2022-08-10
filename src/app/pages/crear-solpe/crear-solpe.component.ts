@@ -14,6 +14,7 @@ import { MatchcodeComponent } from 'src/app/components/matchcode/matchcode.compo
 import { MatSort, MatSortable, Sort } from '@angular/material/sort';
 import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 import { UsuariosService } from 'src/app/services/administrador/usuarios/usuarios.service';
+import { translate } from '@rxweb/translate';
 
 @Component({
   selector: 'app-crear-solpe',
@@ -21,6 +22,8 @@ import { UsuariosService } from 'src/app/services/administrador/usuarios/usuario
   styleUrls: ['./crear-solpe.component.scss']
 })
 export class CrearSolpeComponent implements OnInit {
+
+  @translate({translationName:'crearsolpe'}) crearsolpe: any;
 
   @ViewChild(MatPaginator,{static : true}) paginator: any;
   @ViewChild(MatSort) sort: any;
@@ -90,7 +93,7 @@ export class CrearSolpeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
+    this.paginator._intl.itemsPerPageLabel = '';
     this._usuariosS.getUsuarioById(this.helper.decodeToken(this.token).id).subscribe(data=>{
       this.detalleJson.SoNomb = data.body[0].nombres + " " + data.body[0].ape_pat + " " + data.body[0].ape_mat;
       this.detalleJson.SoCargo = data.body[0].cargo;

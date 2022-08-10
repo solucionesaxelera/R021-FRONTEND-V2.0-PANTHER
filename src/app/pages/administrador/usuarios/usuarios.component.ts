@@ -6,6 +6,7 @@ import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { translate } from '@rxweb/translate';
 import { bodyUsuarioO, crearUsuarioI, modificarEstadoUsuarioI, modificarRolUsuarioI, modificarUsuarioI, usuariosO } from 'src/app/models/administrador/usuarios';
 import { RolesService } from 'src/app/services/administrador/roles/roles.service';
 import { UsuariosService } from 'src/app/services/administrador/usuarios/usuarios.service';
@@ -19,6 +20,8 @@ import { DialogSociedadesComponent } from '../dialog-sociedades/dialog-sociedade
 })
 
 export class UsuariosComponent implements OnInit {
+
+  @translate({translationName:'usuarios'}) usuarios: any;
 
   public helper = new JwtHelperService();
 
@@ -100,7 +103,7 @@ export class UsuariosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
+    this.paginator._intl.itemsPerPageLabel = '';
     this.listarUsuarios();
     this.listarRoles();
   }

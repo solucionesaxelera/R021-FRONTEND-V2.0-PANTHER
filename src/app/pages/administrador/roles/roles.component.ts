@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { translate } from '@rxweb/translate';
 import { crearRolI, modificarRolI, rolesI } from 'src/app/models/administrador/roles';
 import { ModulosService } from 'src/app/services/administrador/modulos/modulos.service';
 import { RolesService } from 'src/app/services/administrador/roles/roles.service';
@@ -14,6 +15,8 @@ import { RolesService } from 'src/app/services/administrador/roles/roles.service
   styleUrls: ['./roles.component.scss']
 })
 export class RolesComponent implements OnInit {
+
+  @translate({translationName:'roles'}) roles: any;
 
   @ViewChild(MatPaginator,{static : true}) paginator: any;
   @ViewChild('dialogCrearRol') dialogTemplateCrearRol: any;
@@ -50,7 +53,7 @@ export class RolesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
+    this.paginator._intl.itemsPerPageLabel = '';
     this.listarRoles();
     this.listarModulos();
   }

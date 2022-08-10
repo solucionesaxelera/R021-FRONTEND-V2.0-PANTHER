@@ -1,16 +1,16 @@
 <mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
-<h2>VISUALIZAR SOLPE</h2>
+<h2>{{listarsolpe.titleHeader}}</h2>
 <div class="separator"></div>
 <form id="cabecera-listar-solpe" [formGroup]="cabeceraListarSolpeForm" (ngSubmit)="filtrarSolpe(cabeceraListarSolpeForm.value)" class="row">
     <div class="col-md-6">
         <mat-form-field class="full-width" appearance="outline">
-            <mat-label>N° Solpe</mat-label>
+            <mat-label>{{listarsolpe.nroSolpeLabel}}</mat-label>
             <input type="text" matInput maxlength="8" formControlName="Id">
         </mat-form-field>
     </div>
     <div class="col-md-6">
         <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Fecha</mat-label>
+            <mat-label>{{listarsolpe.FechaLabel}}</mat-label>
             <input type="date" matInput formControlName="Fecha">
         </mat-form-field>
     </div>
@@ -18,12 +18,12 @@
 <div class="row" style="margin-bottom: 30px;">
     <div class="col-lg-6">
         <button mat-flat-button color="primary" class="full-width" form="cabecera-listar-solpe">
-            Buscar
+            {{listarsolpe.buscarButton}}
         </button>
     </div>
     <div class="col-lg-6">
         <button mat-flat-button color="primary" class="full-width" (click)="limpiarFiltros()">
-            Limpiar Filtros
+            {{listarsolpe.limpiarFiltrosButton}}
         </button>
     </div>
 </div>
@@ -32,58 +32,58 @@
     <table mat-table [dataSource]="dataSourceListarSolpe">
 
         <ng-container matColumnDef="idField">
-            <th mat-header-cell *matHeaderCellDef> ID SOLPE </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.idSolpeColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.idField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="nroreqField">
-            <th mat-header-cell *matHeaderCellDef> N° REQUISICIÓN </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.nroRequisicionColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.nroreqField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="areaField">
-            <th mat-header-cell *matHeaderCellDef> AREA </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.areaColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.areaField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="fechaField">
-            <th mat-header-cell *matHeaderCellDef> FECHA </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.fechaColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{convertirFormatoFecha(element.fechaField)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="monedaField">
-            <th mat-header-cell *matHeaderCellDef> MONEDA </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.monedaColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.monedaField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="centroField">
-            <th mat-header-cell *matHeaderCellDef> CENTRO </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.centroColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.centroField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="descrSolpeField">
-            <th mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.descripcionColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.descrSolpeField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="estadoField">
-            <th mat-header-cell *matHeaderCellDef> ESTADO </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.estadoColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> 
-               <div *ngIf="element.estadoField == 'P'"> POR LIBERAR </div>
-               <div *ngIf="element.estadoField == 'P1'"> POR LIBERAR </div>
-               <div *ngIf="element.estadoField == 'P2'"> POR LIBERAR </div>
-               <div *ngIf="element.estadoField == 'L'"> LIBERADO </div>
-               <div *ngIf="element.estadoField == 'R'"> RECHAZADO </div>
+               <div *ngIf="element.estadoField == 'P'"> {{listarsolpe.porLiberarDiv}} </div>
+               <div *ngIf="element.estadoField == 'P1'"> {{listarsolpe.porLiberarDiv}} </div>
+               <div *ngIf="element.estadoField == 'P2'"> {{listarsolpe.porLiberarDiv}} </div>
+               <div *ngIf="element.estadoField == 'L'"> {{listarsolpe.liberadoDiv}} </div>
+               <div *ngIf="element.estadoField == 'R'"> {{listarsolpe.rechazadoDiv}} </div>
             </td>
         </ng-container>
 
         <ng-container matColumnDef="usuarioField">
-            <th mat-header-cell *matHeaderCellDef> USUARIO CREADOR </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.usuarioCreadorColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.usuarioField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="detalle">
-            <th mat-header-cell *matHeaderCellDef> DETALLE </th>
+            <th mat-header-cell *matHeaderCellDef> {{listarsolpe.detalleColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index;"> 
                 <button mat-icon-button color="primary" matTooltip="Visualizar detalle" (click)="listarDetalleSolpe(element.detalleField,element.idField)">
                     <mat-icon>assignment</mat-icon>
@@ -107,57 +107,57 @@
 
 <!-- DETALLE DE SOLPE -->
 <ng-template #dialogDetalleSolpe>
-    <h2 mat-dialog-title>SOLPE N° {{idSolpeSeleccionada}}</h2>
+    <h2 mat-dialog-title>{{listarsolpe.dialogDetalleNroSolpeCT}} {{idSolpeSeleccionada}}</h2>
     <mat-dialog-content >
         <table mat-table [dataSource]="dataSourceListarDetalleSolpe">
     
             <ng-container matColumnDef="itemField">
-                <th mat-header-cell *matHeaderCellDef> ITEM </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleItemCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.itemField}} </td>
             </ng-container>
     
             <ng-container matColumnDef="presuField">
-                <th mat-header-cell *matHeaderCellDef> PARTIDA<br/>(PRESUPUESTO) </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetallePartidaCT}}<br/>{{listarsolpe.dialogDetallePresupuestoCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.presuField}} </td>
             </ng-container>
     
             <ng-container matColumnDef="mengeField">
-                <th mat-header-cell *matHeaderCellDef> CANTIDAD </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleCantidadCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.mengeField}} </td>
             </ng-container>
     
             <ng-container matColumnDef="meinsField">
-                <th mat-header-cell *matHeaderCellDef> UNIDAD </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleUnidadCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.meinsField}} </td>
             </ng-container>
     
             <ng-container matColumnDef="descrField">
-                <th mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleDescripcionCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.descrField}} </td>
             </ng-container>
     
             <ng-container matColumnDef="matnrField">
-                <th mat-header-cell *matHeaderCellDef> N° SAP MATERIAL </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleNroSapMaterialCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.matnrField}} </td>
             </ng-container>
     
             <ng-container matColumnDef="ccostoField">
-                <th mat-header-cell *matHeaderCellDef> CENTRO DE COSTO </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleCecoCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.ccostoField}} </td>
             </ng-container>
     
             <ng-container matColumnDef="glField">
-                <th mat-header-cell *matHeaderCellDef> GL </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleGlCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.glField}} </td>
             </ng-container>
     
             <ng-container matColumnDef="punitField">
-                <th mat-header-cell *matHeaderCellDef> P. UNITARIO </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetallePrecioUnitarioCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.punitField}} </td>
             </ng-container>
     
             <ng-container matColumnDef="totSinigvField">
-                <th mat-header-cell *matHeaderCellDef> TOTAL<br/>(SIN IGV) </th>
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleTotalCT}}<br/>{{listarsolpe.dialogDetalleSinIgvCT}} </th>
                 <td mat-cell *matCellDef="let element"> {{element.totSinigvField}} </td>
             </ng-container>
     
@@ -171,18 +171,18 @@
         </mat-paginator>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
-    <button mat-button (click)="cerrarDetalle()">Cerrar</button>
+    <button mat-button (click)="cerrarDetalle()">{{listarsolpe.dialogCerrarButton}}</button>
   </mat-dialog-actions>
 
 </ng-template>
 
 <!-- COMENTARIO RECHAZO SOLPE -->
 <ng-template #dialogComentarioSolpe>
-    <h2 mat-dialog-title>MOTIVO DE RECHAZO DE SOLPE N° {{idSolpeSeleccionada}}</h2>
+    <h2 mat-dialog-title>{{listarsolpe.dialogMotivoTitle}} {{idSolpeSeleccionada}}</h2>
     <mat-dialog-content>
         <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Motivo de rechazo</mat-label>
-            <textarea matInput placeholder="Motivo de rechazo" rows="2" maxlength="250" [(ngModel)]="IsComentario" [ngModelOptions]="{standalone: true}" disabled class="text-area-comentario"></textarea>
+            <mat-label>{{listarsolpe.dialogMotivoRechazoLabel}}</mat-label>
+            <textarea matInput placeholder="{{listarsolpe.dialogMotivoRechazoPlaceholder}}" rows="2" maxlength="250" [(ngModel)]="IsComentario" [ngModelOptions]="{standalone: true}" disabled class="text-area-comentario"></textarea>
         </mat-form-field>
     </mat-dialog-content>
 </ng-template>

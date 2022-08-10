@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>
-    <div>SOCIEDADES</div>
+    <div>{{usuarios.dialogSociedadTitleHeader}}</div>
     <div class="row">
         <div class="col-sm-6 mtb-5">
-            <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">Seleccionar todo</button>
+            <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">{{usuarios.dialogSociedadSeleccionarTodoButton}}</button>
         </div>
         <div class="col-sm-6 mtb-5">
-            <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">Deseleccionar todo</button>
+            <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">{{usuarios.dialogSociedadDeseleccionarTodoButton}}</button>
         </div>
     </div>
 </h2>
@@ -21,6 +21,6 @@
     </mat-dialog-content>
 
 <div mat-dialog-actions>
-    <button color="primary" mat-flat-button (click)="guardarSociedades()">Guardar</button>
-    <button color="primary" mat-flat-button (click)="cerrarDialog()">Cerrar</button>
+    <button color="primary" mat-flat-button (click)="guardarSociedades()">{{usuarios.dialogSociedadGuardarButton}}</button>
+    <button color="primary" mat-flat-button (click)="cerrarDialog()">{{usuarios.dialogSociedadCerrarButton}}</button>
 </div>

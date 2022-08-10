@@ -1,39 +1,35 @@
 <h2 mat-dialog-title>
     <div>
-        CENTRO DE COSTOS
+        {{usuarios.dialogCecoTitleHeader}}
     </div>
 </h2>
-
-
-
-
 <mat-dialog-content class="mat-typography">
     <form [formGroup]="CentroCostoForm" (submit)="filtrarCentroCosto(CentroCostoForm.value)">
         <div class="row">
             <div class="col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
-                    <mat-label>IsCeco</mat-label>
-                    <input matInput placeholder="Ingrese IsCeco" formControlName="IsCeco">
+                    <mat-label>{{usuarios.dialogCecoCodigoLabel}}</mat-label>
+                    <input matInput placeholder="{{usuarios.dialogCecoCodigoPlaceholder}}" formControlName="IsCeco">
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="full-width" appearance="outline">
-                    <mat-label>IsNameCeco</mat-label>
-                    <input matInput placeholder="Ingrese IsNameCeco " formControlName="IsNameCeco">
+                    <mat-label>{{usuarios.dialogCecoNombreLabel}}</mat-label>
+                    <input matInput placeholder="{{usuarios.dialogCecoNombrePlaceholder}}" formControlName="IsNameCeco">
                 </mat-form-field>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 mtb-5">
-                <button mat-flat-button color="primary" class="full-width">Filtrar</button>
+                <button mat-flat-button color="primary" class="full-width">{{usuarios.dialogCecoFiltrarButton}}</button>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-6 mtb-5">
-                <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">Seleccionar todo</button>
+                <button color="primary" mat-flat-button class="full-width" (click)="seleccionarTodo()" type="button">{{usuarios.dialogCecoSeleccionarTodoButton}}</button>
             </div>
             <div class="col-sm-6 mtb-5">
-                <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">Deseleccionar todo</button>
+                <button color="primary" mat-flat-button class="full-width" (click)="deseleccionarTodo()" type="button">{{usuarios.dialogCecoDeseleccionarTodoButton}}</button>
             </div>
         </div>
     </form>
@@ -44,7 +40,7 @@
                         {{centro.item}} - {{centro.name}}
                     </div>
                     <div>
-                         {{centro.sociedad}}
+                        {{centro.sociedad}}
                     </div>
                 </div>
             </mat-list-option>
@@ -52,6 +48,6 @@
     </mat-dialog-content>
 
 <div mat-dialog-actions>
-    <button color="primary" mat-flat-button (click)="guardarCentroCostos()">Guardar</button>
-    <button color="primary" mat-flat-button (click)="cerrarDialog()">Cerrar</button>
+    <button color="primary" mat-flat-button (click)="guardarCentroCostos()">{{usuarios.dialogCecoGuardarButton}}</button>
+    <button color="primary" mat-flat-button (click)="cerrarDialog()">{{usuarios.dialogCecoCerrarButton}}</button>
 </div>

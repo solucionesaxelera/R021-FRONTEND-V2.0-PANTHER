@@ -1,5 +1,5 @@
 <mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
-<h2>CREAR SOLPE</h2>
+<h2>{{crearsolpe.titleHeader}}</h2>
 <div class="separator"></div>
 <div class="header-crear-solpe">
     <div class="row">
@@ -11,15 +11,15 @@
                         <input id="nroreq" type="text" matInput placeholder="YYYY-0000000000" maxlength="15" (keyup)="validacionInputNroRequisicion($event)" (paste)="validacionInputNroRequisicion($event)" (keypress)="validacionInputNroRequisicion($event)" formControlName="Nroreq">
                     </mat-form-field> -->
                     <mat-form-field class="full-width item-input col-md-2" appearance="outline" >
-                        <mat-label>Área</mat-label>
-                        <input type="text" matInput placeholder="Ingrese el área" maxlength="10" formControlName="Area">
+                        <mat-label>{{crearsolpe.areaLabel}}</mat-label>
+                        <input type="text" matInput placeholder="{{crearsolpe.areaPlaceholder}}" maxlength="10" formControlName="Area">
                     </mat-form-field>
                     <mat-form-field class="full-width item-input col-md-2" appearance="outline">
-                        <mat-label>Fecha</mat-label>
+                        <mat-label>{{crearsolpe.fechaLabel}}</mat-label>
                         <input type="date" matInput formControlName="Fecha">
                     </mat-form-field>
                     <mat-form-field appearance="outline" class="col-md-2">
-                        <mat-label>Moneda</mat-label>
+                        <mat-label>{{crearsolpe.monedaSelectOption}}</mat-label>
                         <mat-select  formControlName="Moneda">
                         <mat-option *ngFor="let moneda of tipoMonedas" [value]="moneda.waersField">{{moneda.ltextField}}</mat-option>
                         <!-- <mat-option value="PEN">Soles</mat-option>
@@ -27,13 +27,13 @@
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field class="full-width item-input col-md-2" appearance="outline">
-                        <mat-label>Centro</mat-label>
-                        <input type="text" matInput formControlName="Centro" maxlength="4">
+                        <mat-label>{{crearsolpe.centroLabel}}</mat-label>
+                        <input type="text" matInput placeholder="{{crearsolpe.centroPlaceholder}}" formControlName="Centro" maxlength="4">
                         <mat-icon class="matchcode-icon" (click)="matchcodeCabecera('WERKS',cabeceraCrearSolpeForm.controls['Centro'].value)" matSuffix>filter_none</mat-icon>
                     </mat-form-field>
                     <mat-form-field class="full-width item-input col-md-2" appearance="outline">
-                        <mat-label>Descripción</mat-label>
-                        <input type="text" matInput placeholder="Ingrese una descripción" formControlName="DescrSolpe" maxlength="70">
+                        <mat-label>{{crearsolpe.descripcionLabel}}</mat-label>
+                        <input type="text" matInput placeholder="{{crearsolpe.descripcionPlaceholderCab}}" formControlName="DescrSolpe" maxlength="70">
                     </mat-form-field>
                 </div>
                 
@@ -43,7 +43,7 @@
     <div class="row">
         <div class="col-md-12" style="margin-bottom: 30px;">
             <button  mat-flat-button color="primary" class="full-width" (click)="openAgregarPosicion()" [disabled]="idSeleccionadoEditarPosicion!=0 || cabeceraCrearSolpeForm.invalid">
-                Agregar Posición
+                {{crearsolpe.agregarPosicionButton}}
             </button>
         </div>
     </div>
@@ -55,7 +55,7 @@
     <table mat-table matSort [dataSource]="dataSourceCrearSolpe" matSortActive="item" matSortDirection="desc">
         
         <ng-container matColumnDef="presu">
-            <th mat-header-cell *matHeaderCellDef > PARTIDA<br>(PRESUPUESTO)</th>
+            <th mat-header-cell *matHeaderCellDef > {{crearsolpe.partidaColumnTable}}<br>{{crearsolpe.presupuestoColumnTable}}</th>
             <td mat-cell *matCellDef="let element; let i = index">
                 <div *ngIf="element.item!=idSeleccionadoEditarPosicion">
                     {{element.presu}}
@@ -63,7 +63,7 @@
                 <mat-form-field appearance="outline" *ngIf="element.item==idSeleccionadoEditarPosicion" class="form-input mat-form-field-table" style="margin-top:5px;">
                     <input
                     matInput
-                    placeholder="Ingrese Partida"
+                    placeholder="{{crearsolpe.partidaPlaceholder}}"
                     type="text"
                     [(ngModel)]="element.presu"
                     maxlength="10"
@@ -74,7 +74,7 @@
         </ng-container>
 
         <ng-container matColumnDef="menge">
-            <th mat-header-cell *matHeaderCellDef> CANTIDAD </th>
+            <th mat-header-cell *matHeaderCellDef> {{crearsolpe.cantidadColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index">
                 <div *ngIf="element.item!=idSeleccionadoEditarPosicion">
                     {{element.menge}}
@@ -82,7 +82,7 @@
                 <mat-form-field appearance="outline" *ngIf="element.item==idSeleccionadoEditarPosicion" class="form-input menge-form-filed" style="margin-top:5px;">
                     <input
                     matInput
-                    placeholder="Ingrese Cantidad"
+                    placeholder="{{crearsolpe.cantidadPlaceholder}}"
                     type="text"
                     [(ngModel)]="element.menge"
                     (keypress)="validacionCrearSolpeInputCantidad($event)"
@@ -94,14 +94,14 @@
         </ng-container>
 
         <ng-container matColumnDef="meins">
-            <th mat-header-cell *matHeaderCellDef class="stock-form-filed"> UNIDAD </th>
+            <th mat-header-cell *matHeaderCellDef class="stock-form-filed"> {{crearsolpe.unidadColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index">
                 {{element.meins}}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="descr">
-            <th mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </th>
+            <th mat-header-cell *matHeaderCellDef> {{crearsolpe.descripcionColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index" matTooltip={{element.descr}}> 
                 <div *ngIf="element.item!=idSeleccionadoEditarPosicion">
                     {{acortarDescripcion(element.descr)}}
@@ -109,7 +109,7 @@
                 <mat-form-field appearance="outline" *ngIf="element.item==idSeleccionadoEditarPosicion" class="form-input descrip-form-filed" style="margin-top:5px;">
                     <textarea
                     matInput
-                    placeholder="Ingrese Descripción"
+                    placeholder="{{crearsolpe.descripcionPlaceholder}}"
                     type="text"
                     [(ngModel)]="element.descr"
                     maxlength="140"
@@ -120,7 +120,7 @@
         </ng-container>
 
         <ng-container matColumnDef="matnr">
-            <th mat-header-cell *matHeaderCellDef> N° SAP MATERIAL </th>
+            <th mat-header-cell *matHeaderCellDef> {{crearsolpe.nroSapMaterialColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index" >
                 <div *ngIf="element.item!=idSeleccionadoEditarPosicion" [matTooltip]="element.maktgField">
                     {{element.matnr}}
@@ -128,7 +128,7 @@
                 <mat-form-field appearance="outline" *ngIf="element.item==idSeleccionadoEditarPosicion" class="form-input mat-form-field-table" style="margin-top:5px;">
                     <input
                     matInput
-                    placeholder="Ingrese N° SAP Material"
+                    placeholder="{{crearsolpe.nroSapMaterialPlaceholder}}"
                     type="text"
                     [(ngModel)]="element.matnr"
                     maxlength="18"
@@ -142,14 +142,14 @@
         </ng-container>
         
         <ng-container matColumnDef="stock">
-            <th mat-header-cell *matHeaderCellDef class="stock-form-filed"> STOCK </th>
+            <th mat-header-cell *matHeaderCellDef class="stock-form-filed"> {{crearsolpe.stockColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index">
                     {{element.stock}}
             </td>
         </ng-container>
 
         <ng-container matColumnDef="ccosto">
-            <th mat-header-cell *matHeaderCellDef> CENTRO DE COSTO </th>
+            <th mat-header-cell *matHeaderCellDef> {{crearsolpe.cecoColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index">
                 <div *ngIf="element.item!=idSeleccionadoEditarPosicion">
                     {{element.ccosto}}
@@ -157,7 +157,7 @@
                 <mat-form-field appearance="outline" *ngIf="element.item==idSeleccionadoEditarPosicion" class="form-input mat-form-field-table" style="margin-top:5px;">
                     <input
                     matInput
-                    placeholder="Ingrese Centro de Costo"
+                    placeholder="{{crearsolpe.cecoPlaceholder}}"
                     type="text"
                     [(ngModel)]="element.ccosto"
                     maxlength="10"
@@ -169,7 +169,7 @@
         </ng-container>
 
         <ng-container matColumnDef="gl">
-            <th mat-header-cell *matHeaderCellDef> GL </th>
+            <th mat-header-cell *matHeaderCellDef> {{crearsolpe.glColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index"> 
                 <div *ngIf="element.item!=idSeleccionadoEditarPosicion">
                     {{element.gl}}
@@ -177,7 +177,7 @@
                 <mat-form-field appearance="outline" *ngIf="element.item==idSeleccionadoEditarPosicion" class="form-input mat-form-field-table" style="margin-top:5px;">
                     <input
                     matInput
-                    placeholder="Ingrese GL"
+                    placeholder="{{crearsolpe.glPlaceholder}}"
                     type="text"
                     [(ngModel)]="element.gl"
                     maxlength="10"
@@ -189,7 +189,7 @@
         </ng-container>
 
         <ng-container matColumnDef="punit">
-            <th mat-header-cell *matHeaderCellDef> P. UNITARIO </th>
+            <th mat-header-cell *matHeaderCellDef> {{crearsolpe.precioUnitarioColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index">
                 <div *ngIf="element.item!=idSeleccionadoEditarPosicion">
                     {{element.punit}}
@@ -197,7 +197,7 @@
                 <mat-form-field appearance="outline" *ngIf="element.item==idSeleccionadoEditarPosicion" class="form-input mat-form-field-table" style="margin-top:5px;">
                     <input
                     matInput
-                    placeholder="Ingrese Precio Unitario"
+                    placeholder="{{crearsolpe.precioUnitarioColumnTable}}"
                     type="text"
                     [(ngModel)]="element.punit"
                     required
@@ -209,7 +209,7 @@
         </ng-container>
 
         <ng-container matColumnDef="totsinigv">
-            <th mat-header-cell *matHeaderCellDef>TOTAL<br>(SIN IGV)</th>
+            <th mat-header-cell *matHeaderCellDef>{{crearsolpe.totalColumnTable}}<br>{{crearsolpe.sinIgvColumnTable}}</th>
             <td mat-cell *matCellDef="let element; let i = index">
                 <div *ngIf="element.item!=idSeleccionadoEditarPosicion">
                     {{element.totsinigv}}
@@ -228,7 +228,7 @@
         </ng-container>
 
         <ng-container matColumnDef="accion">
-            <th mat-header-cell *matHeaderCellDef> ACCIÓN </th>
+            <th mat-header-cell *matHeaderCellDef> {{crearsolpe.accionColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index;" >
                 <div style="display: flex;">
                     <button *ngIf="element.item!=idSeleccionadoEditarPosicion" mat-icon-button color="primary" (click)="abrirEditarPosicion(element.item)">
@@ -254,8 +254,8 @@
 
     <div style="display: flex; justify-content: end; padding-right: 10px;">
         <mat-form-field class="total" appearance="outline">
-            <mat-label>Total</mat-label>
-            <input matInput type="text" placeholder="Total" value={{calcularTotalSinIgv(totalSinIgv)}} disabled>
+            <mat-label>{{crearsolpe.totalLabel}}</mat-label>
+            <input matInput type="text" placeholder="{{crearsolpe.totalPlaceholder}}" value={{calcularTotalSinIgv(totalSinIgv)}} disabled>
         </mat-form-field>
     </div>
 </div>
@@ -264,90 +264,90 @@
         <div class="col-md-6 row">
             <div class="col-md-6">
                 <mat-form-field class="full-width item-input" appearance="outline">
-                    <mat-label>Para ser usado en ...</mat-label>
-                    <textarea type="text" style="height: 100%;" rows="6" matInput placeholder="Para ser usado en ..." [(ngModel)]="detalleJson.ParaSerusado" maxlength="100" required></textarea>
+                    <mat-label>{{crearsolpe.paraSerUsadoEnLabel}}</mat-label>
+                    <textarea type="text" style="height: 100%;" rows="6" matInput placeholder="{{crearsolpe.paraSerUsadoEnPlaceholder}}" [(ngModel)]="detalleJson.ParaSerusado" maxlength="100" required></textarea>
                 </mat-form-field>
             </div>
             <div class="col-md-6">
                 <mat-form-field class="full-width item-input" appearance="outline">
-                    <mat-label>Locación</mat-label>
-                    <input type="text" matInput placeholder="Locación" [(ngModel)]="detalleJson.Locacion" maxlength="50" required>
+                    <mat-label>{{crearsolpe.locacionLabel}}</mat-label>
+                    <input type="text" matInput placeholder="{{crearsolpe.locacionPlaceholder}}" [(ngModel)]="detalleJson.Locacion" maxlength="50" required>
                 </mat-form-field>
                 <mat-form-field class="full-width item-input" appearance="outline">
-                    <mat-label>Fecha requerida</mat-label>
-                    <input type="date" matInput placeholder="Fecha requerida" [(ngModel)]="detalleJson.FechaReque" required>
+                    <mat-label>{{crearsolpe.fechaRequeridaLabel}}</mat-label>
+                    <input type="date" matInput placeholder="{{crearsolpe.fechaRequeridaPlaceholder}}" [(ngModel)]="detalleJson.FechaReque" required>
                 </mat-form-field>
             </div>
         </div>
         <div class="col-md-6 row">
             <mat-form-field class="full-width item-input col-md-12" appearance="outline">
-                <mat-label>Proveedor sugerido</mat-label>
-                <input type="text" matInput placeholder="Proveedor sugerido" [(ngModel)]="detalleJson.ProveSuge" maxlength="70" required>
+                <mat-label>{{crearsolpe.proveedorSugeridoLabel}}</mat-label>
+                <input type="text" matInput placeholder="{{crearsolpe.proveedorSugeridoPlaceholder}}" [(ngModel)]="detalleJson.ProveSuge" maxlength="70" required>
             </mat-form-field>
             <mat-form-field class="full-width item-input col-md-12" appearance="outline">
-                <mat-label>Otras cotizaciones</mat-label>
-                <input type="text" matInput placeholder="Otras cotizaciones" [(ngModel)]="detalleJson.Ocotiza" maxlength="70" required>
+                <mat-label>{{crearsolpe.otrasCotizacionesLabel}}</mat-label>
+                <input type="text" matInput placeholder="{{crearsolpe.otrasCotizacionesPlaceholder}}" [(ngModel)]="detalleJson.Ocotiza" maxlength="70" required>
             </mat-form-field>
         </div>
     </section>
 
     <section style="margin: 18px 0;" class="row">
         <div class="col-md-4">
-            <h2>SOLICITA</h2>
+            <h2>{{crearsolpe.solicitaTitleFooter}}</h2>
             <div class="separator"></div>
             <div class="row">
                 <mat-form-field class="full-width item-input col-md-6" appearance="outline">
-                    <mat-label>Nombre</mat-label>
+                    <mat-label>{{crearsolpe.nombreLabelFooter}}</mat-label>
                     <input type="text" matInput placeholder="Nombre" [(ngModel)]="detalleJson.SoNomb" maxlength="100" disabled>
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-6" appearance="outline">
-                    <mat-label>Cargo</mat-label>
+                    <mat-label>{{crearsolpe.cargoLabelFooter}}</mat-label>
                     <input type="text" matInput placeholder="Cargo" [(ngModel)]="detalleJson.SoCargo" maxlength="30" disabled>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="full-width item-input col-md-12" appearance="outline">
-                    <mat-label>Fecha</mat-label>
+                    <mat-label>{{crearsolpe.fechaLabelFooter}}</mat-label>
                     <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.SoFecha" disabled>
                 </mat-form-field>
             </div>
         </div>
         <div class="col-md-4">
-            <h2>JEFE DE ÁREA</h2>
+            <h2>{{crearsolpe.jefeAreaTitleFooter}}</h2>
             <div class="separator"></div>
             <div class="row">
                 <mat-form-field class="full-width item-input col-md-6" appearance="outline">
-                    <mat-label>Nombre</mat-label>
+                    <mat-label>{{crearsolpe.nombreLabelFooter}}</mat-label>
                     <input type="text" matInput placeholder="Nombre" [(ngModel)]="detalleJson.CoNomb" maxlength="100" disabled>
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-6" appearance="outline">
-                    <mat-label>Cargo</mat-label>
+                    <mat-label>{{crearsolpe.cargoLabelFooter}}</mat-label>
                     <input type="text" matInput placeholder="Cargo" [(ngModel)]="detalleJson.CoCargo" maxlength="30" disabled>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="full-width item-input col-md-12" appearance="outline">
-                    <mat-label>Fecha</mat-label>
+                    <mat-label>{{crearsolpe.fechaLabelFooter}}</mat-label>
                     <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.CoFecha" disabled>
                 </mat-form-field>
             </div> 
         </div>
         <div class="col-md-4">
-            <h2>AUTORIZA</h2>
+            <h2>{{crearsolpe.autorizaTitleFooter}}</h2>
             <div class="separator"></div>
             <div class="row">
                 <mat-form-field class="full-width item-input col-md-6" appearance="outline">
-                    <mat-label>Nombre</mat-label>
+                    <mat-label>{{crearsolpe.nombreLabelFooter}}</mat-label>
                     <input type="text" matInput placeholder="Nombre" [(ngModel)]="detalleJson.AuNomb" maxlength="100" disabled>
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-6" appearance="outline">
-                    <mat-label>Cargo</mat-label>
+                    <mat-label>{{crearsolpe.cargoLabelFooter}}</mat-label>
                     <input type="text" matInput placeholder="Cargo" [(ngModel)]="detalleJson.AuCargo" maxlength="30" disabled>
                 </mat-form-field>
             </div>
             <div class="row">
                 <mat-form-field class="full-width item-input col-md-12" appearance="outline">
-                    <mat-label>Fecha</mat-label>
+                    <mat-label>{{crearsolpe.fechaLabelFooter}}</mat-label>
                     <input type="date" matInput placeholder="Fecha" [(ngModel)]="detalleJson.AuFecha" disabled>
                 </mat-form-field>
             </div>
@@ -357,6 +357,6 @@
 <div class="button-footer">
     <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit" 
     [disabled]="this.dataSourceCrearSolpe.data.length == 0 || cabeceraCrearSolpeForm.invalid" >
-        Crear Solpe
+        {{crearsolpe.crearSolpeButton}}
     </button>
 </div>

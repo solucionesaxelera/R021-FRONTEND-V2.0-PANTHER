@@ -8,6 +8,7 @@ import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 
 import * as FileSaver from 'file-saver';
 import * as moment from 'moment';
+import { translate } from '@rxweb/translate';
 
 @Component({
   selector: 'app-auditoria',
@@ -15,6 +16,8 @@ import * as moment from 'moment';
   styleUrls: ['./auditoria.component.scss']
 })
 export class AuditoriaComponent implements OnInit {
+
+  @translate({translationName:'auditoria'}) auditoria: any;
 
   @ViewChild(MatPaginator,{static : true}) paginator: any;
 
@@ -46,7 +49,7 @@ export class AuditoriaComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
+    this.paginator._intl.itemsPerPageLabel = '';
     this.obtenerListadoAuditoria();
   }
 

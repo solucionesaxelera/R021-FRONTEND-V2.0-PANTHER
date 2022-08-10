@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { translate } from '@rxweb/translate';
 import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 
 @Component({
@@ -8,6 +9,8 @@ import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
   styleUrls: ['./dialog-sociedades.component.scss']
 })
 export class DialogSociedadesComponent implements OnInit {
+
+  @translate({translationName:'usuarios'}) usuarios: any;
 
   sociedades: any =[];
   seleccionarSociedades:any=[];

@@ -1,5 +1,5 @@
 <mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
-<h2>AUDITORÍA</h2>
+<h2>{{auditoria.titleHeader}}</h2>
 <div class="separator"></div>
 <div class="header-crear-solpe">
     <!-- <div class="button-header">
@@ -15,25 +15,25 @@
                     <input id="nroreq" type="text" matInput placeholder="Ingrese la acción" formControlName="Accion">
                 </mat-form-field> -->
                 <mat-form-field class="full-width col-md-2" appearance="outline">
-                    <mat-label>Acción</mat-label>
+                    <mat-label>{{auditoria.accionLabelOption}}</mat-label>
                     <mat-select formControlName="Accion">
-                        <mat-option value="C">CREÓ SOLPE</mat-option>
-                        <mat-option value="M">MODIFICÓ SOLPE</mat-option>
-                        <mat-option value="E">ELIMINÓ SOLPE</mat-option>
-                        <mat-option value="A">APROBÓ SOLPE</mat-option>
-                        <mat-option value="R">RECHAZÓ SOLPE</mat-option>
+                        <mat-option value="C">{{auditoria.creoSolpeOption}}</mat-option>
+                        <mat-option value="M">{{auditoria.modificoSolpeOption}}</mat-option>
+                        <mat-option value="E">{{auditoria.eliminoSolpeOption}}</mat-option>
+                        <mat-option value="A">{{auditoria.aproboSolpeOption}}</mat-option>
+                        <mat-option value="R">{{auditoria.rechazoSolpeOption}}</mat-option>
                     </mat-select>
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-6" appearance="outline">
-                    <mat-label>Usuario</mat-label>
+                    <mat-label>{{auditoria.usuarioLabel}}</mat-label>
                     <input type="text" matInput placeholder="Ingrese el usuario" formControlName="Usuario">
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-2" appearance="outline">
-                    <mat-label>Fecha Desde</mat-label>
+                    <mat-label>{{auditoria.fechaDesdeLabel}}</mat-label>
                     <input type="date" matInput formControlName="FechaDesde">
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-2" appearance="outline">
-                    <mat-label>Fecha Hasta</mat-label>
+                    <mat-label>{{auditoria.fechaHastaLabel}}</mat-label>
                     <input type="date" matInput formControlName="FechaHasta">
                 </mat-form-field>
             <!-- </div> -->
@@ -44,7 +44,7 @@
     <div class="row" style="margin-bottom: 30px;">
         <div class="col-lg-12"> 
             <button mat-flat-button class="full-width" color="primary" (click)="buscarAuditoria()">
-                Buscar Auditoría
+                {{auditoria.buscarAuditoriaButton}}
             </button>
         </div>
     </div>
@@ -55,38 +55,38 @@
     <table mat-table [dataSource]="dataSourceAuditoria">
 
         <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> ID</th>
+            <th mat-header-cell *matHeaderCellDef> {{auditoria.idColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.id}} </td>
         </ng-container>
 
         <ng-container matColumnDef="codi_solpe">
-            <th mat-header-cell *matHeaderCellDef> ID SOLPE </th>
+            <th mat-header-cell *matHeaderCellDef> {{auditoria.idSolpeColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.id_solpe}} </td>
         </ng-container>
 
         <ng-container matColumnDef="usuario">
-            <th mat-header-cell *matHeaderCellDef> USUARIO </th>
+            <th mat-header-cell *matHeaderCellDef> {{auditoria.usuarioColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.usuario}} </td>
         </ng-container>
 
         <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef> FECHA </th>
+            <th mat-header-cell *matHeaderCellDef> {{auditoria.fechaColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{formatearFecha(element.fecha,1)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="hora">
-            <th mat-header-cell *matHeaderCellDef> HORA </th>
+            <th mat-header-cell *matHeaderCellDef> {{auditoria.horaColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.hora}} </td>
         </ng-container>
 
         <ng-container matColumnDef="accion">
-            <th mat-header-cell *matHeaderCellDef> ACCIÓN </th>
+            <th mat-header-cell *matHeaderCellDef> {{auditoria.accionLabelOption}} </th>
             <td mat-cell *matCellDef="let element">
-                <div *ngIf="element.accion == 'C'">CREÓ SOLPE</div>
-                <div *ngIf="element.accion == 'M'">MODIFICÓ SOLPE</div>
-                <div *ngIf="element.accion == 'E'">ELIMINÓ SOLPE</div>
-                <div *ngIf="element.accion == 'A'">APROBÓ SOLPE</div>
-                <div *ngIf="element.accion == 'R'">RECHAZÓ SOLPE</div>
+                <div *ngIf="element.accion == 'C'">{{auditoria.creoSolpeOption}}</div>
+                <div *ngIf="element.accion == 'M'">{{auditoria.modificoSolpeOption}}</div>
+                <div *ngIf="element.accion == 'E'">{{auditoria.eliminoSolpeOption}}</div>
+                <div *ngIf="element.accion == 'A'">{{auditoria.aproboSolpeOption}}</div>
+                <div *ngIf="element.accion == 'R'">{{auditoria.rechazoSolpeOption}}</div>
             </td>
         </ng-container>
 
@@ -102,10 +102,10 @@
 <div class="button-footer">
     <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit"
         (click)="obtenerListadoAuditoria()" >
-        Limpiar Filtros
+        {{auditoria.limparFiltrosButton}}
     </button>
     <button mat-flat-button color="primary" form="cabecera-crear-solped" type="submit" (click)="exportar()"
         [disabled]="this.dataSourceAuditoria.data.length == 0">
-        <mat-icon>cloud_download</mat-icon> Exportar Excel
+        <mat-icon>cloud_download</mat-icon> {{auditoria.exportarExcelButton}}
     </button>
 </div>

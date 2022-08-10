@@ -1,13 +1,13 @@
 <mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
-<h2>CONFIGURACIÓN</h2>
+<h2>{{configuracion.titleHeader}}</h2>
 <div class="separator"></div>
-<p>Configuración de cambio de contraseña</p>
+<p>{{configuracion.pTitleCambioContrasenia}}</p>
 <form [formGroup]="configuracionPasswordForm" (submit)="guardarConfiguracion(configuracionPasswordForm.value)">
     <mat-form-field class="full-width" appearance="outline">
-        <mat-label>N° de mes(es)</mat-label>
-        <input matInput placeholder="N° de mes(es)" formControlName="num">
+        <mat-label>{{configuracion.nroMesLabel}}</mat-label>
+        <input matInput placeholder="{{configuracion.nroMesPlaceholder}}" formControlName="num">
     </mat-form-field>
     <div>
-        <button mat-flat-button color="primary" class="full-width">Guardar</button>
+        <button mat-flat-button color="primary" class="full-width">{{configuracion.guardarButton}}</button>
     </div>
 </form>

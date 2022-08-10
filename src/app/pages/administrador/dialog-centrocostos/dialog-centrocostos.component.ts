@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { translate } from '@rxweb/translate';
 import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 
 @Component({
@@ -9,6 +10,8 @@ import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
   styleUrls: ['./dialog-centrocostos.component.scss']
 })
 export class DialogCentrocostosComponent implements OnInit {
+
+  @translate({translationName:'usuarios'}) usuarios: any;
 
   centrocostos: any =[];
   seleccionarCentroCostos:any=[];

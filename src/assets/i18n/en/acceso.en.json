@@ -1,0 +1,10 @@
+{
+    "usuarioLabel":"User",
+    "usuarioPlaceHolder":"Enter your username",
+    "contraseniaLabel":"Password",
+    "contraseniaPlaceholder":"Enter your password",
+    "idiomaSelectLabel":"Select a language",
+    "sociedadSelectLabel":"Select a company",
+    "socidadNullOption":"It has no assigned companies.",
+    "ingresarButton":"Enter"
+}

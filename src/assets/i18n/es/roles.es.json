@@ -1,0 +1,22 @@
+{
+    "titleHeader":"ROLES",
+    "crearRolButton":"Crear Rol",
+    "nombreColumnTable":"Nombre",
+    "accionColumnTable":"Acción",
+    "asignarModuloColumnTable":"Asignar Módulo",
+    "crearRolHeader":"Crear Rol",
+    "crearRolNombreLabel" : "Nombre",
+    "crearRolNombrePlaceholder" : "Ingrese nombre de rol",
+    "crearRolCancelarButton" : "Cancelar",
+    "crearRolGuardarButton" : "Guardar",
+    "modificarRolHeader":"Modificar Rol",
+    "modificarRolNombreLabel" : "Nombre",
+    "modificarRolNombrePlaceholder" : "Ingrese nombre de rol",
+    "modificarRolCancelarButton" : "Cancelar",
+    "modificarRolGuardarButton" : "Guardar",
+    "asignarModuloCancelarButton":"Cancelar",
+    "asignarModuloGuardarButton":"Guardar",
+    "eliminarRolHeader":"¿Está seguro que desea eliminar el rol?",
+    "eliminarRolNoButton":"No",
+    "eliminarRolSiButton":"Si"
+}

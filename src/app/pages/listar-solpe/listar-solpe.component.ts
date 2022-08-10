@@ -8,6 +8,7 @@ import * as moment from 'moment';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { translate } from '@rxweb/translate';
 
 @Component({
   selector: 'app-listar-solpe',
@@ -15,6 +16,8 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./listar-solpe.component.scss']
 })
 export class ListarSolpeComponent implements OnInit {
+
+  @translate({translationName:'listarsolpe'}) listarsolpe: any;
 
   @ViewChild(MatPaginator,{static : true}) paginator: any;
   @ViewChild(MatPaginator,{static : true}) paginatorDetalle: any;
@@ -51,7 +54,7 @@ export class ListarSolpeComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
+    this.paginator._intl.itemsPerPageLabel = '';
     this.listarSolpes();
   }
 

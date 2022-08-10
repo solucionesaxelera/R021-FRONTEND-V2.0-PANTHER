@@ -44,6 +44,7 @@ import { AuditoriaComponent } from './pages/auditoria/auditoria.component';
 import { MatchcodeComponent } from './components/matchcode/matchcode.component';
 import { DialogSociedadesComponent } from './pages/administrador/dialog-sociedades/dialog-sociedades.component';
 import { DialogCentrocostosComponent } from './pages/administrador/dialog-centrocostos/dialog-centrocostos.component';
+import { RxTranslateModule } from '@rxweb/translate';
 
 @NgModule({
   declarations: [
@@ -89,16 +90,24 @@ import { DialogCentrocostosComponent } from './pages/administrador/dialog-centro
     MatProgressBarModule,
     MatTooltipModule,
     MatSortModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RxTranslateModule.forRoot({
+      cacheLanguageWiseObject: true,
+      globalFilePath: "assets/i18n/{{language-code}}/global.{{language-code}}.json",
+      filePath: "assets/i18n/{{language-code}}/{{translation-name}}.{{language-code}}.json"
+    })
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
-      multi: true
+      multi: true,
     }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports:[
+    RxTranslateModule
+  ]
 })
 export class AppModule { }

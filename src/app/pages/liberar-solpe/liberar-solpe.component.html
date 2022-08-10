@@ -1,16 +1,16 @@
 <mat-progress-bar mode="indeterminate" *ngIf="indicadorCarga"></mat-progress-bar>
-<h2>LIBERAR SOLPE</h2>
+<h2>{{liberarsolpe.titleHeader}}</h2>
 <div class="separator"></div>
 <div class="header-crear-solpe">
 
         <form id="cabecera-crear-solped" [formGroup]="cabeceraCrearSolpeForm" class="row">
 
                 <mat-form-field class="full-width item-input col-md-6 full-width" appearance="outline">
-                    <mat-label>Usuario</mat-label>
-                    <input type="text" matInput placeholder="Ingrese nombre de usuario" formControlName="Usuario">
+                    <mat-label>{{liberarsolpe.usuarioLabel}}</mat-label>
+                    <input type="text" matInput placeholder="{{liberarsolpe.usuarioPlaceholder}}" formControlName="Usuario">
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-6 full-width" appearance="outline">
-                    <mat-label>Fecha</mat-label>
+                    <mat-label>{{liberarsolpe.fechaLabel}}</mat-label>
                     <input type="date" matInput formControlName="Fecha">
                 </mat-form-field>
 
@@ -33,12 +33,12 @@
     <div class="row" style="margin-bottom: 30px;">
         <div class="col-lg-6">
             <button mat-flat-button class="full-width" color="primary" (click)="buscarSolpe()">
-                Buscar Solpe
+                {{liberarsolpe.buscarSolpeButton}}
             </button>
         </div>
         <div class="col-lg-6">
             <button mat-flat-button class="full-width" color="primary" (click)="obtenerListadoSolpes()" >
-                Limpiar Filtros
+                {{liberarsolpe.limpiarFiltrosButton}}
             </button>
         </div>
     </div>
@@ -49,43 +49,43 @@
     <table mat-table [dataSource]="dataSourceCrearSolpe">
 
         <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> ID SOLPE</th>
+            <th mat-header-cell *matHeaderCellDef> {{liberarsolpe.idSolpeColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.idField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="nroreq">
-            <th mat-header-cell *matHeaderCellDef> 	N° REQUISICIÓN </th>
+            <th mat-header-cell *matHeaderCellDef> 	{{liberarsolpe.nroRequisicionColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.nroreqField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="area">
-            <th mat-header-cell *matHeaderCellDef> AREA </th>
+            <th mat-header-cell *matHeaderCellDef> {{liberarsolpe.areaColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.areaField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="fecha">
-            <th mat-header-cell *matHeaderCellDef> FECHA </th>
+            <th mat-header-cell *matHeaderCellDef> {{liberarsolpe.fechaColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{formatearFecha(element.fechaField, 1)}} </td>
         </ng-container>
 
         <ng-container matColumnDef="descr">
-            <th mat-header-cell *matHeaderCellDef> DESCRIPCIÓN </th>
+            <th mat-header-cell *matHeaderCellDef> {{liberarsolpe.descripcionColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.descrSolpeField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="usuario">
-            <th mat-header-cell *matHeaderCellDef> USUARIO CREADOR </th>
+            <th mat-header-cell *matHeaderCellDef> {{liberarsolpe.usuarioCreadorColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.usuarioField}} </td>
         </ng-container>
 
         <ng-container matColumnDef="accion">
-            <th mat-header-cell *matHeaderCellDef> ACCIÓN </th>
+            <th mat-header-cell *matHeaderCellDef> {{liberarsolpe.accionColumnTable}} </th>
             <td mat-cell *matCellDef="let element; let i = index;">
                 <button mat-icon-button color="primary" (click)="openAprobarSolpe(element.idField, element.usuarioField)">
-                    <mat-icon matTooltip="Aprobar Solpe">check_circle</mat-icon>
+                    <mat-icon matTooltip="{{liberarsolpe.toolTipAprobar}}">check_circle</mat-icon>
                 </button>
                 <button mat-icon-button color="primary" (click)="openRechazarSolpe(element.idField, element.usuarioField)">
-                    <mat-icon matTooltip="Rechazar Solpe">highlight_off</mat-icon>
+                    <mat-icon matTooltip="{{liberarsolpe.toolTipRechazar}}">highlight_off</mat-icon>
                 </button>
             </td>
         </ng-container>
@@ -101,27 +101,27 @@
 
 <!-- APROBAR SOLPED -->
 <ng-template #dialogAprobarSolped>
-    <h2 mat-dialog-title>¿Seguro(a) que desea aprobar la solicitud de pedido?</h2>
+    <h2 mat-dialog-title>{{liberarsolpe.dialogAprobarTitle}}</h2>
     <mat-dialog-actions align="end">
-        <button mat-button mat-dialog-close>Cancelar</button>
-        <button mat-button cdkFocusInitial (click)="aprobarSolpe()" type="submit">Aceptar</button>
+        <button mat-button mat-dialog-close>{{liberarsolpe.dialogAprobarCancelarButton}}</button>
+        <button mat-button cdkFocusInitial (click)="aprobarSolpe()" type="submit">{{liberarsolpe.dialogAprobarAceptarButton}}</button>
     </mat-dialog-actions>
 </ng-template>
 
 <!-- RECHAZAR SOLPED -->
 <ng-template #dialogRechazarSolped>
-    <h2 mat-dialog-title>¿Seguro(a) que desea rechazar la solicitud de pedido?</h2>
+    <h2 mat-dialog-title>{{liberarsolpe.dialogRechazarTitle}}</h2>
     <mat-dialog-content class="mat-typography">
         <form>
             <mat-form-field class="full-width" appearance="outline">
-                <mat-label>Ingrese un motivo</mat-label>
-                <textarea matInput placeholder="Ingrese motivo" rows="2" maxlength="250" [(ngModel)]="IsComentario" [ngModelOptions]="{standalone: true}"></textarea>
+                <mat-label>{{liberarsolpe.dialogRechazarLabel}}</mat-label>
+                <textarea matInput placeholder="{{liberarsolpe.dialogRechazarPlaceholder}}" rows="2" maxlength="250" [(ngModel)]="IsComentario" [ngModelOptions]="{standalone: true}"></textarea>
             </mat-form-field>
         </form>
     </mat-dialog-content>
     <mat-dialog-actions align="end">
-        <button mat-button cdkFocusInitial mat-dialog-close>Cancelar</button>
-        <button mat-button (click)="rechazarSolpe()" type="submit">Aceptar</button>
+        <button mat-button cdkFocusInitial mat-dialog-close>{{liberarsolpe.dialogRechazarCancelarButton}}</button>
+        <button mat-button (click)="rechazarSolpe()" type="submit">{{liberarsolpe.dialogRechazarAceptarButton}}</button>
     </mat-dialog-actions>
 </ng-template>
 

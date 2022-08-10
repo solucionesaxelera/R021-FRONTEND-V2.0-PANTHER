@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { translate } from '@rxweb/translate';
 import { ConfiguracionService } from 'src/app/services/administrador/configuracion/configuracion.service';
 
 @Component({
@@ -9,6 +10,8 @@ import { ConfiguracionService } from 'src/app/services/administrador/configuraci
   styleUrls: ['./configuracion.component.scss']
 })
 export class ConfiguracionComponent implements OnInit {
+
+  @translate({translationName:'configuracion'}) configuracion: any;
 
   indicadorCarga:Boolean =false;
 

@@ -5,6 +5,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { translate } from '@rxweb/translate';
 import * as moment from 'moment';
 import { tableLiberarSolpe } from 'src/app/models/liberar-solpe';
 import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
@@ -16,6 +17,8 @@ import { LiberarSolpeService } from 'src/app/services/liberar-solpe/liberar-solp
   styleUrls: ['./liberar-solpe.component.scss']
 })
 export class LiberarSolpeComponent implements OnInit {
+
+  @translate({translationName:'liberarsolpe'}) liberarsolpe: any;
 
   @ViewChild(MatPaginator,{static : true}) paginator: any;
   @ViewChild("dialogAprobarSolped") dialogAprobarSolped: any;
@@ -53,7 +56,7 @@ export class LiberarSolpeComponent implements OnInit {
   })
 
   ngOnInit(): void {
-    this.paginator._intl.itemsPerPageLabel = 'Datos por página';
+    this.paginator._intl.itemsPerPageLabel = '';
     this.obtenerListadoSolpes();
   }
 

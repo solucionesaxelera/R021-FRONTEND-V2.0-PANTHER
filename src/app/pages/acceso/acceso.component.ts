@@ -6,12 +6,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 
+import { translate, RxTranslation } from '@rxweb/translate';
+
 @Component({
   selector: 'app-acceso',
   templateUrl: './acceso.component.html',
   styleUrls: ['./acceso.component.scss']
 })
 export class AccesoComponent implements OnInit {
+
+  @translate({translationName:'acceso'}) acceso: any;
+
   selectedValue: string="";
   sociedades: any[] = [];
 
@@ -22,7 +27,8 @@ export class AccesoComponent implements OnInit {
     private _accesoS: AccesoService,
     private _snackBar: MatSnackBar,
     private _matchcodeS: MatchcodeService,
-    private _router: Router
+    private _router: Router,
+    private rxTranslation: RxTranslation
     ) { }
 
   cambioUsuario(){
@@ -38,6 +44,8 @@ export class AccesoComponent implements OnInit {
     clave: new FormControl('',[Validators.required]),
     sociedad: new FormControl('',[Validators.required])
   });
+
+  selectedLanguageControl = new FormControl('es');
 
   cargarSociedades(){
     this.sociedades=[];
@@ -85,6 +93,11 @@ export class AccesoComponent implements OnInit {
         });
       }
     });
+  }
+
+  seleccionarIdioma(value:any){
+    localStorage.setItem('selectedLanguage', value);
+    this.rxTranslation.change(value);
   }
 
 }
