@@ -68,6 +68,11 @@
             <td mat-cell *matCellDef="let element"> {{formatearFecha(element.fechaField, 1)}} </td>
         </ng-container>
 
+        <ng-container matColumnDef="moneda">
+            <th mat-header-cell *matHeaderCellDef> {{liberarsolpe.monedaColumnTable}} </th>
+            <td mat-cell *matCellDef="let element"> {{element.monedaField}} </td>
+        </ng-container>
+
         <ng-container matColumnDef="descr">
             <th mat-header-cell *matHeaderCellDef> {{liberarsolpe.descripcionColumnTable}} </th>
             <td mat-cell *matCellDef="let element"> {{element.descrSolpeField}} </td>
@@ -90,11 +95,20 @@
             </td>
         </ng-container>
 
+        <ng-container matColumnDef="detalle">
+            <th mat-header-cell *matHeaderCellDef> {{liberarsolpe.detalleColumnTable}} </th>
+            <td mat-cell *matCellDef="let element; let i = index;">
+                <button mat-icon-button color="primary" (click)="abrirDetalle(element)">
+                    <mat-icon>assignment</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
 
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons aria-label="Select page of periodic elements">
+    <mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons aria-label="Select page of periodic elements">
     </mat-paginator>
 
 </div>

@@ -32,7 +32,7 @@
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-2" appearance="outline">
                     <mat-label>{{modificarsolpe.areaLabel}}</mat-label>
-                    <input type="text" matInput placeholder="{{modificarsolpe.areaPlaceholder}}" formControlName="Area" maxlength="10">
+                    <input type="text" matInput placeholder="{{modificarsolpe.areaPlaceholder}}" formControlName="Area" maxlength="30">
                 </mat-form-field>
                 <mat-form-field class="full-width item-input col-md-2" appearance="outline">
                     <mat-label>{{modificarsolpe.fechaLabel}}</mat-label>
@@ -257,7 +257,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumnsModificarSolpe"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumnsModificarSolpe;"></tr>
     </table>
-    <mat-paginator [pageSizeOptions]="[10, 20, 30]"
+    <mat-paginator [pageSizeOptions]="[20, 50, 100]"
                     showFirstLastButtons 
                     aria-label="Select page of periodic elements">
     </mat-paginator>

@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { tableLiberarSolpe } from 'src/app/models/liberar-solpe';
 import { AuditoriaService } from 'src/app/services/auditoria/auditoria.service';
 import { LiberarSolpeService } from 'src/app/services/liberar-solpe/liberar-solpe.service';
+import { DetalleSolpeComponent } from './detalle-solpe/detalle-solpe.component';
 
 @Component({
   selector: 'app-liberar-solpe',
@@ -19,6 +20,7 @@ import { LiberarSolpeService } from 'src/app/services/liberar-solpe/liberar-solp
 export class LiberarSolpeComponent implements OnInit {
 
   @translate({translationName:'liberarsolpe'}) liberarsolpe: any;
+  @translate({translationName:'listarsolpe'}) listarsolpe: any;
 
   @ViewChild(MatPaginator,{static : true}) paginator: any;
   @ViewChild("dialogAprobarSolped") dialogAprobarSolped: any;
@@ -43,7 +45,7 @@ export class LiberarSolpeComponent implements OnInit {
     private _auditoriaS : AuditoriaService,
   ) { }
 
-  displayedColumns: string[] = ['id', 'nroreq', 'area', 'fecha', 'descr', 'usuario', 'accion'];
+  displayedColumns: string[] = ['id', 'nroreq', 'area', 'fecha', 'moneda', 'descr', 'usuario', 'accion', 'detalle'];
 
   ELEMENT_DATA_CREAR_SOLPE: tableLiberarSolpe[] = [];
 
@@ -206,6 +208,15 @@ export class LiberarSolpeComponent implements OnInit {
     } else { // SE ENVIA 2 PARA FORMATEAR FECHA Y ENVIAR A SAP
       return moment(fecha).format("YYYYMMDD")
     }
+  }
+
+  abrirDetalle(solpe:any){
+    this.dialog.open(DetalleSolpeComponent, {
+      width: '100%',
+      data: {idSolpe: solpe.idField,detalle:solpe.detalleField,listarsolpe:this.listarsolpe},
+      disableClose:true,
+      hasBackdrop:true
+    });
   }
 
 }

@@ -1,0 +1,66 @@
+
+    <h2 mat-dialog-title>{{listarsolpe.dialogDetalleNroSolpeCT}} {{data.idSolpe}}</h2>
+    <mat-dialog-content >
+        <table mat-table [dataSource]="dataSourceListarDetalleSolpe">
+    
+            <ng-container matColumnDef="itemField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleItemCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.itemField}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="presuField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetallePartidaCT}}<br/>{{listarsolpe.dialogDetallePresupuestoCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.presuField}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="mengeField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleCantidadCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.mengeField}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="meinsField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleUnidadCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.meinsField}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="descrField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleDescripcionCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.descrField}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="matnrField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleNroSapMaterialCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.matnrField}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="ccostoField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleCecoCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.ccostoField}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="glField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleGlCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.glField}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="punitField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetallePrecioUnitarioCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.punitField}} </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="totSinigvField">
+                <th mat-header-cell *matHeaderCellDef> {{listarsolpe.dialogDetalleTotalCT}}<br/>{{listarsolpe.dialogDetalleSinIgvCT}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.totSinigvField}} </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsListarDetalleSolpe"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsListarDetalleSolpe;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[20, 50, 100]"
+                        showFirstLastButtons 
+                        aria-label="Select page of periodic elements">
+        </mat-paginator>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button (click)="cerrarDetalle()">{{listarsolpe.dialogCerrarButton}}</button>
+</mat-dialog-actions>

@@ -30,6 +30,7 @@ export class LayoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    // console.log(document.referrer)
     this._modulosS.getModulosByIdRol(this.helper.decodeToken(this.token).id_rol).subscribe(data=>{
       for (let i = 0; i < data.body.length; i++) {
         if(data.body[i].url.substr(1,14) == "administracion"){

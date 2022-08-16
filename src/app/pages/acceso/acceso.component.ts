@@ -78,14 +78,14 @@ export class AccesoComponent implements OnInit {
 
   ListarSociedades(){
     this.cargarSociedades();
-    console.log("prueba")
   }
 
   acceder(req:accesoI) {
     this._accesoS.postAccesoS(req).subscribe(data=>{
       localStorage.setItem('data_current',data.body.token);
       localStorage.setItem('data_current_refresh',data.body.refreshToken);
-      this._router.navigateByUrl('').then();
+      // this._router.navigateByUrl('').then();
+      this._router.navigate(['/']);
     },err=>{
       if(err.status === 401){
         this._snackBar.open('Credenciales incorrectas', 'cerrar',{

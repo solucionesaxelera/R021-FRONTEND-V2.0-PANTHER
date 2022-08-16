@@ -45,6 +45,7 @@ import { MatchcodeComponent } from './components/matchcode/matchcode.component';
 import { DialogSociedadesComponent } from './pages/administrador/dialog-sociedades/dialog-sociedades.component';
 import { DialogCentrocostosComponent } from './pages/administrador/dialog-centrocostos/dialog-centrocostos.component';
 import { RxTranslateModule } from '@rxweb/translate';
+import { DetalleSolpeComponent } from './pages/liberar-solpe/detalle-solpe/detalle-solpe.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { RxTranslateModule } from '@rxweb/translate';
     AuditoriaComponent,
     MatchcodeComponent,
     DialogSociedadesComponent,
-    DialogCentrocostosComponent
+    DialogCentrocostosComponent,
+    DetalleSolpeComponent
   ],
   imports: [
     BrowserModule,
