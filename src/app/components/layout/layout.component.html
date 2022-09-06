@@ -9,7 +9,7 @@
             (closed)="panelOpenState = false" *ngIf="modulosAdministracion.length >= 1">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                    Administración
+                        {{layoutlang.TitleMenuAdmin}}
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <ul *ngFor="let modulo of modulosAdministracion">
@@ -20,7 +20,7 @@
             (closed)="panelOpenState = false" *ngIf="modulosSolpe.length >= 1">
                 <mat-expansion-panel-header>
                     <mat-panel-title>
-                    Solpe
+                        {{layoutlang.TitleMenuSolpe}}
                     </mat-panel-title>
                 </mat-expansion-panel-header>
                 <ul *ngFor="let modulo of modulosSolpe">
@@ -53,9 +53,9 @@
 
     <!-- CERRAR SESIÓN -->
     <ng-template #dialogConsultarCerrarSesion>
-        <h2 mat-dialog-title>Está seguro(a) que desea cerrar sesión?</h2>
+        <h2 mat-dialog-title>{{layoutlang.dialogTitleCerrarSesion}}</h2>
         <mat-dialog-actions align="end">
-          <button mat-button cdkFocusInitial mat-dialog-close>No</button>
-          <button mat-button form="modificarRolUsuario" type="submit" (click)="cerrarSesion()">Si</button>
+          <button mat-button cdkFocusInitial mat-dialog-close>{{layoutlang.dialogSalirNo}}</button>
+          <button mat-button form="modificarRolUsuario" type="submit" (click)="cerrarSesion()">{{layoutlang.dialogSalirSi}}</button>
         </mat-dialog-actions>
       </ng-template>

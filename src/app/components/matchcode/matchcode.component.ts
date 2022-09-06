@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { matchcodeCentroCostoI, matchcodeGLI, matchcodeMaterialI } from 'src/app/models/matchcode';
 import { MatchcodeService } from 'src/app/services/matchcode/matchcode.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { translate } from '@rxweb/translate';
 
 export interface DialogData {
   name: string;
@@ -18,6 +19,8 @@ export interface DialogData {
   styleUrls: ['./matchcode.component.scss']
 })
 export class MatchcodeComponent implements OnInit {
+
+  @translate({translationName:'matchcode'}) matchcode: any;
 
   public helper = new JwtHelperService();
   token = localStorage.getItem('data_current')?.toString();

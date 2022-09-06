@@ -1,0 +1,22 @@
+{
+    "titleHeader" : "ROLES",
+    "crearRolButton" : "Create role",
+    "nombreColumnTable" : "Name",
+    "accionColumnTable" : "ACTION",
+    "asignarModuloColumnTable" : "Assign Module",
+    "crearRolHeader" : "Create role",
+    "crearRolNombreLabel"  : " Name",
+    "crearRolNombrePlaceholder"  : " Enter role name",
+    "crearRolCancelarButton"  : " Cancel",
+    "crearRolGuardarButton"  : " Save",
+    "modificarRolHeader" : "Modify Role",
+    "modificarRolNombreLabel"  : " Name",
+    "modificarRolNombrePlaceholder"  : " Enter role name",
+    "modificarRolCancelarButton"  : " Cancel",
+    "modificarRolGuardarButton"  : " Save",
+    "asignarModuloCancelarButton" : "Cancel",
+    "asignarModuloGuardarButton" : "Save",
+    "eliminarRolHeader" : "Are you sure you want to delete the role?",
+    "eliminarRolNoButton" : "NO",
+    "eliminarRolSiButton" : "Yes"
+}

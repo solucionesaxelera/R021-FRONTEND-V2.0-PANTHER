@@ -1,0 +1,20 @@
+{
+    "titleHeader":"AUDIT",
+    "accionLabelOption":"Action",
+    "creoSolpeOption":"SOLPE CREATED",
+    "modificoSolpeOption":"SOLPE MODIFIED",
+    "eliminoSolpeOption":"SOLPE REMOVED",
+    "aproboSolpeOption":"SOLPE APPROVED",
+    "rechazoSolpeOption":"SOLPE REJECTED",
+    "usuarioLabel":"User",
+    "fechaDesdeLabel":"Date from",
+    "fechaHastaLabel":"Date To",
+    "buscarAuditoriaButton":"Audit Search",
+    "idColumnTable":"ID",
+    "idSolpeColumnTable":"ID SOLPE",
+    "usuarioColumnTable":"USERNAME",
+    "fechaColumnTable":"DATE",
+    "horaColumnTable":"HOUR",
+    "limparFiltrosButton":"Clean Filters",
+    "exportarExcelButton":"Excel export"
+}

@@ -8,6 +8,12 @@
 <h2 mat-dialog-title *ngIf="data.name == 'MSEHI'">UNIDADES DE MEDIDA</h2>
 <h2 mat-dialog-title *ngIf="data.name == 'SAKNR'">GL</h2>
 
+<!-- <h2 mat-dialog-title *ngIf="data.name == 'MATNR'">{{matchcode.MATNRTitle}}</h2>
+<h2 mat-dialog-title *ngIf="data.name == 'KOSTL'">{{matchcode.KOSTLTitle}}</h2>
+<h2 mat-dialog-title *ngIf="data.name == 'WERKS'">{{matchcode.WERKSTitle}}</h2>
+<h2 mat-dialog-title *ngIf="data.name == 'MSEHI'">{{matchcode.MSEHITitle}}</h2>
+<h2 mat-dialog-title *ngIf="data.name == 'SAKNR'">{{matchcode.SAKNRTitle}}</h2> -->
+
 <!-- fILTRO MATERIAL -->
 <div *ngIf="data.name == 'MATNR'">
     <form [formGroup]="matchcodeMaterialForm" (submit)="filtrarMatchcodeMaterial(matchcodeMaterialForm.value)">

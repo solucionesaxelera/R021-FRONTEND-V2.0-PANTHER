@@ -1,8 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Input } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ModulosService } from 'src/app/services/administrador/modulos/modulos.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { translate } from '@rxweb/translate';
 
 @Component({
   selector: 'app-layout',
@@ -10,6 +11,14 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnInit {
+
+  layoutlang: any = {
+    TitleMenuAdmin:"",
+    TitleMenuSolpe:"",
+    dialogTitleCerrarSesion:"",
+    dialogSalirSi:"",
+    dialogSalirNo:""
+  };
 
   @ViewChild("dialogConsultarCerrarSesion") dialogTemplateConsultarCerrarSesion: any;
 
@@ -30,7 +39,21 @@ export class LayoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    // console.log(document.referrer)
+
+    if(localStorage.getItem("selectedLanguage") as string == "es"){
+      this.layoutlang.TitleMenuAdmin = "Administración",
+      this.layoutlang.TitleMenuSolpe = "Solpe",
+      this.layoutlang.dialogTitleCerrarSesion = "Está seguro(a) que desea cerrar sesión?",
+      this.layoutlang.dialogSalirSi = "Si",
+      this.layoutlang.dialogSalirNo = "No"
+    }else if(localStorage.getItem("selectedLanguage") as string == "en") {
+      this.layoutlang.TitleMenuAdmin = "Administration",
+      this.layoutlang.TitleMenuSolpe = "Solpe",
+      this.layoutlang.dialogTitleCerrarSesion = "Are you sure you want to log out?",
+      this.layoutlang.dialogSalirSi = "Yes",
+      this.layoutlang.dialogSalirNo = "No"
+    }
+
     this._modulosS.getModulosByIdRol(this.helper.decodeToken(this.token).id_rol).subscribe(data=>{
       for (let i = 0; i < data.body.length; i++) {
         if(data.body[i].url.substr(1,14) == "administracion"){
