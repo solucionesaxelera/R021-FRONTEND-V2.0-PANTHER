@@ -25,7 +25,7 @@ export class LayoutComponent implements OnInit {
   public helper = new JwtHelperService();
   token = localStorage.getItem('data_current')?.toString();
   config?: MatDialogConfig;
-  usersesion:any=this.helper.decodeToken(this.token).usuario.trim();
+  usersesion:any="";
 
   modulosAdministracion:any=[];
   modulosSolpe:any =[];
@@ -39,7 +39,28 @@ export class LayoutComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
+   
+    if(this.token == "" || this.token == undefined ){
+      localStorage.setItem("data_current","");
+      this._router.navigate(["acceso"]); 
+     
+    }else{
+      this.usersesion=this.helper.decodeToken(this.token).usuario.trim();
+      this._modulosS.getModulosByIdRol(this.helper.decodeToken(this.token).id_rol).subscribe(data=>{
+        for (let i = 0; i < data.body.length; i++) {
+          if(data.body[i].url.substr(1,14) == "administracion"){
+            this.modulosAdministracion = [...this.modulosAdministracion,data.body[i]]
+          }if(data.body[i].url.substr(1,5) == "solpe"){
+            this.modulosSolpe = [...this.modulosSolpe,data.body[i]]
+          }
+        }
+      })
+    }
+   
+    if(localStorage.getItem("selectedLanguage") == undefined){
+      localStorage.setItem("selectedLanguage","es");
+    }
+   
     if(localStorage.getItem("selectedLanguage") as string == "es"){
       this.layoutlang.TitleMenuAdmin = "Administración",
       this.layoutlang.TitleMenuSolpe = "Solpe",
@@ -54,15 +75,8 @@ export class LayoutComponent implements OnInit {
       this.layoutlang.dialogSalirNo = "No"
     }
 
-    this._modulosS.getModulosByIdRol(this.helper.decodeToken(this.token).id_rol).subscribe(data=>{
-      for (let i = 0; i < data.body.length; i++) {
-        if(data.body[i].url.substr(1,14) == "administracion"){
-          this.modulosAdministracion = [...this.modulosAdministracion,data.body[i]]
-        }if(data.body[i].url.substr(1,5) == "solpe"){
-          this.modulosSolpe = [...this.modulosSolpe,data.body[i]]
-        }
-      }
-    })
+ 
+
   }
 
   openConsultarCerrarSesion(){
